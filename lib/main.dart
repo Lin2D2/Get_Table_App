@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sites/home.dart';
 import 'sites/tableview.dart';
+import 'sites/timetable.dart';
 
 void main() => runApp(MyApp());
 
@@ -43,10 +44,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           children: <Widget>[
             Home(),
             TableView(),
-            Text(
-              'Index 2: TimeTable',
-              style: optionStyle,
-            ),
+            TimeTable(),
             Column(children: [
               Text(
                 'Index 3: Settings',
