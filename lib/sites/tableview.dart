@@ -18,12 +18,16 @@ class _TableViewState extends State<TableView> {
     return Scaffold(
         body: Column(
       children: [
-        Center(
-          child: Text(
-            "Day and Stuff",
-            style: new TextStyle(
-              fontSize: 40.0,
-              color: Colors.black,
+        Card(
+          color: Colors.white30,
+          elevation: 5.0,
+          child: Center(
+            child: Text(
+              "Day and Stuff",
+              style: new TextStyle(
+                fontSize: 40.0,
+                color: Colors.black,
+              ),
             ),
           ),
         ),
@@ -60,12 +64,16 @@ List<Container> _buildGridTileList(int count) => List.generate(
                 child: Container(
               decoration: BoxDecoration(
                 // add color change to button
-                color: Colors.white30,
+                color: Colors.grey[700],
                 border: Border.all(
-                  color: Colors.grey[900],
+                  color: Colors.grey[700],
                   width: 2,
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: Center(child: Text("item: " + i.toString())),
+              child: Center(
+                  child: Text(
+                "item: " + i.toString(),
+                style: TextStyle(color: Colors.white),
+              )),
             )))));
