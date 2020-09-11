@@ -175,8 +175,8 @@ class DyanmicList extends State<TimeTable> {
                   border: TableBorder.all(),
                   children: Monday,
                 ),
-                Center(
-                  child: Padding(
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Padding(
                     padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
                     child: IconButton(
                       // add new Row to Table
@@ -192,7 +192,23 @@ class DyanmicList extends State<TimeTable> {
                       ),
                     ),
                   ),
-                )
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                    child: IconButton(
+                      // add new Row to Table
+                      onPressed: () {
+                        Monday.removeLast();
+                        setState(() {});
+                      },
+                      splashRadius: 20.0,
+                      icon: Icon(
+                        Icons.remove,
+                        color: Colors.pink,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                ])
               ],
             )),
             Card(
@@ -208,8 +224,8 @@ class DyanmicList extends State<TimeTable> {
                   border: TableBorder.all(),
                   children: Tuesday,
                 ),
-                Center(
-                  child: Padding(
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Padding(
                     padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
                     child: IconButton(
                       // add new Row to Table
@@ -225,7 +241,23 @@ class DyanmicList extends State<TimeTable> {
                       ),
                     ),
                   ),
-                )
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                    child: IconButton(
+                      // add new Row to Table
+                      onPressed: () {
+                        Tuesday.removeLast();
+                        setState(() {});
+                      },
+                      splashRadius: 20.0,
+                      icon: Icon(
+                        Icons.remove,
+                        color: Colors.pink,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                ])
               ],
             )),
             Card(
@@ -241,8 +273,8 @@ class DyanmicList extends State<TimeTable> {
                   border: TableBorder.all(),
                   children: Wensday,
                 ),
-                Center(
-                  child: Padding(
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Padding(
                     padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
                     child: IconButton(
                       // add new Row to Table
@@ -258,7 +290,23 @@ class DyanmicList extends State<TimeTable> {
                       ),
                     ),
                   ),
-                )
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                    child: IconButton(
+                      // add new Row to Table
+                      onPressed: () {
+                        Wensday.removeLast();
+                        setState(() {});
+                      },
+                      splashRadius: 20.0,
+                      icon: Icon(
+                        Icons.remove,
+                        color: Colors.pink,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                ])
               ],
             )),
             Card(
@@ -274,8 +322,8 @@ class DyanmicList extends State<TimeTable> {
                   border: TableBorder.all(),
                   children: Thursday,
                 ),
-                Center(
-                  child: Padding(
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Padding(
                     padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
                     child: IconButton(
                       // add new Row to Table
@@ -291,7 +339,23 @@ class DyanmicList extends State<TimeTable> {
                       ),
                     ),
                   ),
-                )
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                    child: IconButton(
+                      // add new Row to Table
+                      onPressed: () {
+                        Thursday.removeLast();
+                        setState(() {});
+                      },
+                      splashRadius: 20.0,
+                      icon: Icon(
+                        Icons.remove,
+                        color: Colors.pink,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                ])
               ],
             )),
             Card(
@@ -309,8 +373,8 @@ class DyanmicList extends State<TimeTable> {
                     //children: Days[0],
                     children: Friday,
                   ),
-                  Center(
-                    child: Padding(
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Padding(
                       padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
                       child: IconButton(
                         // add new Row to Table
@@ -326,7 +390,23 @@ class DyanmicList extends State<TimeTable> {
                         ),
                       ),
                     ),
-                  )
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                      child: IconButton(
+                        // add new Row to Table
+                        onPressed: () {
+                          Friday.removeLast();
+                          setState(() {});
+                        },
+                        splashRadius: 20.0,
+                        icon: Icon(
+                          Icons.remove,
+                          color: Colors.pink,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
+                  ])
                 ],
               ),
             ),
