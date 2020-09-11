@@ -7,134 +7,19 @@ class TimeTable extends StatefulWidget {
 
 class DyanmicList extends State<TimeTable> {
   List<TableRow> Monday = [
-    TableRow(
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-        ),
-        children: [
-          Text(
-            "lesson",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "subject",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "room",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ]),
+    HeaderRow(),
   ];
   List<TableRow> Tuesday = [
-    TableRow(
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-        ),
-        children: [
-          Text(
-            "lesson",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "subject",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "room",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ]),
+    HeaderRow(),
   ];
   List<TableRow> Wensday = [
-    TableRow(
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-        ),
-        children: [
-          Text(
-            "lesson",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "subject",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "room",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ]),
+    HeaderRow(),
   ];
   List<TableRow> Thursday = [
-    TableRow(
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-        ),
-        children: [
-          Text(
-            "lesson",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "subject",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "room",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ]),
+    HeaderRow(),
   ];
   List<TableRow> Friday = [
-    TableRow(
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-        ),
-        children: [
-          Text(
-            "lesson",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "subject",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          Text(
-            "room",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ]),
+    HeaderRow(),
   ];
   TableRow ElementsToADD = TableRow(children: [
     Container(
@@ -415,4 +300,31 @@ class DyanmicList extends State<TimeTable> {
       ),
     );
   }
+}
+
+TableRow HeaderRow() {
+  return TableRow(
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+      ),
+      children: [
+        Text(
+          "lesson",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        Text(
+          "subject",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        Text(
+          "room",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ]);
 }
