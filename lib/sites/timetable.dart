@@ -1,121 +1,338 @@
 import 'package:flutter/material.dart';
 
 class TimeTable extends StatefulWidget {
-  TimeTable({Key key}) : super(key: key);
-
   @override
-  _TimeTableState createState() => new _TimeTableState();
+  State createState() => new DyanmicList();
 }
 
-class _TimeTableState extends State<TimeTable> {
-  double iconSize = 40;
-  @override
-  Widget build(BuildContext context) {
-    return _buildList(context);
-  }
-
-  Widget _buildList(BuildContext context) {
-    return Scaffold(
-        body: Wrap(
-            spacing: 8.0, // gap between adjacent chips
-            runSpacing: 4.0, // gap between lines
-            children: [
-          create_timetable_item("Thursday", []),
-          create_timetable_item("Friday", [
-            // Demo Content
-            ["1/2", "MA", "C5"],
-            ["5/6", "de", "C7"],
-          ]),
-        ]));
-  }
-}
-
-// maybe give this widget an state that it can add list items dynamical
-Widget create_timetable_item(String type, List<List<String>> happend) {
-  const TextStyle optionStyle =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
-  const TextStyle secoundoptionStyle =
-      TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white);
-  List<TableRow> rows = [];
-  // TODO make function with return
-  for (var item in happend) {
-    List<TextField> row_elements = [];
-    for (String element in item) {
-      TextEditingController controller = TextEditingController();
-      controller.value = TextEditingValue(
-        text: element,
-      );
-      row_elements.add(TextField(
-        controller: controller,
-        textAlign: TextAlign.center,
-      ));
-    }
-    rows.add(TableRow(children: row_elements));
-  }
-  List<Text> header = [
-    Text(
-      "lesson",
-      textAlign: TextAlign.center,
-      style: secoundoptionStyle,
-    ),
-    Text(
-      "subject",
-      textAlign: TextAlign.center,
-      style: secoundoptionStyle,
-    ),
-    Text(
-      "room",
-      textAlign: TextAlign.center,
-      style: secoundoptionStyle,
-    ),
-  ];
-
-  rows.insert(
-      0,
-      TableRow(
-        children: header,
+class DyanmicList extends State<TimeTable> {
+  List<TableRow> Monday = [
+    TableRow(
         decoration: BoxDecoration(
           color: Colors.grey[900],
         ),
-      ));
-
-  return Card(
-      color: Colors.white30,
-      elevation: 5.0,
-      child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Center(
-                child: Text(
-                  type,
-                  style: optionStyle,
+        children: [
+          Text(
+            "lesson",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "subject",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "room",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ]),
+  ];
+  List<TableRow> Tuesday = [
+    TableRow(
+        decoration: BoxDecoration(
+          color: Colors.grey[900],
+        ),
+        children: [
+          Text(
+            "lesson",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "subject",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "room",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ]),
+  ];
+  List<TableRow> Wensday = [
+    TableRow(
+        decoration: BoxDecoration(
+          color: Colors.grey[900],
+        ),
+        children: [
+          Text(
+            "lesson",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "subject",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "room",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ]),
+  ];
+  List<TableRow> Thursday = [
+    TableRow(
+        decoration: BoxDecoration(
+          color: Colors.grey[900],
+        ),
+        children: [
+          Text(
+            "lesson",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "subject",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "room",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ]),
+  ];
+  List<TableRow> Friday = [
+    TableRow(
+        decoration: BoxDecoration(
+          color: Colors.grey[900],
+        ),
+        children: [
+          Text(
+            "lesson",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "subject",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          Text(
+            "room",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ]),
+  ];
+  TableRow ElementsToADD = TableRow(children: [
+    Container(
+        height: 30,
+        child: TextField(
+            textAlign: TextAlign.center,
+            style:
+                TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black))),
+    Container(
+        height: 30,
+        child: TextField(
+            textAlign: TextAlign.center,
+            style:
+                TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black))),
+    Container(
+        height: 30,
+        child: TextField(
+            textAlign: TextAlign.center,
+            style:
+                TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black))),
+  ]);
+  @override
+  Widget build(BuildContext ctxt) {
+    return Scaffold(
+      body: Container(
+        child: ListView(
+          children: <Widget>[
+            Card(
+                child: Column(
+              children: [
+                Center(
+                  child: Text(
+                    "Monday",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              Table(
-                border: TableBorder.all(),
-                children: rows,
-              ),
-              Center(
+                Table(
+                  border: TableBorder.all(),
+                  children: Monday,
+                ),
+                Center(
                   child: Padding(
+                    padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                    child: IconButton(
+                      // add new Row to Table
+                      onPressed: () {
+                        Monday.add(ElementsToADD);
+                        setState(() {});
+                      },
+                      splashRadius: 20.0,
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.pink,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )),
+            Card(
+                child: Column(
+              children: [
+                Center(
+                  child: Text(
+                    "Tuesday",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Table(
+                  border: TableBorder.all(),
+                  children: Tuesday,
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                    child: IconButton(
+                      // add new Row to Table
+                      onPressed: () {
+                        Tuesday.add(ElementsToADD);
+                        setState(() {});
+                      },
+                      splashRadius: 20.0,
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.pink,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )),
+            Card(
+                child: Column(
+              children: [
+                Center(
+                  child: Text(
+                    "Wendsday",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Table(
+                  border: TableBorder.all(),
+                  children: Wensday,
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                    child: IconButton(
+                      // add new Row to Table
+                      onPressed: () {
+                        Wensday.add(ElementsToADD);
+                        setState(() {});
+                      },
+                      splashRadius: 20.0,
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.pink,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )),
+            Card(
+                child: Column(
+              children: [
+                Center(
+                  child: Text(
+                    "Thursday",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Table(
+                  border: TableBorder.all(),
+                  children: Thursday,
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                    child: IconButton(
+                      // add new Row to Table
+                      onPressed: () {
+                        Thursday.add(ElementsToADD);
+                        setState(() {});
+                      },
+                      splashRadius: 20.0,
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.pink,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )),
+            Card(
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      "Friday",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Table(
+                    border: TableBorder.all(),
+                    //children: Days[0],
+                    children: Friday,
+                  ),
+                  Center(
+                    child: Padding(
                       padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
                       child: IconButton(
-                          // add new Row to Table
-                          onPressed: () {
-                            print("add button pressed");
-                            rows.add(TableRow(
-                              children: header,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[900],
-                              ),
-                            ));
-                          },
-                          splashRadius: 20.0,
-                          icon: Icon(
-                            Icons.add,
-                            color: Colors.pink,
-                            size: 30.0,
-                          ))))
-            ],
-          )));
+                        // add new Row to Table
+                        onPressed: () {
+                          Friday.add(ElementsToADD);
+                          setState(() {});
+                        },
+                        splashRadius: 20.0,
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.pink,
+                          size: 30.0,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
