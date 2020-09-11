@@ -44,6 +44,28 @@ List<Container> _buildGridTileList(int count) => List.generate(
     count,
     // Demo Content
     (i) => Container(
+        child: GestureDetector(
+            onTap: () {
+              print("Container clicked" + i.toString());
+            },
+            onTapDown: (details) {
+              print(i.toString() + "is down");
+              // add color change to button
+            },
+            onTapCancel: () {
+              print(i.toString() + "is Up");
+              // add color change to button
+            },
             child: Container(
-          color: Colors.orange,
-        )));
+                child: Container(
+              decoration: BoxDecoration(
+                // add color change to button
+                color: Colors.white30,
+                border: Border.all(
+                  color: Colors.grey[900],
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(child: Text("item: " + i.toString())),
+            )))));
