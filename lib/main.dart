@@ -38,7 +38,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         body: IndexedStack(
           index: _selectedIndex,
           children: <Widget>[
@@ -93,67 +94,70 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             selectedItemColor: Colors.amber[800],
             onTap: _onItemTapped,
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         body: Padding(
-            padding: EdgeInsets.all(10),
-            child: ListView(
-              children: <Widget>[
-                Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Get Table',
-                      style: TextStyle(
-                          color: Colors.grey[900],
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30),
-                    )),
-                Container(
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            children: <Widget>[
+              Container(
+                  alignment: Alignment.center,
                   padding: EdgeInsets.all(10),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'User Name',
-                    ),
+                  child: Text(
+                    'Get Table',
+                    style: TextStyle(
+                        color: Colors.grey[900],
+                        fontWeight: FontWeight.w500,
+                        fontSize: 30),
+                  )),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'User Name',
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                    ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
                   ),
                 ),
-                FlatButton(
-                  onPressed: () {
-                    //forgot password screen
-                  },
-                  textColor: Colors.grey[900],
-                  child: Text('Forgot Password'),
-                ),
-                Container(
-                    height: 50,
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: RaisedButton(
-                      textColor: Colors.white,
-                      color: Colors.grey[900],
-                      child: Text('Login'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    )),
-                Container(
-                    child: Row(
+              ),
+              FlatButton(
+                onPressed: () {
+                  //forgot password screen
+                },
+                textColor: Colors.grey[900],
+                child: Text('Forgot Password'),
+              ),
+              Container(
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: RaisedButton(
+                    textColor: Colors.white,
+                    color: Colors.grey[900],
+                    child: Text('Login'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )),
+              Container(
+                child: Row(
                   children: <Widget>[
                     Text('Does not have account?'),
                     FlatButton(
@@ -168,8 +172,12 @@ class Login extends StatelessWidget {
                     )
                   ],
                   mainAxisAlignment: MainAxisAlignment.center,
-                ))
-              ],
-            )));
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -101,7 +101,7 @@ Card CreateItem(String Title, List<TableRow> TableRows,
         ExtraColumn: ExtraColumn,
       ));
   return Card(
-    color: Colors.white30,
+    color: Colors.white,
     elevation: 5.0,
     child: Column(
       children: [

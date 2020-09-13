@@ -16,52 +16,53 @@ class _TableViewState extends State<TableView> {
 
   Widget _buildList(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        Card(
-          color: Colors.white30,
-          elevation: 5.0,
-          child: Center(
-            child: Text(
-              "Day and Stuff",
-              style: new TextStyle(
-                fontSize: 40.0,
-                color: Colors.black,
+      body: Column(
+        children: [
+          Card(
+            color: Colors.white,
+            elevation: 5.0,
+            child: Center(
+              child: Text(
+                "Day and Stuff",
+                style: new TextStyle(
+                  fontSize: 40.0,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          child: GridView.extent(
-              maxCrossAxisExtent: 200,
-              padding: const EdgeInsets.all(4),
-              mainAxisSpacing: 4,
-              crossAxisSpacing: 4,
-              children: _buildGridTileList(32)),
-        )
-      ],
-    ));
+          Expanded(
+            child: GridView.extent(
+                maxCrossAxisExtent: 200,
+                padding: const EdgeInsets.all(4),
+                mainAxisSpacing: 4,
+                crossAxisSpacing: 4,
+                children: _buildGridTileList(32)),
+          )
+        ],
+      ),
+    );
   }
 }
 
 List<Container> _buildGridTileList(int count) => List.generate(
-    count,
-    // Demo Content
-    (i) => Container(
+      count,
+      // Demo Content
+      (i) => Container(
         child: GestureDetector(
-            onTap: () {
-              print("Container clicked" + i.toString());
-            },
-            onTapDown: (details) {
-              print(i.toString() + "is down");
-              // add color change to button
-            },
-            onTapCancel: () {
-              print(i.toString() + "is Up");
-              // add color change to button
-            },
+          onTap: () {
+            print("Container clicked" + i.toString());
+          },
+          onTapDown: (details) {
+            print(i.toString() + "is down");
+            // add color change to button
+          },
+          onTapCancel: () {
+            print(i.toString() + "is Up");
+            // add color change to button
+          },
+          child: Container(
             child: Container(
-                child: Container(
               decoration: BoxDecoration(
                 // add color change to button
                 color: Colors.grey[700],
@@ -72,8 +73,13 @@ List<Container> _buildGridTileList(int count) => List.generate(
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Center(
-                  child: Text(
-                "item: " + i.toString(),
-                style: TextStyle(color: Colors.white),
-              )),
-            )))));
+                child: Text(
+                  "item: " + i.toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
