@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'sites/home.dart';
 import 'sites/tableview.dart';
 import 'sites/timetable.dart';
+import 'package:swipedetector/swipedetector.dart';
 
 void main() => runApp(MyApp());
 
@@ -43,24 +44,60 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         body: IndexedStack(
           index: _selectedIndex,
           children: <Widget>[
-            Home(),
-            TableView(),
-            TimeTable(),
-            Column(children: [
-              Text(
-                'Index 3: Settings',
-                style: optionStyle,
+            SwipeDetector(
+              onSwipeLeft: () {
+                print(_selectedIndex);
+                _onItemTapped(_selectedIndex + 1);
+              },
+              child: Home(),
+            ),
+            SwipeDetector(
+              onSwipeLeft: () {
+                print(_selectedIndex);
+                _onItemTapped(_selectedIndex + 1);
+              },
+              onSwipeRight: () {
+                print(_selectedIndex);
+                _onItemTapped(_selectedIndex - 1);
+              },
+              child: TableView(),
+            ),
+            SwipeDetector(
+              onSwipeLeft: () {
+                print(_selectedIndex);
+                _onItemTapped(_selectedIndex + 1);
+              },
+              onSwipeRight: () {
+                print(_selectedIndex);
+                _onItemTapped(_selectedIndex - 1);
+              },
+              child: TimeTable(),
+            ),
+            SwipeDetector(
+              onSwipeRight: () {
+                print(_selectedIndex);
+                _onItemTapped(_selectedIndex - 1);
+              },
+              child: Scaffold(
+                body: Column(
+                  children: [
+                    Text(
+                      'Index 3: Settings',
+                      style: optionStyle,
+                    ),
+                    RaisedButton(
+                      child: Text('Login'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-              RaisedButton(
-                child: Text('Login'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login()),
-                  );
-                },
-              ),
-            ])
+            ),
           ],
         ),
         bottomNavigationBar: Theme(
