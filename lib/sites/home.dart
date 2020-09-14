@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
   @override
-  State createState() => new DyanmicList();
+  State createState() => new DynamicList();
 }
 
-class DyanmicList extends State<Home> {
+class DynamicList extends State<Home> {
   TableRow elementsToADD = TableRow(children: []);
   @override
   Widget build(BuildContext ctxt) {

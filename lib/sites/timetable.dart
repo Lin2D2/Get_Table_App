@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class TimeTable extends StatefulWidget {
   @override
-  State createState() => new DyanmicList();
+  State createState() => new DynamicList();
 }
 
-class DyanmicList extends State<TimeTable> {
+class DynamicList extends State<TimeTable> {
   List<TableRow> monday = [
     headerRow(),
   ];
