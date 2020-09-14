@@ -6,22 +6,22 @@ class TimeTable extends StatefulWidget {
 }
 
 class DyanmicList extends State<TimeTable> {
-  List<TableRow> Monday = [
-    HeaderRow(),
+  List<TableRow> monday = [
+    headerRow(),
   ];
-  List<TableRow> Tuesday = [
-    HeaderRow(),
+  List<TableRow> tuesday = [
+    headerRow(),
   ];
-  List<TableRow> Wensday = [
-    HeaderRow(),
+  List<TableRow> wednesday = [
+    headerRow(),
   ];
-  List<TableRow> Thursday = [
-    HeaderRow(),
+  List<TableRow> thursday = [
+    headerRow(),
   ];
-  List<TableRow> Friday = [
-    HeaderRow(),
+  List<TableRow> friday = [
+    headerRow(),
   ];
-  TableRow ElementsToADD = TableRow(children: [
+  TableRow elementsToADD = TableRow(children: [
     Container(
         height: 30,
         child: TextField(
@@ -58,7 +58,7 @@ class DyanmicList extends State<TimeTable> {
                 ),
                 Table(
                   border: TableBorder.all(),
-                  children: Monday,
+                  children: monday,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Padding(
@@ -66,7 +66,7 @@ class DyanmicList extends State<TimeTable> {
                     child: IconButton(
                       // add new Row to Table
                       onPressed: () {
-                        Monday.add(ElementsToADD);
+                        monday.add(elementsToADD);
                         setState(() {});
                       },
                       splashRadius: 20.0,
@@ -82,7 +82,7 @@ class DyanmicList extends State<TimeTable> {
                     child: IconButton(
                       // add new Row to Table
                       onPressed: () {
-                        Monday.removeLast();
+                        monday.removeLast();
                         setState(() {});
                       },
                       splashRadius: 20.0,
@@ -107,7 +107,7 @@ class DyanmicList extends State<TimeTable> {
                 ),
                 Table(
                   border: TableBorder.all(),
-                  children: Tuesday,
+                  children: tuesday,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Padding(
@@ -115,7 +115,7 @@ class DyanmicList extends State<TimeTable> {
                     child: IconButton(
                       // add new Row to Table
                       onPressed: () {
-                        Tuesday.add(ElementsToADD);
+                        tuesday.add(elementsToADD);
                         setState(() {});
                       },
                       splashRadius: 20.0,
@@ -131,7 +131,7 @@ class DyanmicList extends State<TimeTable> {
                     child: IconButton(
                       // add new Row to Table
                       onPressed: () {
-                        Tuesday.removeLast();
+                        tuesday.removeLast();
                         setState(() {});
                       },
                       splashRadius: 20.0,
@@ -156,7 +156,7 @@ class DyanmicList extends State<TimeTable> {
                 ),
                 Table(
                   border: TableBorder.all(),
-                  children: Wensday,
+                  children: wednesday,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Padding(
@@ -164,7 +164,7 @@ class DyanmicList extends State<TimeTable> {
                     child: IconButton(
                       // add new Row to Table
                       onPressed: () {
-                        Wensday.add(ElementsToADD);
+                        wednesday.add(elementsToADD);
                         setState(() {});
                       },
                       splashRadius: 20.0,
@@ -180,7 +180,7 @@ class DyanmicList extends State<TimeTable> {
                     child: IconButton(
                       // add new Row to Table
                       onPressed: () {
-                        Wensday.removeLast();
+                        wednesday.removeLast();
                         setState(() {});
                       },
                       splashRadius: 20.0,
@@ -205,7 +205,7 @@ class DyanmicList extends State<TimeTable> {
                 ),
                 Table(
                   border: TableBorder.all(),
-                  children: Thursday,
+                  children: thursday,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Padding(
@@ -213,7 +213,7 @@ class DyanmicList extends State<TimeTable> {
                     child: IconButton(
                       // add new Row to Table
                       onPressed: () {
-                        Thursday.add(ElementsToADD);
+                        thursday.add(elementsToADD);
                         setState(() {});
                       },
                       splashRadius: 20.0,
@@ -229,7 +229,7 @@ class DyanmicList extends State<TimeTable> {
                     child: IconButton(
                       // add new Row to Table
                       onPressed: () {
-                        Thursday.removeLast();
+                        thursday.removeLast();
                         setState(() {});
                       },
                       splashRadius: 20.0,
@@ -256,7 +256,7 @@ class DyanmicList extends State<TimeTable> {
                   Table(
                     border: TableBorder.all(),
                     //children: Days[0],
-                    children: Friday,
+                    children: friday,
                   ),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Padding(
@@ -264,7 +264,7 @@ class DyanmicList extends State<TimeTable> {
                       child: IconButton(
                         // add new Row to Table
                         onPressed: () {
-                          Friday.add(ElementsToADD);
+                          friday.add(elementsToADD);
                           setState(() {});
                         },
                         splashRadius: 20.0,
@@ -280,7 +280,7 @@ class DyanmicList extends State<TimeTable> {
                       child: IconButton(
                         // add new Row to Table
                         onPressed: () {
-                          Friday.removeLast();
+                          friday.removeLast();
                           setState(() {});
                         },
                         splashRadius: 20.0,
@@ -302,7 +302,7 @@ class DyanmicList extends State<TimeTable> {
   }
 }
 
-TableRow HeaderRow() {
+TableRow headerRow() {
   return TableRow(
       decoration: BoxDecoration(
         color: Colors.grey[900],

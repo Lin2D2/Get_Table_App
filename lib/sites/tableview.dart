@@ -11,7 +11,7 @@ class _TableViewState extends State<TableView> {
   double iconSize = 40;
   int _selectedIndex = 0;
   String _title = "Demo String";
-  List<TableRow> TableList = createTableList(120);
+  List<TableRow> tableList = createTableList(120);
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class _TableViewState extends State<TableView> {
           body: SingleChildScrollView(
             child: Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 0),child: Table(
               border: TableBorder.all(),
-              children: TableList,
+              children: tableList,
             ),),
           ),
           appBar: AppBar(
@@ -128,7 +128,7 @@ class _TableViewState extends State<TableView> {
 
 List<TableRow> createTableList(int count) {
   List<TableRow> list = generateTableBody(count);
-  list.insert(0, HeaderRow());
+  list.insert(0, headerRow());
   return list;
 }
 
@@ -148,7 +148,7 @@ List<TableRow> generateTableBody(int count) => List.generate(
       ]),
     );
 
-TableRow HeaderRow() {
+TableRow headerRow() {
   return TableRow(
       decoration: BoxDecoration(
         color: Colors.grey[900],

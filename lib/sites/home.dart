@@ -6,7 +6,7 @@ class Home extends StatefulWidget {
 }
 
 class DyanmicList extends State<Home> {
-  TableRow ElementsToADD = TableRow(children: []);
+  TableRow elementsToADD = TableRow(children: []);
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
@@ -29,29 +29,29 @@ class DyanmicList extends State<Home> {
             Expanded(
               child: ListView(
                 children: <Card>[
-                  CreateItem(
+                  createItem(
                       "Overview Today",
                       [
-                        CreateTableRow(
+                        createTableRow(
                           "1/2",
                           "MA",
                           "C5",
                           false,
-                          ExtraColumn: "room C6",
+                          extraColumn: "room C6",
                         ),
-                        CreateTableRow(
+                        createTableRow(
                           "3/4",
                           "de",
                           "C7",
                           false,
-                          ExtraColumn: "vertretung",
+                          extraColumn: "vertretung",
                         ),
                       ],
-                      ExtraColumn: "change"),
-                  CreateItem(
+                      extraColumn: "change"),
+                  createItem(
                     "Time Table Today",
                     [
-                      CreateTableRow(
+                      createTableRow(
                         " ",
                         " ",
                         " ",
@@ -59,20 +59,20 @@ class DyanmicList extends State<Home> {
                       ),
                     ],
                   ),
-                  CreateItem(
+                  createItem(
                       "Overview Tomorow",
                       [
-                        CreateTableRow(
+                        createTableRow(
                           " ",
                           " ",
                           " ",
                           false,
-                          ExtraColumn: " ",
+                          extraColumn: " ",
                         ),
                       ],
-                      ExtraColumn: "change"),
-                  CreateItem("Time Table Tomorow", [
-                    CreateTableRow(
+                      extraColumn: "change"),
+                  createItem("Time Table Tomorow", [
+                    createTableRow(
                       " ",
                       " ",
                       " ",
@@ -89,16 +89,16 @@ class DyanmicList extends State<Home> {
   }
 }
 
-Card CreateItem(String Title, List<TableRow> TableRows,
-    {String ExtraColumn = ""}) {
-  TableRows.insert(
+Card createItem(String title, List<TableRow> tableRows,
+    {String extraColumn = ""}) {
+  tableRows.insert(
       0,
-      CreateTableRow(
+      createTableRow(
         "lesson",
         "subject",
         "room",
         true,
-        ExtraColumn: ExtraColumn,
+        extraColumn: extraColumn,
       ));
   return Card(
     color: Colors.white,
@@ -107,7 +107,7 @@ Card CreateItem(String Title, List<TableRow> TableRows,
       children: [
         Center(
           child: Text(
-            Title,
+            title,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
@@ -115,7 +115,7 @@ Card CreateItem(String Title, List<TableRow> TableRows,
           padding: EdgeInsets.all(8.0),
           child: Table(
             border: TableBorder.all(),
-            children: TableRows,
+            children: tableRows,
           ),
         ),
       ],
@@ -123,39 +123,39 @@ Card CreateItem(String Title, List<TableRow> TableRows,
   );
 }
 
-TableRow CreateTableRow(String item1, String item2, String item3, bool Header,
-    {String ExtraColumn = ""}) {
-  TextStyle Style = TextStyle(
+TableRow createTableRow(String item1, String item2, String item3, bool header,
+    {String extraColumn = ""}) {
+  TextStyle style = TextStyle(
       fontSize: 13,
       fontWeight: FontWeight.bold,
-      color: (Header ? Colors.white : Colors.black));
-  TableRow Row = TableRow(
+      color: (header ? Colors.white : Colors.black));
+  TableRow row = TableRow(
       decoration: BoxDecoration(
-        color: (Header ? Colors.grey[900] : Colors.white),
+        color: (header ? Colors.grey[900] : Colors.white),
       ),
       children: [
         Text(
           item1,
           textAlign: TextAlign.center,
-          style: Style,
+          style: style,
         ),
         Text(
           item2,
           textAlign: TextAlign.center,
-          style: Style,
+          style: style,
         ),
         Text(
           item3,
           textAlign: TextAlign.center,
-          style: Style,
+          style: style,
         ),
       ]);
-  if (ExtraColumn != "") {
-    Row.children.add(Text(
-      ExtraColumn,
+  if (extraColumn != "") {
+    row.children.add(Text(
+      extraColumn,
       textAlign: TextAlign.center,
-      style: Style,
+      style: style,
     ));
   }
-  return Row;
+  return row;
 }
