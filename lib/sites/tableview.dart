@@ -17,18 +17,24 @@ class _TableViewState extends State<TableView> {
   Future<Days> futureDays;
 
   Future<Days> fetchDays() async {
-    final response = await http.get('http://localhost:5000/api/days');
-
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return Days.fromJson(json.decode(response.body));
-    } else {
-      print(response.statusCode);
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load Days');
+    try {
+      final response = await http.get('http://localhost:5000/api/days');
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        return Days.fromJson(json.decode(response.body));
+      } else {
+        print(response.statusCode);
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        throw Exception('Failed to load Days, status code: ' +
+            response.statusCode.toString());
+      }
     }
+    catch (e) {
+      print(e);
+      return null;
+    };
   }
 
   @override
@@ -56,7 +62,7 @@ class _TableViewState extends State<TableView> {
                 elevation: 5.0,
                 child: Center(
                   child: Text(
-                    "Day and Stuff",
+                    "Days view",
                     style: new TextStyle(
                       fontSize: 40.0,
                       color: Colors.black,
@@ -64,56 +70,6 @@ class _TableViewState extends State<TableView> {
                   ),
                 ),
               ),
-              // Expanded(
-              //   child: GridView.extent(
-              //     maxCrossAxisExtent: 200,
-              //     padding: const EdgeInsets.all(4),
-              //     mainAxisSpacing: 4,
-              //     crossAxisSpacing: 4,
-              //     children: List.generate(
-              //       32,
-              //       // Demo Content
-              //       (i) => Container(
-              //         child: GestureDetector(
-              //           onTap: () {
-              //             print("Container clicked" + i.toString());
-              //             setState(() {
-              //               _selectedIndex += 1;
-              //               _title = i.toString();
-              //             });
-              //           },
-              //           onTapDown: (details) {
-              //             print(i.toString() + "is down");
-              //             // add color change to button
-              //           },
-              //           onTapCancel: () {
-              //             print(i.toString() + "is Up");
-              //             // add color change to button
-              //           },
-              //           child: Container(
-              //             child: Container(
-              //               decoration: BoxDecoration(
-              //                 // add color change to button
-              //                 color: Colors.grey[700],
-              //                 border: Border.all(
-              //                   color: Colors.grey[700],
-              //                   width: 2,
-              //                 ),
-              //                 borderRadius: BorderRadius.circular(20),
-              //               ),
-              //               child: Center(
-              //                 child: Text(
-              //                   "item: " + i.toString(),
-              //                   style: TextStyle(color: Colors.white),
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               FutureBuilder<Days>(
                 future: futureDays,
                 builder: (context, snapshot) {
@@ -130,20 +86,10 @@ class _TableViewState extends State<TableView> {
                           (i) => Container(
                             child: GestureDetector(
                               onTap: () {
-                                print("Container clicked" +
-                                    snapshot.data.days[i]);
                                 setState(() {
                                   _selectedIndex += 1;
                                   _title = snapshot.data.days[i];
                                 });
-                              },
-                              onTapDown: (details) {
-                                print(i.toString() + "is down");
-                                // add color change to button
-                              },
-                              onTapCancel: () {
-                                print(i.toString() + "is Up");
-                                // add color change to button
                               },
                               child: Container(
                                 child: Container(
