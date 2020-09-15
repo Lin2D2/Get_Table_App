@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:Get_Table_App/types/days.dart';
+import 'package:Get_Table_App/types/day.dart';
 
 class TableView extends StatefulWidget {
   TableView({Key key}) : super(key: key);
@@ -15,6 +16,7 @@ class _TableViewState extends State<TableView> {
   int _selectedIndex = 0;
   String _title = "";
   Future<Days> futureDays;
+  Future<Day> futureDay;
 
   Future<Days> fetchDays() async {
     try {
@@ -30,11 +32,30 @@ class _TableViewState extends State<TableView> {
         throw Exception('Failed to load Days, status code: ' +
             response.statusCode.toString());
       }
-    }
-    catch (e) {
+    } catch (e) {
       print(e);
       return null;
-    };
+    }
+  }
+
+  Future<Day> fetchDay(date) async {
+    try {
+      final response = await http.get('http://localhost:5000/api/day/' + date);
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        return Day.fromJson(json.decode(response.body));
+      } else {
+        print(response.statusCode);
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        throw Exception('Failed to load Days, status code: ' +
+            response.statusCode.toString());
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   @override
@@ -42,8 +63,6 @@ class _TableViewState extends State<TableView> {
     super.initState();
     futureDays = fetchDays();
   }
-
-  List<TableRow> tableList = createTableList(120);
 
   @override
   Widget build(BuildContext context) {
@@ -120,21 +139,78 @@ class _TableViewState extends State<TableView> {
                   }
 
                   // By default, show a loading spinner.
-                  return CircularProgressIndicator();
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 },
               ),
             ],
           ),
         ),
         Scaffold(
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Table(
-                border: TableBorder.all(),
-                children: tableList,
-              ),
-            ),
+          body: FutureBuilder<Day>(
+            future: fetchDay(_title),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                    child: Table(
+                      border: TableBorder.all(),
+                      children: List.generate(
+                            snapshot.data.day["header"].length,
+                            // Demo Content
+                            (row) => TableRow(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[900],
+                                ),
+                                children: List.generate(
+                                  snapshot.data.day["header"][row].length,
+                                  // Demo Content
+                                  (rowElement) => Center(
+                                    child: Text(
+                                      snapshot.data.day["header"][row]
+                                          [rowElement],
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                )),
+                          ) +
+                          List.generate(
+                            snapshot.data.day["content"].length,
+                            // Demo Content
+                            (row) => TableRow(
+                              children: List.generate(
+                                snapshot.data.day["content"][row].length,
+                                // Demo Content
+                                (rowElement) => Center(
+                                  child: Text(
+                                    snapshot.data.day["content"][row]
+                                        [rowElement],
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                    ),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+
+              // By default, show a loading spinner.
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
           appBar: AppBar(
             leading: IconButton(
