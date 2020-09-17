@@ -55,12 +55,12 @@ class DynamicList extends State<TimeTable> {
       children: [
         Scaffold(
           body: SingleChildScrollView(
-            child: Table(),
+            child: Table(),  // TODO create Table from data of TableEdit or Database
           ),
           appBar: AppBar(
             backgroundColor: Colors.grey[900],
             leading: IconButton(
-              icon: Icon(Icons.settings),
+              icon: Icon(Icons.settings), // TODO add link to settings page
               onPressed: () {
                 setState(() {});
               },
@@ -210,7 +210,7 @@ class DynamicList extends State<TimeTable> {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  setState(() {});
+                  setState(() {});  // TODO add save function
                 },
               ),
             ],
