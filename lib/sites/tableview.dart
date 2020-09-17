@@ -241,28 +241,6 @@ class _TableViewState extends State<TableView> {
   }
 }
 
-List<TableRow> createTableList(int count) {
-  List<TableRow> list = generateTableBody(count);
-  list.insert(0, headerRow());
-  return list;
-}
-
-List<TableRow> generateTableBody(int count) => List.generate(
-      count,
-      // Demo Content
-      (i) => TableRow(children: [
-        Center(
-          child: Text("Test"),
-        ),
-        Center(
-          child: Text("Test"),
-        ),
-        Center(
-          child: Text("Test"),
-        ),
-      ]),
-    );
-
 TableRow headerRow() {
   return TableRow(
       decoration: BoxDecoration(
