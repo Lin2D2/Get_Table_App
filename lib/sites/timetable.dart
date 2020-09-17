@@ -6,7 +6,7 @@ class TimeTable extends StatefulWidget {
 }
 
 class DynamicList extends State<TimeTable> {
-  int _selectedIndex = 0;
+  int _selectedIndexTimeTable = 0;
   List<TableRow> monday = [
     headerRow(),
   ];
@@ -51,7 +51,7 @@ class DynamicList extends State<TimeTable> {
   @override
   Widget build(BuildContext ctxt) {
     return IndexedStack(
-      index: _selectedIndex,
+      index: _selectedIndexTimeTable,
       children: [
         Scaffold(
           body: SingleChildScrollView(
@@ -86,7 +86,7 @@ class DynamicList extends State<TimeTable> {
                 onPressed: () {
                   setState(
                     () {
-                      _selectedIndex = 1;
+                      _selectedIndexTimeTable = 1;
                     },
                   );
                 },
@@ -196,7 +196,7 @@ class DynamicList extends State<TimeTable> {
               icon: Icon(Icons.arrow_back),
               onPressed: () {
                 setState(() {
-                  _selectedIndex = 0;
+                  _selectedIndexTimeTable = 0;
                 });
               },
             ),

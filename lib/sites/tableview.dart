@@ -13,7 +13,7 @@ class TableView extends StatefulWidget {
 
 class _TableViewState extends State<TableView> {
   double iconSize = 40;
-  int _selectedIndex = 0;
+  int _selectedIndexTableView = 0;
   String _title = "";
   Future<Days> futureDays;
   Future<Day> futureDay;
@@ -71,7 +71,7 @@ class _TableViewState extends State<TableView> {
 
   Widget _buildList(BuildContext context) {
     return IndexedStack(
-      index: _selectedIndex,
+      index: _selectedIndexTableView,
       children: [
         Scaffold(
           body: Column(
@@ -106,7 +106,7 @@ class _TableViewState extends State<TableView> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  _selectedIndex += 1;
+                                  _selectedIndexTableView += 1;
                                   _title = snapshot.data.days[i];
                                 });
                               },
@@ -216,7 +216,7 @@ class _TableViewState extends State<TableView> {
             leading: IconButton(
               onPressed: () {
                 setState(() {
-                  _selectedIndex -= 1;
+                  _selectedIndexTableView -= 1;
                 });
               },
               icon: Icon(
