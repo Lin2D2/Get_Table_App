@@ -1,28 +1,19 @@
+import 'package:Get_Table_App/blocs/indexMainBloc.dart';
+import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
+import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class TimeTable extends StatefulWidget {
-  @override
-  State createState() => new DynamicList();
-}
+// class TimeTable extends StatefulWidget {
+//   @override
+//   State createState() => new DynamicList();
+// }
+//
+// class DynamicList extends State<TimeTable> {
 
-class DynamicList extends State<TimeTable> {
-  int _selectedIndexTimeTable = 0;
-  List<TableRow> monday = [
-    headerRow(),
-  ];
-  List<TableRow> tuesday = [
-    headerRow(),
-  ];
-  List<TableRow> wednesday = [
-    headerRow(),
-  ];
-  List<TableRow> thursday = [
-    headerRow(),
-  ];
-  List<TableRow> friday = [
-    headerRow(),
-  ];
-  TableRow elementsToADD = TableRow(
+class TimeTable extends StatelessWidget {
+  const TimeTable({Key key}) : super(key: key);
+  static TableRow elementsToADD = TableRow(
     children: [
       Container(
         height: 30,
@@ -49,13 +40,14 @@ class DynamicList extends State<TimeTable> {
   );
 
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
     return IndexedStack(
-      index: _selectedIndexTimeTable,
+      index: context.watch<IndexTimeTableBloc>().index,
       children: [
         Scaffold(
           body: SingleChildScrollView(
-            child: Table(),  // TODO create Table from data of TableEdit or Database
+            child:
+                Table(), // TODO create Table from data of TableEdit or Database
           ),
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -66,7 +58,7 @@ class DynamicList extends State<TimeTable> {
               ),
               // TODO add link to settings page
               onPressed: () {
-                setState(() {});
+                context.read<IndexMainBloc>().set(3);
               },
             ),
             title: Center(
@@ -88,11 +80,7 @@ class DynamicList extends State<TimeTable> {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  setState(
-                    () {
-                      _selectedIndexTimeTable = 1;
-                    },
-                  );
+                      context.read<IndexTimeTableBloc>().set(1);
                 },
               ),
             ],
@@ -102,87 +90,64 @@ class DynamicList extends State<TimeTable> {
           body: Container(
             child: ListView(
               children: List.generate(
-                  [monday, tuesday, wednesday, thursday, friday].length,
-                  (i) => Card(
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Text(
-                                [
-                                  "Monday",
-                                  "Tuesday",
-                                  "Wednesday",
-                                  "Thursday",
-                                  "Friday"
-                                ][i],
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                context.watch<TimeTableItemsBlock>().daysString.length,
+                (i) => Card(
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          context.watch<TimeTableItemsBlock>().daysString[i],
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Table(
+                        border: TableBorder.all(),
+                        children: context.watch<TimeTableItemsBlock>().days(i),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                            child: IconButton(
+                              // add new Row to Table
+                              onPressed: () {
+                                context.read<TimeTableItemsBlock>()
+                                    .add(i, elementsToADD);
+                                // TODO setState(() {});
+                              },
+                              splashRadius: 20.0,
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.pink,
+                                size: 30.0,
                               ),
                             ),
-                            Table(
-                              border: TableBorder.all(),
-                              children: [
-                                monday,
-                                tuesday,
-                                wednesday,
-                                thursday,
-                                friday
-                              ][i],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                            child: IconButton(
+                              // add new Row to Table
+                              onPressed: () {
+                                context.read<TimeTableItemsBlock>()
+                                    .removeLast(i);
+                                // TODO setState(() {});
+                              },
+                              splashRadius: 20.0,
+                              icon: Icon(
+                                Icons.remove,
+                                color: Colors.pink,
+                                size: 30.0,
+                              ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
-                                  child: IconButton(
-                                    // add new Row to Table
-                                    onPressed: () {
-                                      [
-                                        monday,
-                                        tuesday,
-                                        wednesday,
-                                        thursday,
-                                        friday
-                                      ][i]
-                                          .add(elementsToADD);
-                                      setState(() {});
-                                    },
-                                    splashRadius: 20.0,
-                                    icon: Icon(
-                                      Icons.add,
-                                      color: Colors.pink,
-                                      size: 30.0,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
-                                  child: IconButton(
-                                    // add new Row to Table
-                                    onPressed: () {
-                                      [
-                                        monday,
-                                        tuesday,
-                                        wednesday,
-                                        thursday,
-                                        friday
-                                      ][i]
-                                          .removeLast();
-                                      setState(() {});
-                                    },
-                                    splashRadius: 20.0,
-                                    icon: Icon(
-                                      Icons.remove,
-                                      color: Colors.pink,
-                                      size: 30.0,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      )),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
           appBar: AppBar(
@@ -202,9 +167,7 @@ class DynamicList extends State<TimeTable> {
                 color: Colors.black,
               ),
               onPressed: () {
-                setState(() {
-                  _selectedIndexTimeTable = 0;
-                });
+                  context.read<IndexTimeTableBloc>().set(0);
               },
             ),
             actions: <Widget>[
@@ -217,7 +180,7 @@ class DynamicList extends State<TimeTable> {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  setState(() {}); // TODO add save function
+                  // setState(() {});  TODO add save function
                 },
               ),
             ],
@@ -228,30 +191,3 @@ class DynamicList extends State<TimeTable> {
   }
 }
 
-TableRow headerRow() {
-  return TableRow(
-    decoration: BoxDecoration(
-      color: Colors.grey[900],
-    ),
-    children: [
-      Text(
-        "lesson",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      Text(
-        "subject",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      Text(
-        "room",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-    ],
-  );
-}

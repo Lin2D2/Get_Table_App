@@ -1,20 +1,28 @@
+import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:flutter/material.dart';
+import 'blocs/indexMainBloc.dart';
+import 'blocs/themeBloc.dart';
+import 'blocs/timeTableItemsBlock.dart';
 import 'sites/home.dart';
 import 'sites/tableview.dart';
 import 'sites/timetable.dart';
 import 'package:swipedetector/swipedetector.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
 /// This Widget is the main application widget.
 class MyApp extends StatelessWidget {
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'Time Table App';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      home: MyStatefulWidget(),
+      home: ChangeNotifierProvider(
+        create: (_) => IndexMainBloc(),
+        child: MyStatefulWidget(),
+      ),
     );
   }
 }
@@ -27,110 +35,125 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    context.read<IndexMainBloc>().set(index);
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: <Widget>[
-            SwipeDetector(
-              onSwipeLeft: () {
-                print(_selectedIndex);
-                _onItemTapped(_selectedIndex + 1);
-              },
-              child: Home(),
-            ),
-            SwipeDetector(
-              onSwipeLeft: () {
-                print(_selectedIndex);
-                _onItemTapped(_selectedIndex + 1);
-              },
-              onSwipeRight: () {
-                print(_selectedIndex);
-                _onItemTapped(_selectedIndex - 1);
-              },
-              child: TableView(),
-            ),
-            SwipeDetector(
-              onSwipeLeft: () {
-                print(_selectedIndex);
-                _onItemTapped(_selectedIndex + 1);
-              },
-              onSwipeRight: () {
-                print(_selectedIndex);
-                _onItemTapped(_selectedIndex - 1);
-              },
-              child: TimeTable(),
-            ),
-            SwipeDetector(
-              onSwipeRight: () {
-                print(_selectedIndex);
-                _onItemTapped(_selectedIndex - 1);
-              },
-              child: Scaffold(
-                body: Column(
-                  children: [
-                    Text(
-                      'Index 3: Settings',
-                      style: optionStyle,
-                    ),
-                    RaisedButton(
-                      child: Text('Login'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Login()),
-                        );
-                      },
-                    ),
+    return Scaffold(
+      body: SafeArea(
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => ThemeBloc()),
+          ],
+          child: IndexedStack(
+            index: context.watch<IndexMainBloc>().index,
+            children: <Widget>[
+              SwipeDetector(
+                onSwipeLeft: () {
+                  print(context.watch<IndexMainBloc>().index);
+                  context.read<IndexMainBloc>().increment();
+                },
+                child: Home(),
+              ),
+              SwipeDetector(
+                onSwipeLeft: () {
+                  print(context.watch<IndexMainBloc>().index);
+                  context.read<IndexMainBloc>().increment();
+                },
+                onSwipeRight: () {
+                  print(context.watch<IndexMainBloc>().index);
+                  context.read<IndexMainBloc>().decrement();
+                },
+                child: TableView(),
+              ),
+              SwipeDetector(
+                onSwipeLeft: () {
+                  print(context.watch<IndexMainBloc>().index);
+                  context.read<IndexMainBloc>().increment();
+                },
+                onSwipeRight: () {
+                  print(context.watch<IndexMainBloc>().index);
+                  context.read<IndexMainBloc>().decrement();
+                },
+                child: MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                        create: (_) => TimeTableItemsBlock()),
+                    ChangeNotifierProvider(
+                        create: (_) => IndexTimeTableBloc()),
                   ],
+                  child: TimeTable(),
                 ),
               ),
-            ),
-          ],
-        ),
-        bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-              canvasColor: Colors.grey[900],
-              primaryColor: Colors.red,
-              textTheme: Theme.of(context)
-                  .textTheme
-                  .copyWith(caption: new TextStyle(color: Colors.white))),
-          child: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.home),
-                title: Text('Home'),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.view_module),
-                title: Text('Tableview'),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.view_quilt),
-                title: Text('Timetable'),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.build),
-                title: Text('Settings'),
+              SwipeDetector(
+                onSwipeRight: () {
+                  print(context.watch<IndexMainBloc>().index);
+                  context.read<IndexMainBloc>().decrement();
+                },
+                child: Scaffold(
+                  body: Column(
+                    children: [
+                      Text(
+                        'Index 3: Settings',
+                        style: optionStyle,
+                      ),
+                      RaisedButton(
+                        child: Text('Login'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Login()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.amber[800],
-            onTap: _onItemTapped,
           ),
+        ),
+      ),
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+            canvasColor: Colors.grey[900],
+            primaryColor: Colors.red,
+            textTheme: Theme.of(context)
+                .textTheme
+                .copyWith(caption: new TextStyle(color: Colors.white))),
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              title: Text('Home'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.view_module),
+              title: Text('Tableview'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.view_quilt),
+              title: Text('Timetable'),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.build),
+              title: Text('Settings'),
+            ),
+          ],
+          type: BottomNavigationBarType.fixed,
+          currentIndex: context.watch<IndexMainBloc>().index,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
         ),
       ),
     );
