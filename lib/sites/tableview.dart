@@ -106,8 +106,8 @@ class _TableViewState extends State<TableView> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  _selectedIndexTableView += 1;
                                   _title = snapshot.data.days[i];
+                                  _selectedIndexTableView += 1;
                                 });
                               },
                               child: Container(
@@ -147,6 +147,7 @@ class _TableViewState extends State<TableView> {
             ],
           ),
         ),
+        // TODO reset the future
         Scaffold(
           body: FutureBuilder<Day>(
             future: fetchDay(_title),
