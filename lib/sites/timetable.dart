@@ -58,9 +58,13 @@ class DynamicList extends State<TimeTable> {
             child: Table(),  // TODO create Table from data of TableEdit or Database
           ),
           appBar: AppBar(
-            backgroundColor: Colors.grey[900],
+            backgroundColor: Colors.white,
             leading: IconButton(
-              icon: Icon(Icons.settings), // TODO add link to settings page
+              icon: Icon(
+                Icons.settings,
+                color: Colors.black,
+              ),
+              // TODO add link to settings page
               onPressed: () {
                 setState(() {});
               },
@@ -69,8 +73,8 @@ class DynamicList extends State<TimeTable> {
               child: const Text(
                 'TimeTable',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
+                    color: Colors.black,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -79,7 +83,7 @@ class DynamicList extends State<TimeTable> {
                 child: Text(
                   "edit",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
                 ),
@@ -182,18 +186,21 @@ class DynamicList extends State<TimeTable> {
             ),
           ),
           appBar: AppBar(
-            backgroundColor: Colors.grey[900],
+            backgroundColor: Colors.white,
             title: Center(
               child: const Text(
                 'Edit Timetable',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
+                    color: Colors.black,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold),
               ),
             ),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
               onPressed: () {
                 setState(() {
                   _selectedIndexTimeTable = 0;
@@ -205,12 +212,12 @@ class DynamicList extends State<TimeTable> {
                 child: Text(
                   "save",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  setState(() {});  // TODO add save function
+                  setState(() {}); // TODO add save function
                 },
               ),
             ],
