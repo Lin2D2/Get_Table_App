@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TimeTableItemsBlock extends ChangeNotifier {
+  int _mondayCounter = 1;
+  int _tuesdayCounter = 1;
+  int _wednesdayCounter = 1;
+  int _thursdayCounter = 1;
+  int _fridayCounter = 1;
   List<TableRow> _monday = [
     headerRow(),
   ];
@@ -54,6 +59,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
     _friday = val;
     notifyListeners();
   }
+
   List days(int i) {
     switch (i) {
       case 0:
@@ -79,69 +85,80 @@ class TimeTableItemsBlock extends ChangeNotifier {
     }
   }
 
-  void add(int i, element) {
+  void add(int i, bool doubleLesson) {
     switch (i) {
       case 0:
         {
-          monday.add(element);
+          monday.add(elementsToADD(_mondayCounter, doubleLesson));
+          doubleLesson ? _mondayCounter += 2 : _mondayCounter++;
           notifyListeners();
           break;
         }
       case 1:
         {
-          tuesday.add(element);
+          tuesday.add(elementsToADD(_tuesdayCounter, doubleLesson));
+          doubleLesson ? _tuesdayCounter += 2 : _tuesdayCounter++;
           notifyListeners();
           break;
         }
       case 2:
         {
-          wednesday.add(element);
+          wednesday.add(elementsToADD(_wednesdayCounter, doubleLesson));
+          doubleLesson ? _wednesdayCounter += 2 : _wednesdayCounter++;
           notifyListeners();
           break;
         }
       case 3:
         {
-          thursday.add(element);
+          thursday.add(elementsToADD(_thursdayCounter, doubleLesson));
+          doubleLesson ? _thursdayCounter += 2 : _thursdayCounter++;
           notifyListeners();
           break;
         }
       case 4:
         {
-          friday.add(element);
+          friday.add(elementsToADD(_fridayCounter, doubleLesson));
+          doubleLesson ? _fridayCounter += 2 : _fridayCounter++;
           notifyListeners();
           break;
         }
     }
   }
+
   void removeLast(int i) {
     switch (i) {
       case 0:
         {
           monday.removeLast();
+          _mondayCounter--; // TODO when is double lesson deincrement 2 not 1
           notifyListeners();
           break;
         }
       case 1:
         {
           tuesday.removeLast();
+          _tuesdayCounter--;
           notifyListeners();
           break;
         }
       case 2:
         {
           wednesday.removeLast();
+          _wednesdayCounter--;
           notifyListeners();
           break;
         }
       case 3:
         {
           thursday.removeLast();
+          _tuesdayCounter--;
           notifyListeners();
           break;
         }
       case 4:
         {
           friday.removeLast();
+          _fridayCounter--;
           notifyListeners();
           break;
         }
@@ -172,6 +189,37 @@ TableRow headerRow() {
         textAlign: TextAlign.center,
         style: TextStyle(
             fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+    ],
+  );
+}
+
+TableRow elementsToADD(int lessonCounter, bool doubleLesson) {
+  return TableRow(
+    children: [
+      Container(
+        height: 30,
+        child: Text(
+          doubleLesson
+              ? lessonCounter.toString() + "/" + (lessonCounter + 1).toString()
+              : lessonCounter.toString(),
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
+        ),
+      ),
+      Container(
+        height: 30,
+        child: TextField(
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
+        ),
+      ),
+      Container(
+        height: 30,
+        child: TextField(
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
+        ),
       ),
     ],
   );

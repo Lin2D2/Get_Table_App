@@ -13,31 +13,6 @@ import 'package:provider/provider.dart';
 
 class TimeTable extends StatelessWidget {
   const TimeTable({Key key}) : super(key: key);
-  static TableRow elementsToADD = TableRow(
-    children: [
-      Container(
-        height: 30,
-        child: TextField(
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
-        ),
-      ),
-      Container(
-        height: 30,
-        child: TextField(
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
-        ),
-      ),
-      Container(
-        height: 30,
-        child: TextField(
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
-        ),
-      ),
-    ],
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +55,7 @@ class TimeTable extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                      context.read<IndexTimeTableBloc>().set(1);
+                  context.read<IndexTimeTableBloc>().set(1);
                 },
               ),
             ],
@@ -113,9 +88,8 @@ class TimeTable extends StatelessWidget {
                             child: IconButton(
                               // add new Row to Table
                               onPressed: () {
-                                context.read<TimeTableItemsBlock>()
-                                    .add(i, elementsToADD);
-                                // TODO setState(() {});
+                                context.read<TimeTableItemsBlock>().add(i,
+                                    false); // TODO add function to add double lesson
                               },
                               splashRadius: 20.0,
                               icon: Icon(
@@ -130,9 +104,9 @@ class TimeTable extends StatelessWidget {
                             child: IconButton(
                               // add new Row to Table
                               onPressed: () {
-                                context.read<TimeTableItemsBlock>()
+                                context
+                                    .read<TimeTableItemsBlock>()
                                     .removeLast(i);
-                                // TODO setState(() {});
                               },
                               splashRadius: 20.0,
                               icon: Icon(
@@ -167,7 +141,7 @@ class TimeTable extends StatelessWidget {
                 color: Colors.black,
               ),
               onPressed: () {
-                  context.read<IndexTimeTableBloc>().set(0);
+                context.read<IndexTimeTableBloc>().set(0);
               },
             ),
             actions: <Widget>[
@@ -190,4 +164,3 @@ class TimeTable extends StatelessWidget {
     );
   }
 }
-
