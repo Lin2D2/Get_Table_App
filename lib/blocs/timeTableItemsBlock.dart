@@ -129,37 +129,72 @@ class TimeTableItemsBlock extends ChangeNotifier {
     switch (i) {
       case 0:
         {
-          monday.removeLast();
-          _mondayCounter--; // TODO when is double lesson deincrement 2 not 1
-          notifyListeners();
+          if (monday.last.children.first.child.children.first.data
+              .contains('/')) {
+            monday.removeLast();
+            _mondayCounter -= 2;
+            notifyListeners();
+          } else {
+            monday.removeLast();
+            _mondayCounter--;
+            notifyListeners();
+          }
           break;
         }
       case 1:
         {
-          tuesday.removeLast();
-          _tuesdayCounter--;
-          notifyListeners();
+          if (tuesday.last.children.first.child.children.first.data
+              .contains('/')) {
+            tuesday.removeLast();
+            _tuesdayCounter -= 2;
+            notifyListeners();
+          } else {
+            tuesday.removeLast();
+            _tuesdayCounter--;
+            notifyListeners();
+          }
           break;
         }
       case 2:
         {
-          wednesday.removeLast();
-          _wednesdayCounter--;
-          notifyListeners();
+          if (wednesday.last.children.first.child.children.first.data
+              .contains('/')) {
+            wednesday.removeLast();
+            _wednesdayCounter -= 2;
+            notifyListeners();
+          } else {
+            wednesday.removeLast();
+            _wednesdayCounter--;
+            notifyListeners();
+          }
           break;
         }
       case 3:
         {
-          thursday.removeLast();
-          _tuesdayCounter--;
-          notifyListeners();
+          if (thursday.last.children.first.child.children.first.data
+              .contains('/')) {
+            thursday.removeLast();
+            _thursdayCounter -= 2;
+            notifyListeners();
+          } else {
+            thursday.removeLast();
+            _thursdayCounter--;
+            notifyListeners();
+          }
           break;
         }
       case 4:
         {
-          friday.removeLast();
-          _fridayCounter--;
-          notifyListeners();
+          if (friday.last.children.first.child.children.first.data
+              .contains('/')) {
+            friday.removeLast();
+            _fridayCounter -= 2;
+            notifyListeners();
+          } else {
+            friday.removeLast();
+            _fridayCounter--;
+            notifyListeners();
+          }
           break;
         }
     }
@@ -199,13 +234,46 @@ TableRow elementsToADD(int lessonCounter, bool doubleLesson) {
     children: [
       Container(
         height: 30,
-        child: Text(
-          doubleLesson
-              ? lessonCounter.toString() + "/" + (lessonCounter + 1).toString()
-              : lessonCounter.toString(),
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
-        ),
+        child: lessonCounter.isEven
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    doubleLesson
+                        ? lessonCounter.toString() +
+                            "/" +
+                            (lessonCounter + 1).toString()
+                        : lessonCounter.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15.0, height: 2.0, color: Colors.black),
+                  ),
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text(
+                      "join",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 15.0, height: 2.0, color: Colors.black),
+                    ),
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    doubleLesson
+                        ? lessonCounter.toString() +
+                            "/" +
+                            (lessonCounter + 1).toString()
+                        : lessonCounter.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15.0, height: 2.0, color: Colors.black),
+                  ),
+                ],
+              ),
       ),
       Container(
         height: 30,
