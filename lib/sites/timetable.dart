@@ -85,35 +85,35 @@ class TimeTable extends StatelessWidget {
                         children: [
                           Padding(
                             padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
-                            child: IconButton(
+                            child: RaisedButton(
+                              onPressed: () {
+                                context.read<TimeTableItemsBlock>().add(i,
+                                    true); // TODO add function to add double lesson
+                              },
+                              child: Text("add double lesson"),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                            child: RaisedButton(
                               // add new Row to Table
                               onPressed: () {
                                 context.read<TimeTableItemsBlock>().add(i,
                                     false); // TODO add function to add double lesson
                               },
-                              splashRadius: 20.0,
-                              icon: Icon(
-                                Icons.add,
-                                color: Colors.pink,
-                                size: 30.0,
-                              ),
+                              child: Text("add single lesson"),
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
-                            child: IconButton(
+                            child: RaisedButton(
                               // add new Row to Table
                               onPressed: () {
                                 context
                                     .read<TimeTableItemsBlock>()
                                     .removeLast(i);
                               },
-                              splashRadius: 20.0,
-                              icon: Icon(
-                                Icons.remove,
-                                color: Colors.pink,
-                                size: 30.0,
-                              ),
+                              child: Text("remove"),
                             ),
                           ),
                         ],

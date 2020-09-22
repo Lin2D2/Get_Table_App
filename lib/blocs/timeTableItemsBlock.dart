@@ -1,4 +1,6 @@
+import 'package:Get_Table_App/blocs/dropdownMenuBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TimeTableItemsBlock extends ChangeNotifier {
   int _mondayCounter = 1;
@@ -129,8 +131,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
     switch (i) {
       case 0:
         {
-          if (monday.last.children.first.child.children.first.data
-              .contains('/')) {
+          if (monday.last.children.first.child.data.contains('/')) {
             monday.removeLast();
             _mondayCounter -= 2;
             notifyListeners();
@@ -143,8 +144,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 1:
         {
-          if (tuesday.last.children.first.child.children.first.data
-              .contains('/')) {
+          if (tuesday.last.children.first.child.data.contains('/')) {
             tuesday.removeLast();
             _tuesdayCounter -= 2;
             notifyListeners();
@@ -157,8 +157,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 2:
         {
-          if (wednesday.last.children.first.child.children.first.data
-              .contains('/')) {
+          if (wednesday.last.children.first.child.data.contains('/')) {
             wednesday.removeLast();
             _wednesdayCounter -= 2;
             notifyListeners();
@@ -171,8 +170,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 3:
         {
-          if (thursday.last.children.first.child.children.first.data
-              .contains('/')) {
+          if (thursday.last.children.first.child.data.contains('/')) {
             thursday.removeLast();
             _thursdayCounter -= 2;
             notifyListeners();
@@ -185,8 +183,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 4:
         {
-          if (friday.last.children.first.child.children.first.data
-              .contains('/')) {
+          if (friday.last.children.first.child.data.contains('/')) {
             friday.removeLast();
             _fridayCounter -= 2;
             notifyListeners();
@@ -207,6 +204,12 @@ TableRow headerRow() {
       color: Colors.grey[900],
     ),
     children: [
+      Text(
+        "week",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+      ),
       Text(
         "lesson",
         textAlign: TextAlign.center,
@@ -232,47 +235,31 @@ TableRow headerRow() {
 TableRow elementsToADD(int lessonCounter, bool doubleLesson) {
   return TableRow(
     children: [
+      ChangeNotifierProvider(
+        create: (_) => DropdownMenuBloc(),
+        child: Container(
+          height: 30,
+          child: WeekDropdownButton(),
+        ),
+      ),
       Container(
         height: 30,
         child: lessonCounter.isEven
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    doubleLesson
-                        ? lessonCounter.toString() +
-                            "/" +
-                            (lessonCounter + 1).toString()
-                        : lessonCounter.toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 15.0, height: 2.0, color: Colors.black),
-                  ),
-                  FlatButton(
-                    onPressed: () {},
-                    child: Text(
-                      "join",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 15.0, height: 2.0, color: Colors.black),
-                    ),
-                  ),
-                ],
+            ? Text(
+                lessonCounter.toString(),
+                textAlign: TextAlign.center,
+                style:
+                    TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
               )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    doubleLesson
-                        ? lessonCounter.toString() +
-                            "/" +
-                            (lessonCounter + 1).toString()
-                        : lessonCounter.toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 15.0, height: 2.0, color: Colors.black),
-                  ),
-                ],
+            : Text(
+                doubleLesson
+                    ? lessonCounter.toString() +
+                        "/" +
+                        (lessonCounter + 1).toString()
+                    : lessonCounter.toString(),
+                textAlign: TextAlign.center,
+                style:
+                    TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
               ),
       ),
       Container(
@@ -291,4 +278,33 @@ TableRow elementsToADD(int lessonCounter, bool doubleLesson) {
       ),
     ],
   );
+}
+
+class WeekDropdownButton extends StatelessWidget {
+  String dropdownValue = 'One';
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: 50.0,
+        child: DropdownButton<String>(
+          icon: Icon(Icons.assignment),
+          iconSize: 24,
+          elevation: 16,
+          value: context.watch<DropdownMenuBloc>().value,
+          onChanged: (String newValue) {
+            context.read<DropdownMenuBloc>().set(newValue);
+          },
+          items: <String>["A/B", 'A', 'B'] // TODO add new line for A or B below for same lesson to set differnet week
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
 }
