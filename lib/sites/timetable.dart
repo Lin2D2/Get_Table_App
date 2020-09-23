@@ -87,8 +87,9 @@ class TimeTable extends StatelessWidget {
                             padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
                             child: RaisedButton(
                               onPressed: () {
-                                context.read<TimeTableItemsBlock>().add(i,
-                                    true); // TODO add function to add double lesson
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .add(i, true);
                               },
                               child: Text("add double lesson"),
                             ),
@@ -98,8 +99,9 @@ class TimeTable extends StatelessWidget {
                             child: RaisedButton(
                               // add new Row to Table
                               onPressed: () {
-                                context.read<TimeTableItemsBlock>().add(i,
-                                    false); // TODO add function to add double lesson
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .add(i, false);
                               },
                               child: Text("add single lesson"),
                             ),

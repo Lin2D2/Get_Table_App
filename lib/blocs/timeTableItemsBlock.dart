@@ -1,6 +1,6 @@
-import 'package:Get_Table_App/blocs/dropdownMenuBloc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:Get_Table_App/widgets/timeTableEditHeaderRow.dart';
+import 'package:Get_Table_App/widgets/timeTableEditTableRows.dart';
 
 class TimeTableItemsBlock extends ChangeNotifier {
   int _mondayCounter = 1;
@@ -9,19 +9,19 @@ class TimeTableItemsBlock extends ChangeNotifier {
   int _thursdayCounter = 1;
   int _fridayCounter = 1;
   List<TableRow> _monday = [
-    headerRow(),
+    timeTableEditHeaderRow(),
   ];
   List<TableRow> _tuesday = [
-    headerRow(),
+    timeTableEditHeaderRow(),
   ];
   List<TableRow> _wednesday = [
-    headerRow(),
+    timeTableEditHeaderRow(),
   ];
   List<TableRow> _thursday = [
-    headerRow(),
+    timeTableEditHeaderRow(),
   ];
   List<TableRow> _friday = [
-    headerRow(),
+    timeTableEditHeaderRow(),
   ];
   List _daysString = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
@@ -195,116 +195,5 @@ class TimeTableItemsBlock extends ChangeNotifier {
           break;
         }
     }
-  }
-}
-
-TableRow headerRow() {
-  return TableRow(
-    decoration: BoxDecoration(
-      color: Colors.grey[900],
-    ),
-    children: [
-      Text(
-        "week",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      Text(
-        "lesson",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      Text(
-        "subject",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      Text(
-        "room",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-    ],
-  );
-}
-
-TableRow elementsToADD(int lessonCounter, bool doubleLesson) {
-  return TableRow(
-    children: [
-      ChangeNotifierProvider(
-        create: (_) => DropdownMenuBloc(),
-        child: Container(
-          height: 30,
-          child: WeekDropdownButton(),
-        ),
-      ),
-      Container(
-        height: 30,
-        child: lessonCounter.isEven
-            ? Text(
-                lessonCounter.toString(),
-                textAlign: TextAlign.center,
-                style:
-                    TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
-              )
-            : Text(
-                doubleLesson
-                    ? lessonCounter.toString() +
-                        "/" +
-                        (lessonCounter + 1).toString()
-                    : lessonCounter.toString(),
-                textAlign: TextAlign.center,
-                style:
-                    TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
-              ),
-      ),
-      Container(
-        height: 30,
-        child: TextField(
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
-        ),
-      ),
-      Container(
-        height: 30,
-        child: TextField(
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15.0, height: 2.0, color: Colors.black),
-        ),
-      ),
-    ],
-  );
-}
-
-class WeekDropdownButton extends StatelessWidget {
-  String dropdownValue = 'One';
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 50.0,
-        child: DropdownButton<String>(
-          icon: Icon(Icons.assignment),
-          iconSize: 24,
-          elevation: 16,
-          value: context.watch<DropdownMenuBloc>().value,
-          onChanged: (String newValue) {
-            context.read<DropdownMenuBloc>().set(newValue);
-          },
-          items: <String>["A/B", 'A', 'B'] // TODO add new line for A or B below for same lesson to set differnet week
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-        ),
-      ),
-    );
   }
 }
