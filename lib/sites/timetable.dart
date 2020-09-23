@@ -156,7 +156,17 @@ class TimeTable extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  // setState(() {});  TODO add save function
+                  // return showDialog(
+                  //   context: context,
+                  //   builder: (context) {
+                  //     return AlertDialog(
+                  //       // Retrieve the text the user has entered by using the
+                  //       // TextEditingController.
+                  //       content: Text("test"),
+                  //     );
+                  //   },
+                  // );
+                  print(context.read<TimeTableItemsBlock>().formDataRaw);
                 },
               ),
             ],

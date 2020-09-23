@@ -25,6 +25,8 @@ class TimeTableItemsBlock extends ChangeNotifier {
   ];
   List _daysString = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
+  List _formDataRaw = [];
+
   List get daysString => _daysString;
 
   List get monday => _monday;
@@ -36,6 +38,8 @@ class TimeTableItemsBlock extends ChangeNotifier {
   List get thursday => _thursday;
 
   List get friday => _friday;
+
+  List get formDataRaw => _formDataRaw;
 
   set monday(List val) {
     _monday = val;
@@ -91,35 +95,110 @@ class TimeTableItemsBlock extends ChangeNotifier {
     switch (i) {
       case 0:
         {
-          monday.add(elementsToADD(_mondayCounter, doubleLesson));
+          TimeTableEditTableRows timeTableEditTableRows =
+              TimeTableEditTableRows(_mondayCounter, doubleLesson);
+          // TODO add other fields
+          _formDataRaw.add({
+            "day": "monday",
+            "lesson": doubleLesson
+                ? _mondayCounter.toString() +
+                    "/" +
+                    (_mondayCounter + 1).toString()
+                : _mondayCounter.toString(),
+            "controller": [
+              timeTableEditTableRows.subjectController,
+              timeTableEditTableRows.roomController
+            ]
+          });
+          monday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _mondayCounter += 2 : _mondayCounter++;
           notifyListeners();
           break;
         }
       case 1:
         {
-          tuesday.add(elementsToADD(_tuesdayCounter, doubleLesson));
+          TimeTableEditTableRows timeTableEditTableRows =
+              TimeTableEditTableRows(_tuesdayCounter, doubleLesson);
+          // TODO add other fields
+          _formDataRaw.add({
+            "day": "tuesday",
+            "lesson": doubleLesson
+                ? _tuesdayCounter.toString() +
+                "/" +
+                (_tuesdayCounter + 1).toString()
+                : _tuesdayCounter.toString(),
+            "controller": [
+              timeTableEditTableRows.subjectController,
+              timeTableEditTableRows.roomController
+            ]
+          });
+          tuesday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _tuesdayCounter += 2 : _tuesdayCounter++;
           notifyListeners();
           break;
         }
       case 2:
         {
-          wednesday.add(elementsToADD(_wednesdayCounter, doubleLesson));
+          TimeTableEditTableRows timeTableEditTableRows =
+              TimeTableEditTableRows(_wednesdayCounter, doubleLesson);
+          // TODO add other fields
+          _formDataRaw.add({
+            "day": "wednesday",
+            "lesson": doubleLesson
+                ? _wednesdayCounter.toString() +
+                "/" +
+                (_wednesdayCounter + 1).toString()
+                : _wednesdayCounter.toString(),
+            "controller": [
+              timeTableEditTableRows.subjectController,
+              timeTableEditTableRows.roomController
+            ]
+          });
+          wednesday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _wednesdayCounter += 2 : _wednesdayCounter++;
           notifyListeners();
           break;
         }
       case 3:
         {
-          thursday.add(elementsToADD(_thursdayCounter, doubleLesson));
+          TimeTableEditTableRows timeTableEditTableRows =
+              TimeTableEditTableRows(_thursdayCounter, doubleLesson);
+          // TODO add other fields
+          _formDataRaw.add({
+            "day": "thursday",
+            "lesson": doubleLesson
+                ? _thursdayCounter.toString() +
+                "/" +
+                (_thursdayCounter + 1).toString()
+                : _thursdayCounter.toString(),
+            "controller": [
+              timeTableEditTableRows.subjectController,
+              timeTableEditTableRows.roomController
+            ]
+          });
+          thursday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _thursdayCounter += 2 : _thursdayCounter++;
           notifyListeners();
           break;
         }
       case 4:
         {
-          friday.add(elementsToADD(_fridayCounter, doubleLesson));
+          TimeTableEditTableRows timeTableEditTableRows =
+              TimeTableEditTableRows(_fridayCounter, doubleLesson);
+          // TODO add other fields
+          _formDataRaw.add({
+            "day": "friday",
+            "lesson": doubleLesson
+                ? _fridayCounter.toString() +
+                "/" +
+                (_fridayCounter + 1).toString()
+                : _fridayCounter.toString(),
+            "controller": [
+              timeTableEditTableRows.subjectController,
+              timeTableEditTableRows.roomController
+            ]
+          });
+          friday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _fridayCounter += 2 : _fridayCounter++;
           notifyListeners();
           break;
