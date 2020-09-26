@@ -108,7 +108,8 @@ class TimeTableItemsBlock extends ChangeNotifier {
             "controller": [
               timeTableEditTableRows.subjectController,
               timeTableEditTableRows.roomController
-            ]
+            ],
+            "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
           monday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _mondayCounter += 2 : _mondayCounter++;
@@ -130,7 +131,8 @@ class TimeTableItemsBlock extends ChangeNotifier {
             "controller": [
               timeTableEditTableRows.subjectController,
               timeTableEditTableRows.roomController
-            ]
+            ],
+            "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
           tuesday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _tuesdayCounter += 2 : _tuesdayCounter++;
@@ -152,7 +154,8 @@ class TimeTableItemsBlock extends ChangeNotifier {
             "controller": [
               timeTableEditTableRows.subjectController,
               timeTableEditTableRows.roomController
-            ]
+            ],
+            "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
           wednesday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _wednesdayCounter += 2 : _wednesdayCounter++;
@@ -174,7 +177,8 @@ class TimeTableItemsBlock extends ChangeNotifier {
             "controller": [
               timeTableEditTableRows.subjectController,
               timeTableEditTableRows.roomController
-            ]
+            ],
+            "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
           thursday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _thursdayCounter += 2 : _thursdayCounter++;
@@ -196,7 +200,8 @@ class TimeTableItemsBlock extends ChangeNotifier {
             "controller": [
               timeTableEditTableRows.subjectController,
               timeTableEditTableRows.roomController
-            ]
+            ],
+            "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
           friday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _fridayCounter += 2 : _fridayCounter++;
