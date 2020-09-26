@@ -97,7 +97,6 @@ class TimeTableItemsBlock extends ChangeNotifier {
         {
           TimeTableEditTableRows timeTableEditTableRows =
               TimeTableEditTableRows(_mondayCounter, doubleLesson);
-          // TODO add other fields
           _formDataRaw.add({
             "day": "monday",
             "lesson": doubleLesson
@@ -120,7 +119,6 @@ class TimeTableItemsBlock extends ChangeNotifier {
         {
           TimeTableEditTableRows timeTableEditTableRows =
               TimeTableEditTableRows(_tuesdayCounter, doubleLesson);
-          // TODO add other fields
           _formDataRaw.add({
             "day": "tuesday",
             "lesson": doubleLesson
@@ -143,7 +141,6 @@ class TimeTableItemsBlock extends ChangeNotifier {
         {
           TimeTableEditTableRows timeTableEditTableRows =
               TimeTableEditTableRows(_wednesdayCounter, doubleLesson);
-          // TODO add other fields
           _formDataRaw.add({
             "day": "wednesday",
             "lesson": doubleLesson
@@ -166,7 +163,6 @@ class TimeTableItemsBlock extends ChangeNotifier {
         {
           TimeTableEditTableRows timeTableEditTableRows =
               TimeTableEditTableRows(_thursdayCounter, doubleLesson);
-          // TODO add other fields
           _formDataRaw.add({
             "day": "thursday",
             "lesson": doubleLesson
@@ -189,7 +185,6 @@ class TimeTableItemsBlock extends ChangeNotifier {
         {
           TimeTableEditTableRows timeTableEditTableRows =
               TimeTableEditTableRows(_fridayCounter, doubleLesson);
-          // TODO add other fields
           _formDataRaw.add({
             "day": "friday",
             "lesson": doubleLesson
