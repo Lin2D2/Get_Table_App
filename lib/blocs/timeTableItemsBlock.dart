@@ -210,7 +210,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
     switch (i) {
       case 0:
         {
-          if (monday.last.children.first.child.data.contains('/')) {
+          if (monday.last.children[1].child.data.contains('/')) {
             monday.removeLast();
             _mondayCounter -= 2;
             notifyListeners();
@@ -223,7 +223,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 1:
         {
-          if (tuesday.last.children.first.child.data.contains('/')) {
+          if (tuesday.last.children[1].child.data.contains('/')) {
             tuesday.removeLast();
             _tuesdayCounter -= 2;
             notifyListeners();
@@ -236,7 +236,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 2:
         {
-          if (wednesday.last.children.first.child.data.contains('/')) {
+          if (wednesday.last.children[1].child.data.contains('/')) {
             wednesday.removeLast();
             _wednesdayCounter -= 2;
             notifyListeners();
@@ -249,7 +249,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 3:
         {
-          if (thursday.last.children.first.child.data.contains('/')) {
+          if (thursday.last.children[1].child.data.contains('/')) {
             thursday.removeLast();
             _thursdayCounter -= 2;
             notifyListeners();
@@ -262,7 +262,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 4:
         {
-          if (friday.last.children.first.child.data.contains('/')) {
+          if (friday.last.children[1].child.data.contains('/')) {
             friday.removeLast();
             _fridayCounter -= 2;
             notifyListeners();
