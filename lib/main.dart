@@ -1,4 +1,6 @@
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
+import 'package:Get_Table_App/blocs/loginBloc.dart';
+import 'package:Get_Table_App/sites/settings.dart';
 import 'package:flutter/material.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/themeBloc.dart';
@@ -17,11 +19,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: ChangeNotifierProvider(
-        create: (_) => IndexMainBloc(),
-        child: MyStatefulWidget(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => IndexMainBloc(),
+        ),
+        ChangeNotifierProvider(create: (_) => LoginBloc()),
+      ],
+      child: MaterialApp(
+        title: _title,
+        home: MyStatefulWidget(),
       ),
     );
   }
@@ -36,7 +43,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   // void _onItemTapped(int index) {
   //   setState(() {
@@ -60,25 +67,25 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             children: <Widget>[
               SwipeDetector(
                 onSwipeLeft: () {
-                  print(context.watch<IndexMainBloc>().index);
+                  print(context.read<IndexMainBloc>().index);
                   context.read<IndexMainBloc>().increment();
                 },
                 child: Home(),
               ),
               SwipeDetector(
                 onSwipeLeft: () {
-                  print(context.watch<IndexMainBloc>().index);
+                  print(context.read<IndexMainBloc>().index);
                   context.read<IndexMainBloc>().increment();
                 },
                 onSwipeRight: () {
-                  print(context.watch<IndexMainBloc>().index);
+                  print(context.read<IndexMainBloc>().index);
                   context.read<IndexMainBloc>().decrement();
                 },
                 child: TableView(),
               ),
               SwipeDetector(
                 onSwipeLeft: () {
-                  print(context.watch<IndexMainBloc>().index);
+                  print(context.read<IndexMainBloc>().index);
                   context.read<IndexMainBloc>().increment();
                 },
                 onSwipeRight: () {
@@ -89,36 +96,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   providers: [
                     ChangeNotifierProvider(
                         create: (_) => TimeTableItemsBlock()),
-                    ChangeNotifierProvider(
-                        create: (_) => IndexTimeTableBloc()),
+                    ChangeNotifierProvider(create: (_) => IndexTimeTableBloc()),
                   ],
                   child: TimeTable(),
                 ),
               ),
               SwipeDetector(
                 onSwipeRight: () {
-                  print(context.watch<IndexMainBloc>().index);
+                  print(context.read<IndexMainBloc>().index);
                   context.read<IndexMainBloc>().decrement();
                 },
-                child: Scaffold(
-                  body: Column(
-                    children: [
-                      Text(
-                        'Index 3: Settings',
-                        style: optionStyle,
-                      ),
-                      RaisedButton(
-                        child: Text('Login'),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Login()),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                child: Settings(),
               ),
             ],
           ),
@@ -154,88 +142,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           currentIndex: context.watch<IndexMainBloc>().index,
           selectedItemColor: Colors.amber[800],
           onTap: _onItemTapped,
-        ),
-      ),
-    );
-  }
-}
-
-class Login extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.all(10),
-          child: ListView(
-            children: <Widget>[
-              Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Get Table',
-                    style: TextStyle(
-                        color: Colors.grey[900],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 30),
-                  )),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'User Name',
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                  ),
-                ),
-              ),
-              FlatButton(
-                onPressed: () {
-                  //forgot password screen
-                },
-                textColor: Colors.grey[900],
-                child: Text('Forgot Password'),
-              ),
-              Container(
-                  height: 50,
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: RaisedButton(
-                    textColor: Colors.white,
-                    color: Colors.grey[900],
-                    child: Text('Login'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  )),
-              Container(
-                child: Row(
-                  children: <Widget>[
-                    Text('Does not have account?'),
-                    FlatButton(
-                      textColor: Colors.grey[900],
-                      child: Text(
-                        'Sign in',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      onPressed: () {
-                        //signup screen
-                      },
-                    )
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.center,
-                ),
-              )
-            ],
-          ),
         ),
       ),
     );
