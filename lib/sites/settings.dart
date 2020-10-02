@@ -1,4 +1,5 @@
 import 'package:Get_Table_App/blocs/loginBloc.dart';
+import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:Get_Table_App/types/post.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,49 +36,29 @@ class Settings extends StatelessWidget {
 }
 
 class Login extends StatelessWidget {
-  static String ipAdress = "192.168.56.1";
-
-  // Future<http.Response> postRequest(Map data) async {
-  //   // return http.post(
-  //   //   'http://' + ipAdress + ':5000/api/login',
-  //   //   headers: <String, String>{
-  //   //     'Content-Type': 'application/json; charset=UTF-8',
-  //   //   },
-  //   //   body: jsonEncode(<String, Map>{
-  //   //     'data': data,
-  //   //   }),
-  //   // );
-  //   return http.post('http://' + ipAdress + ':5000/api/login', body: data).then((http.Response response) {
-  //     final int statusCode = response.statusCode;
-  //
-  //     if (response.statusCode == 200) {
-  //       // If the call to the server was successful, parse the JSON
-  //       return Post.fromJson(json.decode(response.body));
-  //       // print("Status OK");
-  //     } else {
-  //       // If that call was not successful, throw an error.
-  //       throw Exception('Failed to load post');
-  //     }
-  //   });
-  // }
-  Future postRequest(Map body) async {
-    return http.post('http://' + ipAdress + ':5000/api/login',
-        body:  jsonEncode(body),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          "Accept": "application/json",
-        }).then((http.Response response) {
-      final int statusCode = response.statusCode;
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      }
-      return Post.fromJson(json.decode(response.body)).state;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    Future postRequest(Map body) async {
+      return http.post(
+          'http://' +
+              context.read<IpAddressBloc>().ipAddress +
+              ':5000/api/login',
+          body: jsonEncode(body),
+          // TODO cross origin allow same origin isnt working
+          headers: <String, String>{
+            "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'application/json',
+            "Accept": "application/json",
+          }).then((http.Response response) {
+        final int statusCode = response.statusCode;
+
+        if (statusCode < 200 || statusCode > 400 || json == null) {
+          throw new Exception("Error while fetching data");
+        }
+        return Post.fromJson(json.decode(response.body)).state;
+      });
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Padding(

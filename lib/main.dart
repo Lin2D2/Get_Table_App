@@ -1,5 +1,6 @@
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/loginBloc.dart';
+import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:Get_Table_App/sites/settings.dart';
 import 'package:flutter/material.dart';
 import 'blocs/indexMainBloc.dart';
@@ -24,7 +25,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => IndexMainBloc(),
         ),
-        ChangeNotifierProvider(create: (_) => LoginBloc()),
+        ChangeNotifierProvider(
+          create: (_) => LoginBloc(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => IpAddressBloc(),
+        ),
       ],
       child: MaterialApp(
         title: _title,

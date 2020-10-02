@@ -1,8 +1,10 @@
+import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:Get_Table_App/types/days.dart';
 import 'package:Get_Table_App/types/day.dart';
+import 'package:provider/provider.dart';
 
 class TableView extends StatefulWidget {
   TableView({Key key}) : super(key: key);
@@ -20,7 +22,7 @@ class _TableViewState extends State<TableView> {
 
   Future<Days> fetchDays() async {
     try {
-      final response = await http.get('http://localhost:5000/api/days');
+      final response = await http.get('http://'+context.read<IpAddressBloc>().ipAddress+':5000/api/days');
       if (response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
@@ -40,7 +42,7 @@ class _TableViewState extends State<TableView> {
 
   Future<Day> fetchDay(date) async {
     try {
-      final response = await http.get('http://localhost:5000/api/day/' + date);
+      final response = await http.get('http://'+context.read<IpAddressBloc>().ipAddress+':5000/api/day/' + date);
       if (response.statusCode == 200) {
         // If the server did return a 200 OK response,
         // then parse the JSON.
