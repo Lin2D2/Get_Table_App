@@ -1,9 +1,11 @@
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/loginBloc.dart';
 import 'package:Get_Table_App/blocs/severIpBloc.dart';
+import 'package:Get_Table_App/blocs/tableViewListBloc.dart';
 import 'package:Get_Table_App/sites/settings.dart';
 import 'package:flutter/material.dart';
 import 'blocs/indexMainBloc.dart';
+import 'blocs/indexTableViewBloc.dart';
 import 'blocs/themeBloc.dart';
 import 'blocs/timeTableItemsBlock.dart';
 import 'sites/home.dart';
@@ -87,7 +89,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   print(context.read<IndexMainBloc>().index);
                   context.read<IndexMainBloc>().decrement();
                 },
-                child: TableView(),
+                child: MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                        create: (_) => TableViewListBloc()),
+                    ChangeNotifierProvider(
+                        create: (_) => IndexTableViewBloc()),
+                  ],
+                  child: TableView(),
+                ),
               ),
               SwipeDetector(
                 onSwipeLeft: () {
