@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 
 
 class TableViewListBloc extends ChangeNotifier {
-  List<Widget> _stackItems;
-
-  get stackItems => _stackItems;
-
-  set stackItems(Widget element) {
-    _stackItems = [element];
-  }
+  List<Widget> stackItems;
 
   void addStackItems(Widget element) {
-    _stackItems.add(element);
+    stackItems.add(element);
     notifyListeners();
   }
 }
