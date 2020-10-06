@@ -18,7 +18,6 @@ class TableView extends StatefulWidget {
 
 class _TableViewState extends State<TableView> {
   double iconSize = 40;
-  int _selectedIndexTableView = 0;
   Future<Days> futureDays;
   Future<Day> futureDay;
 
@@ -44,29 +43,6 @@ class _TableViewState extends State<TableView> {
     }
   }
 
-  // Future<Day> fetchDay(date) async {
-  //   try {
-  //     final response = await http.get('http://' +
-  //         context.read<IpAddressBloc>().ipAddress +
-  //         ':5000/api/day/' +
-  //         date);
-  //     if (response.statusCode == 200) {
-  //       // If the server did return a 200 OK response,
-  //       // then parse the JSON.
-  //       return Day.fromJson(json.decode(response.body));
-  //     } else {
-  //       print(response.statusCode);
-  //       // If the server did not return a 200 OK response,
-  //       // then throw an exception.
-  //       throw Exception('Failed to load Days, status code: ' +
-  //           response.statusCode.toString());
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return null;
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -90,24 +66,6 @@ class _TableViewState extends State<TableView> {
                   // Demo Content
                   (i) => Container(
                     child: GestureDetector(
-                      // onTapDown: (tapDownDetails) {
-                      //   context
-                      //       .read<TableViewListBloc>()
-                      //       .addStackItems(
-                      //       tableViewItem(snapshot.data.days[i], context));
-                      //   print(context
-                      //       .read<TableViewListBloc>().stackItems.length);
-                      //   print(context
-                      //       .read<TableViewListBloc>().stackItems);
-                      // },
-                      // onTapUp: (tapDownDetails) {
-                      //   print(context
-                      //       .read<TableViewListBloc>().stackItems.length);
-                      //   print(context
-                      //       .read<TableViewListBloc>().stackItems);
-                      //   // TODO do new
-                      //   context.read<IndexTableViewBloc>().index += 1;
-                      // },
                       onTap: () {
                         context.read<TableViewListBloc>().addStackItems(
                             tableViewItem(snapshot.data.days[i], context));
@@ -116,8 +74,6 @@ class _TableViewState extends State<TableView> {
                             .stackItems
                             .length);
                         print(context.read<TableViewListBloc>().stackItems);
-                        // TODO do new
-                        // TODO is still throwing error: child != null is not true
                         context.read<IndexTableViewBloc>().increment();
                       },
                       child: Container(
