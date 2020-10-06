@@ -20,6 +20,7 @@ class _TableViewState extends State<TableView> {
   double iconSize = 40;
   Future<Days> futureDays;
   Future<Day> futureDay;
+  Future<Day> futureToday;
 
   Future<Days> fetchDays() async {
     try {
@@ -43,20 +44,158 @@ class _TableViewState extends State<TableView> {
     }
   }
 
+  Future<Day> fetchToday() async {
+    try {
+      final response = await http.get('http://' +
+          context.read<IpAddressBloc>().ipAddress +
+          ':5000/api/today');
+      if (response.statusCode == 200) {
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        return Day.fromJson(json.decode(response.body));
+      } else {
+        print(response.statusCode);
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        throw Exception('Failed to load Today, status code: ' +
+            response.statusCode.toString());
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     futureDays = fetchDays();
+    futureToday = fetchToday();
   }
 
   @override
   Widget build(BuildContext context) {
-    context.watch<TableViewListBloc>().stackItems = Scaffold(
-      body: FutureBuilder<Days>(
-        future: futureDays,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return GridView.extent(
+    context.watch<TableViewListBloc>().stackItems = [
+      Scaffold(
+        body: FutureBuilder<Day>(
+          future: futureToday,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return SingleChildScrollView(
+                  child: Column(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Card(
+                          child: Column(
+                        children: [
+                          Center(
+                            child: Text(
+                              "Nachrichten zum Tag",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Text(snapshot.data.day["massage"]),
+                        ],
+                      ))),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                    child: Table(
+                      border: TableBorder.all(),
+                      children: List.generate(
+                            snapshot.data.day["header"].length,
+                            (row) => TableRow(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[900],
+                              ),
+                              children: List.generate(
+                                snapshot.data.day["header"][row].length,
+                                // Demo Content
+                                (rowElement) => Center(
+                                  child: Text(
+                                    snapshot.data.day["header"][row]
+                                        [rowElement],
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ) +
+                          List.generate(
+                            snapshot.data.day["content"].length,
+                            // Demo Content
+                            (row) => TableRow(
+                              children: List.generate(
+                                snapshot.data.day["content"][row].length,
+                                // Demo Content
+                                (rowElement) => Center(
+                                  child: Text(
+                                    snapshot.data.day["content"][row]
+                                        [rowElement],
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                    ),
+                  ),
+                ],
+              ));
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+
+            // By default, show a loading spinner.
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+              icon: Icon(
+                Icons.view_module,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                context.read<IndexTableViewBloc>().increment();
+              }),
+          title: Center(
+            child: const Text(
+              'Table view',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          actions: [
+            IconButton(
+                icon: Icon(
+                  Icons.refresh,
+                  color: Colors.black,
+                ),
+                onPressed: () {}),
+          ],
+        ),
+      ),
+      Scaffold(
+        body: FutureBuilder<Days>(
+          future: futureDays,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return GridView.extent(
                 maxCrossAxisExtent: 200,
                 padding: const EdgeInsets.all(4),
                 mainAxisSpacing: 4,
@@ -99,27 +238,47 @@ class _TableViewState extends State<TableView> {
                   ),
                 ),
               );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
 
-          // By default, show a loading spinner.
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Center(
-          child: const Text(
-            'Days view',
-            style: TextStyle(
-                color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
+            // By default, show a loading spinner.
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                context.read<IndexTableViewBloc>().decrement();
+              }),
+          title: Center(
+            child: const Text(
+              'Days view',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.black,
+              ),
+              onPressed: () {},
+            ),
+          ],
         ),
       ),
-    );
+    ];
     return IndexedStack(
       index: context.watch<IndexTableViewBloc>().index,
       children: context.watch<TableViewListBloc>().stackItems,
