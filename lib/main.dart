@@ -142,7 +142,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               title: Text('Home'),
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.view_module),
+              icon: const Icon(Icons.table_chart),
               title: Text('Tableview'),
             ),
             BottomNavigationBarItem(
