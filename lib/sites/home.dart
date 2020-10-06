@@ -10,79 +10,68 @@ class DynamicList extends State<Home> {
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            Card(
-                elevation: 5.0,
-                child: Center(
-                    child: Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Text(
-                    "Dashboard",
-                    style: new TextStyle(
-                      fontSize: 40.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                ))),
-            Expanded(
-              child: ListView(
-                children: <Card>[
-                  createItem(
-                      "Overview Today",
-                      [
-                        createTableRow(
-                          "1/2",
-                          "MA",
-                          "C5",
-                          false,
-                          extraColumn: "room C6",
-                        ),
-                        createTableRow(
-                          "3/4",
-                          "de",
-                          "C7",
-                          false,
-                          extraColumn: "vertretung",
-                        ),
-                      ],
-                      extraColumn: "change"),
-                  createItem(
-                    "Time Table Today",
-                    [
-                      createTableRow(
-                        " ",
-                        " ",
-                        " ",
-                        false,
-                      ),
-                    ],
-                  ),
-                  createItem(
-                      "Overview Tomorow",
-                      [
-                        createTableRow(
-                          " ",
-                          " ",
-                          " ",
-                          false,
-                          extraColumn: " ",
-                        ),
-                      ],
-                      extraColumn: "change"),
-                  createItem("Time Table Tomorow", [
-                    createTableRow(
-                      " ",
-                      " ",
-                      " ",
-                      false,
-                    ),
-                  ]),
-                ],
+      body: ListView(
+        children: <Card>[
+          createItem(
+              "Overview Today",
+              [
+                createTableRow(
+                  "1/2",
+                  "MA",
+                  "C5",
+                  false,
+                  extraColumn: "room C6",
+                ),
+                createTableRow(
+                  "3/4",
+                  "de",
+                  "C7",
+                  false,
+                  extraColumn: "vertretung",
+                ),
+              ],
+              extraColumn: "change"),
+          createItem(
+            "Time Table Today",
+            [
+              createTableRow(
+                " ",
+                " ",
+                " ",
+                false,
               ),
+            ],
+          ),
+          createItem(
+              "Overview Tomorow",
+              [
+                createTableRow(
+                  " ",
+                  " ",
+                  " ",
+                  false,
+                  extraColumn: " ",
+                ),
+              ],
+              extraColumn: "change"),
+          createItem("Time Table Tomorow", [
+            createTableRow(
+              " ",
+              " ",
+              " ",
+              false,
             ),
-          ],
+          ]),
+        ],
+      ),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Center(
+          child: const Text(
+            'Dashboard',
+            style: TextStyle(
+                color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
