@@ -14,22 +14,47 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Text(
-            'Index 3: Settings',
-            style: optionStyle,
-          ),
-          RaisedButton(
-            child: Text('Login'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Login()),
-              );
-            },
+      body: ListView(
+        children: <Widget>[
+          Card(
+            child: Row(children: [
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.blue.shade800,
+                  child: Text(
+                      context.watch<LoginBloc>().userTitle[0].toUpperCase()),
+                ),
+              ),
+              Text(context.watch<LoginBloc>().userTitle),
+              Spacer(),
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: RaisedButton(
+                  child: Text('Login'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    );
+                  },
+                ),
+              ),
+            ]),
           ),
         ],
+      ),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Center(
+          child: const Text(
+            'Settings',
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
     );
   }
@@ -65,16 +90,6 @@ class Login extends StatelessWidget {
           padding: EdgeInsets.all(10),
           child: ListView(
             children: <Widget>[
-              Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Get Table',
-                    style: TextStyle(
-                        color: Colors.grey[900],
-                        fontWeight: FontWeight.w500,
-                        fontSize: 30),
-                  )),
               Container(
                 padding: EdgeInsets.all(10),
                 child: TextField(
@@ -117,13 +132,35 @@ class Login extends StatelessWidget {
                         "password":
                             context.read<LoginBloc>().passwordController.text,
                       });
-                      print(await postRequest({
+                      String response = (await postRequest({
                         "username":
                             context.read<LoginBloc>().usernameController.text,
                         "password":
                             context.read<LoginBloc>().passwordController.text,
                       }));
-                      Navigator.pop(context);
+                      switch (response) {
+                        case "success":
+                          {
+                            context.read<LoginBloc>().userTitle = context
+                                .read<LoginBloc>()
+                                .usernameController
+                                .text;
+                            Navigator.pop(context);
+                            break;
+                          }
+                        case "wrong password":
+                          {
+                            break;
+                          }
+                        case "need to Sign in":
+                          {
+                            break;
+                          }
+                        case "failed":
+                          {
+                            break;
+                          }
+                      }
                     },
                   )),
               Container(
@@ -146,6 +183,31 @@ class Login extends StatelessWidget {
               )
             ],
           ),
+        ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            // TODO add link to settings page
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Center(
+            child: const Text(
+              'Login',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          actions: <Widget>[
+            Container(width: 60,),
+          ],
         ),
       ),
     );
