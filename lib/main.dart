@@ -1,7 +1,6 @@
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/loginBloc.dart';
 import 'package:Get_Table_App/blocs/severIpBloc.dart';
-import 'package:Get_Table_App/blocs/tableViewListBloc.dart';
 import 'package:Get_Table_App/sites/settings.dart';
 import 'package:flutter/material.dart';
 import 'blocs/indexMainBloc.dart';
@@ -50,14 +49,6 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //   });
-  // }
   void _onItemTapped(int index) {
     context.read<IndexMainBloc>().set(index);
   }
@@ -92,9 +83,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: MultiProvider(
                   providers: [
                     ChangeNotifierProvider(
-                        create: (_) => TableViewListBloc()),
-                    ChangeNotifierProvider(
-                        create: (_) => IndexTableViewBloc()),
+                      create: (_) => IndexTableViewBloc(),
+                    ),
                   ],
                   child: TableView(),
                 ),

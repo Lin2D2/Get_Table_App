@@ -1,4 +1,3 @@
-import 'package:Get_Table_App/blocs/indexTableViewBloc.dart';
 import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:Get_Table_App/types/day.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ Widget tableViewItem(String title, BuildContext context) {
     Future<Day> fetchDay(date) async {
       try {
         final response = await http.get('http://' +
-            context.read<IpAddressBloc>().ipAddress +
+            context.watch<IpAddressBloc>().ipAddress +
             ':5000/api/day/' +
             date);
         if (response.statusCode == 200) {
@@ -98,7 +97,7 @@ Widget tableViewItem(String title, BuildContext context) {
         leading: IconButton(
           onPressed: () {
             // TODO do new
-            context.read<IndexTableViewBloc>().index -= 1;
+            Navigator.pop(context);
           },
           icon: Icon(
             Icons.arrow_back,
