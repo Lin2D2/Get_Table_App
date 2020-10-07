@@ -55,17 +55,20 @@ import 'package:Get_Table_App/blocs/dropdownMenuBloc.dart';
 class TimeTableEditTableRows {
   int lessonCounter;
   bool doubleLesson;
+  Key id;
   TextEditingController subjectController = TextEditingController();
   TextEditingController roomController = TextEditingController();
   WeekDropdownButton weekDropdownButton = WeekDropdownButton();
 
-  TimeTableEditTableRows(int lessonCounter, bool doubleLesson) {
+  TimeTableEditTableRows(int lessonCounter, bool doubleLesson, Key id) {
     this.lessonCounter = lessonCounter;
     this.doubleLesson  = doubleLesson;
+    this.id = id;
   }
 
   TableRow elementsToADD() {
     return TableRow(
+      key: this.id,
       children: [
         ChangeNotifierProvider(
           create: (_) => DropdownMenuBloc(),

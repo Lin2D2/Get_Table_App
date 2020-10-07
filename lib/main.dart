@@ -3,6 +3,7 @@ import 'package:Get_Table_App/blocs/loginBloc.dart';
 import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:Get_Table_App/sites/settings.dart';
 import 'package:flutter/material.dart';
+import 'blocs/formDataRawBloc.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/indexTableViewBloc.dart';
 import 'blocs/themeBloc.dart';
@@ -101,8 +102,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: MultiProvider(
                   providers: [
                     ChangeNotifierProvider(
-                        create: (_) => TimeTableItemsBlock()),
-                    ChangeNotifierProvider(create: (_) => IndexTimeTableBloc()),
+                      create: (_) => TimeTableItemsBlock(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) => IndexTimeTableBloc(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) => FormDataRawBloc(),
+                    ),
                   ],
                   child: TimeTable(),
                 ),

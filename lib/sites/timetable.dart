@@ -1,3 +1,4 @@
+import 'package:Get_Table_App/blocs/formDataRawBloc.dart';
 import 'package:Get_Table_App/blocs/indexMainBloc.dart';
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
@@ -89,7 +90,7 @@ class TimeTable extends StatelessWidget {
                               onPressed: () {
                                 context
                                     .read<TimeTableItemsBlock>()
-                                    .add(i, true);
+                                    .add(i, true, context);
                               },
                               child: Text("add double lesson"),
                             ),
@@ -101,7 +102,7 @@ class TimeTable extends StatelessWidget {
                               onPressed: () {
                                 context
                                     .read<TimeTableItemsBlock>()
-                                    .add(i, false);
+                                    .add(i, false, context);
                               },
                               child: Text("add single lesson"),
                             ),
@@ -113,7 +114,7 @@ class TimeTable extends StatelessWidget {
                               onPressed: () {
                                 context
                                     .read<TimeTableItemsBlock>()
-                                    .removeLast(i);
+                                    .removeLast(i, context);
                               },
                               child: Text("remove"),
                             ),
@@ -156,19 +157,78 @@ class TimeTable extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  // return showDialog(
-                  //   context: context,
-                  //   builder: (context) {
-                  //     return AlertDialog(
-                  //       // Retrieve the text the user has entered by using the
-                  //       // TextEditingController.
-                  //       content: Text("test"),
-                  //     );
-                  //   },
-                  // );
-                  print(context.read<TimeTableItemsBlock>().formDataRaw);
+                  // print(context.read<FormDataRawBloc>().formDataRaw);
                   // TODO do api call and local call to save data local and to database
                   // TODO need to implement User class and login
+                  List _monday = [];
+                  List _tuesday = [];
+                  List _wednesday = [];
+                  List _thursday = [];
+                  List _friday = [];
+                  for (final day
+                      in context.read<FormDataRawBloc>().formDataRaw) {
+                    print(day["day"]);
+                    switch (day["day"]) {
+                      case "monday":
+                        {
+                          _monday.add({
+                            "week": day["dropdown"].value,
+                            "lesson": day["lesson"].text,
+                            "subject": day["controller"][0].text,
+                            "room": day["controller"][1].text,
+                          });
+                          break;
+                        }
+                      case "tuesday":
+                        {
+                          _tuesday.add({
+                            "week": day["dropdown"].value,
+                            "lesson": day["lesson"].text,
+                            "subject": day["controller"][0].text,
+                            "room": day["controller"][1].text,
+                          });
+                          break;
+                        }
+                      case "wednesday":
+                        {
+                          _wednesday.add({
+                            "week": day["dropdown"].value,
+                            "lesson": day["lesson"].text,
+                            "subject": day["controller"][0].text,
+                            "room": day["controller"][1].text,
+                          });
+                          break;
+                        }
+                      case "thursday":
+                        {
+                          _thursday.add({
+                            "week": day["dropdown"].value,
+                            "lesson": day["lesson"].text,
+                            "subject": day["controller"][0].text,
+                            "room": day["controller"][1].text,
+                          });
+                          break;
+                        }
+                      case "friday":
+                        {
+                          _friday.add({
+                            "week": day["dropdown"].value,
+                            "lesson": day["lesson"].text,
+                            "subject": day["controller"][0].text,
+                            "room": day["controller"][1].text,
+                          });
+                          break;
+                        }
+                    }
+                  }
+                  Map Timetable = {
+                    "monday": _monday,
+                    "tuesday": _tuesday,
+                    "wednesday": _wednesday,
+                    "thursday": _thursday,
+                    "friday": _friday
+                  };
+                  print(Timetable);
                 },
               ),
             ],

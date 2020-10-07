@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:Get_Table_App/widgets/timeTableEditHeaderRow.dart';
 import 'package:Get_Table_App/widgets/timeTableEditTableRows.dart';
+import 'package:provider/provider.dart';
+import 'formDataRawBloc.dart';
 
 class TimeTableItemsBlock extends ChangeNotifier {
+  List _IdList = [];
+  int _IdCounter = 0;
   int _mondayCounter = 1;
   int _tuesdayCounter = 1;
   int _wednesdayCounter = 1;
@@ -25,8 +29,6 @@ class TimeTableItemsBlock extends ChangeNotifier {
   ];
   List _daysString = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-  List _formDataRaw = [];
-
   List get daysString => _daysString;
 
   List get monday => _monday;
@@ -38,8 +40,6 @@ class TimeTableItemsBlock extends ChangeNotifier {
   List get thursday => _thursday;
 
   List get friday => _friday;
-
-  List get formDataRaw => _formDataRaw;
 
   set monday(List val) {
     _monday = val;
@@ -91,14 +91,17 @@ class TimeTableItemsBlock extends ChangeNotifier {
     }
   }
 
-  void add(int i, bool doubleLesson) {
+  void add(int i, bool doubleLesson, BuildContext context) {
     switch (i) {
       case 0:
         {
+          Key id = Key(_IdCounter.toString());
           TimeTableEditTableRows timeTableEditTableRows =
-              TimeTableEditTableRows(_mondayCounter, doubleLesson);
-          _formDataRaw.add({
+              TimeTableEditTableRows(_mondayCounter, doubleLesson, id);
+          _IdList.add(id);
+          context.read<FormDataRawBloc>().formDataRaw.add({
             "day": "monday",
+            "id": id,
             "lesson": doubleLesson
                 ? _mondayCounter.toString() +
                     "/" +
@@ -110,6 +113,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
             ],
             "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
+          _IdCounter++;
           monday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _mondayCounter += 2 : _mondayCounter++;
           notifyListeners();
@@ -117,10 +121,13 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 1:
         {
+          Key id = Key(_IdCounter.toString());
           TimeTableEditTableRows timeTableEditTableRows =
-              TimeTableEditTableRows(_tuesdayCounter, doubleLesson);
-          _formDataRaw.add({
+              TimeTableEditTableRows(_tuesdayCounter, doubleLesson, id);
+          _IdList.add(id);
+          context.read<FormDataRawBloc>().formDataRaw.add({
             "day": "tuesday",
+            "id": id,
             "lesson": doubleLesson
                 ? _tuesdayCounter.toString() +
                 "/" +
@@ -132,6 +139,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
             ],
             "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
+          _IdCounter++;
           tuesday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _tuesdayCounter += 2 : _tuesdayCounter++;
           notifyListeners();
@@ -139,10 +147,13 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 2:
         {
+          Key id = Key(_IdCounter.toString());
           TimeTableEditTableRows timeTableEditTableRows =
-              TimeTableEditTableRows(_wednesdayCounter, doubleLesson);
-          _formDataRaw.add({
+              TimeTableEditTableRows(_wednesdayCounter, doubleLesson, id);
+          _IdList.add(id);
+          context.read<FormDataRawBloc>().formDataRaw.add({
             "day": "wednesday",
+            "id": id,
             "lesson": doubleLesson
                 ? _wednesdayCounter.toString() +
                 "/" +
@@ -154,6 +165,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
             ],
             "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
+          _IdCounter++;
           wednesday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _wednesdayCounter += 2 : _wednesdayCounter++;
           notifyListeners();
@@ -161,10 +173,13 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 3:
         {
+          Key id = Key(_IdCounter.toString());
           TimeTableEditTableRows timeTableEditTableRows =
-              TimeTableEditTableRows(_thursdayCounter, doubleLesson);
-          _formDataRaw.add({
+              TimeTableEditTableRows(_thursdayCounter, doubleLesson, id);
+          _IdList.add(id);
+          context.read<FormDataRawBloc>().formDataRaw.add({
             "day": "thursday",
+            "id": id,
             "lesson": doubleLesson
                 ? _thursdayCounter.toString() +
                 "/" +
@@ -176,6 +191,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
             ],
             "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
+          _IdCounter++;
           thursday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _thursdayCounter += 2 : _thursdayCounter++;
           notifyListeners();
@@ -183,10 +199,13 @@ class TimeTableItemsBlock extends ChangeNotifier {
         }
       case 4:
         {
+          Key id = Key(_IdCounter.toString());
           TimeTableEditTableRows timeTableEditTableRows =
-              TimeTableEditTableRows(_fridayCounter, doubleLesson);
-          _formDataRaw.add({
+              TimeTableEditTableRows(_fridayCounter, doubleLesson, id);
+          _IdList.add(id);
+          context.read<FormDataRawBloc>().formDataRaw.add({
             "day": "friday",
+            "id": id,
             "lesson": doubleLesson
                 ? _fridayCounter.toString() +
                 "/" +
@@ -198,6 +217,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
             ],
             "dropdown": timeTableEditTableRows.weekDropdownButton,
           });
+          _IdCounter++;
           friday.add(timeTableEditTableRows.elementsToADD());
           doubleLesson ? _fridayCounter += 2 : _fridayCounter++;
           notifyListeners();
@@ -206,71 +226,116 @@ class TimeTableItemsBlock extends ChangeNotifier {
     }
   }
 
-  void removeLast(int i) {
+  void removeLast(int i, BuildContext context) {
     switch (i) {
       case 0:
         {
+          final key = monday.last.key;
+          // print(key.toString()+"=::"+context.read<FormDataRawBloc>().formDataRaw.length.toString());
           if (monday.last.children[1].child.data.contains('/')) {
             monday.removeLast();
             _mondayCounter -= 2;
-            notifyListeners();
           } else {
             monday.removeLast();
             _mondayCounter--;
-            notifyListeners();
           }
+          for (final day in context.read<FormDataRawBloc>().formDataRaw) {
+            // print(key.toString()+"=?="+day["id"].toString());
+            if (day["id"] == key) {
+              context.read<FormDataRawBloc>().formDataRaw.remove(day);
+              notifyListeners();
+              break;
+            }
+          }
+          notifyListeners();
           break;
         }
       case 1:
         {
+          final key = tuesday.last.key;
+          // print(key.toString()+"=::"+context.read<FormDataRawBloc>().formDataRaw.length.toString());
           if (tuesday.last.children[1].child.data.contains('/')) {
             tuesday.removeLast();
             _tuesdayCounter -= 2;
-            notifyListeners();
           } else {
             tuesday.removeLast();
             _tuesdayCounter--;
-            notifyListeners();
           }
+          for (final day in context.read<FormDataRawBloc>().formDataRaw) {
+            // print(key.toString()+"=?="+day["id"].toString());
+            if (day["id"] == key) {
+              context.read<FormDataRawBloc>().formDataRaw.remove(day);
+              notifyListeners();
+              break;
+            }
+          }
+          notifyListeners();
           break;
         }
       case 2:
         {
+          final key = wednesday.last.key;
+          // print(key.toString()+"=::"+context.read<FormDataRawBloc>().formDataRaw.length.toString());
           if (wednesday.last.children[1].child.data.contains('/')) {
             wednesday.removeLast();
             _wednesdayCounter -= 2;
-            notifyListeners();
           } else {
             wednesday.removeLast();
             _wednesdayCounter--;
-            notifyListeners();
           }
+          for (final day in context.read<FormDataRawBloc>().formDataRaw) {
+            // print(key.toString()+"=?="+day["id"].toString());
+            if (day["id"] == key) {
+              context.read<FormDataRawBloc>().formDataRaw.remove(day);
+              notifyListeners();
+              break;
+            }
+          }
+          notifyListeners();
           break;
         }
       case 3:
         {
+          final key = thursday.last.key;
+          // print(key.toString()+"=::"+context.read<FormDataRawBloc>().formDataRaw.length.toString());
           if (thursday.last.children[1].child.data.contains('/')) {
             thursday.removeLast();
             _thursdayCounter -= 2;
-            notifyListeners();
           } else {
             thursday.removeLast();
             _thursdayCounter--;
-            notifyListeners();
           }
+          for (final day in context.read<FormDataRawBloc>().formDataRaw) {
+            // print(key.toString()+"=?="+day["id"].toString());
+            if (day["id"] == key) {
+              context.read<FormDataRawBloc>().formDataRaw.remove(day);
+              notifyListeners();
+              break;
+            }
+          }
+          notifyListeners();
           break;
         }
       case 4:
         {
+          final key = friday.last.key;
+          // print(key.toString()+"=::"+context.read<FormDataRawBloc>().formDataRaw.length.toString());
           if (friday.last.children[1].child.data.contains('/')) {
             friday.removeLast();
             _fridayCounter -= 2;
-            notifyListeners();
           } else {
             friday.removeLast();
             _fridayCounter--;
-            notifyListeners();
           }
+          for (final day in context.read<FormDataRawBloc>().formDataRaw) {
+            // print(key.toString()+"=?="+day["id"].toString());
+            if (day["id"] == key) {
+              context.read<FormDataRawBloc>().formDataRaw.remove(day);
+              notifyListeners();
+              break;
+            }
+          }
+          notifyListeners();
           break;
         }
     }
