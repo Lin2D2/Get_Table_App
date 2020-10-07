@@ -203,7 +203,13 @@ class _TableViewState extends State<TableView> {
 
                   // By default, show a loading spinner.
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: Text(
+                      'TableView',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
                   );
                 },
               ),
@@ -353,7 +359,13 @@ class _TableViewState extends State<TableView> {
 
                   // By default, show a loading spinner.
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: Text(
+                      'TableView',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
                   );
                 },
               ),
