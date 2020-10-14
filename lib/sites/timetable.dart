@@ -1,9 +1,15 @@
 import 'package:Get_Table_App/blocs/formDataRawBloc.dart';
 import 'package:Get_Table_App/blocs/indexMainBloc.dart';
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
+import 'package:Get_Table_App/blocs/loginBloc.dart';
+import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
+import 'package:Get_Table_App/types/post.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 // class TimeTable extends StatefulWidget {
 //   @override
@@ -17,13 +23,43 @@ class TimeTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future postRequest(Map body) async {
+      return http.post(
+          'http://' +
+              context.read<IpAddressBloc>().ipAddress +
+              ':5000/api/timetable/push',
+          body: json.encode(body),
+          // TODO cross origin allow same origin isnt working
+          headers: <String, String>{
+            "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'application/json',
+            "Accept": "application/json",
+          }).then((http.Response response) {
+        final int statusCode = response.statusCode;
+
+        if (statusCode < 200 || statusCode > 400 || json == null) {
+          throw new Exception("Error while fetching data");
+        }
+        return Post.fromJson(json.decode(response.body)).state;
+      });
+    }
+
     return IndexedStack(
       index: context.watch<IndexTimeTableBloc>().index,
       children: [
         Scaffold(
           body: SingleChildScrollView(
-            child:
-                Table(), // TODO create Table from data of TableEdit or Database
+            child: Center(
+              child: Container(
+                  color: Colors.red,
+                  child: Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: Title(
+                      child: Text("Your not Logged in"),
+                      color: Colors.black,
+                    ),
+                  )), // TODO create Table from data of TableEdit or Database
+            ),
           ),
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -156,67 +192,76 @@ class TimeTable extends StatelessWidget {
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   // print(context.read<FormDataRawBloc>().formDataRaw);
                   // TODO do api call and local call to save data local and to database
                   // TODO need to implement User class and login
-                  List _monday = [];
-                  List _tuesday = [];
-                  List _wednesday = [];
-                  List _thursday = [];
-                  List _friday = [];
+                  Map _monday = {};
+                  Map _tuesday = {};
+                  Map _wednesday = {};
+                  Map _thursday = {};
+                  Map _friday = {};
                   for (final day
                       in context.read<FormDataRawBloc>().formDataRaw) {
-                    print(day["day"]);
                     switch (day["day"]) {
                       case "monday":
                         {
-                          _monday.add({
-                            "week": day["dropdown"].value,
-                            "lesson": day["lesson"].text,
-                            "subject": day["controller"][0].text,
-                            "room": day["controller"][1].text,
-                          });
+                          _monday.putIfAbsent(
+                              day["lesson"],
+                              () => {
+                                    "week":
+                                        "not implemented", //day["dropdown"].value,
+                                    "subject": day["controller"][0].text,
+                                    "room": day["controller"][1].text,
+                                  });
                           break;
                         }
                       case "tuesday":
                         {
-                          _tuesday.add({
-                            "week": day["dropdown"].value,
-                            "lesson": day["lesson"].text,
-                            "subject": day["controller"][0].text,
-                            "room": day["controller"][1].text,
-                          });
+                          _tuesday.putIfAbsent(
+                              day["lesson"],
+                              () => {
+                                    "week":
+                                        "not implemented", //day["dropdown"].value,
+                                    "subject": day["controller"][0].text,
+                                    "room": day["controller"][1].text,
+                                  });
                           break;
                         }
                       case "wednesday":
                         {
-                          _wednesday.add({
-                            "week": day["dropdown"].value,
-                            "lesson": day["lesson"].text,
-                            "subject": day["controller"][0].text,
-                            "room": day["controller"][1].text,
-                          });
+                          _wednesday.putIfAbsent(
+                              day["lesson"],
+                              () => {
+                                    "week":
+                                        "not implemented", //day["dropdown"].value,
+                                    "subject": day["controller"][0].text,
+                                    "room": day["controller"][1].text,
+                                  });
                           break;
                         }
                       case "thursday":
                         {
-                          _thursday.add({
-                            "week": day["dropdown"].value,
-                            "lesson": day["lesson"].text,
-                            "subject": day["controller"][0].text,
-                            "room": day["controller"][1].text,
-                          });
+                          _thursday.putIfAbsent(
+                              day["lesson"],
+                              () => {
+                                    "week":
+                                        "not implemented", //day["dropdown"].value,
+                                    "subject": day["controller"][0].text,
+                                    "room": day["controller"][1].text,
+                                  });
                           break;
                         }
                       case "friday":
                         {
-                          _friday.add({
-                            "week": day["dropdown"].value,
-                            "lesson": day["lesson"].text,
-                            "subject": day["controller"][0].text,
-                            "room": day["controller"][1].text,
-                          });
+                          _friday.putIfAbsent(
+                              day["lesson"],
+                              () => {
+                                    "week":
+                                        "not implemented", //day["dropdown"].value,
+                                    "subject": day["controller"][0].text,
+                                    "room": day["controller"][1].text,
+                                  });
                           break;
                         }
                     }
@@ -228,7 +273,18 @@ class TimeTable extends StatelessWidget {
                     "thursday": _thursday,
                     "friday": _friday
                   };
-                  print(Timetable);
+                  Timetable.putIfAbsent("login", () => {
+                    "username": context.read<LoginBloc>().username,
+                    "password": context.read<LoginBloc>().password
+                  });
+                  String response = (await postRequest(Timetable));
+                  switch (response) {
+                    case "success":
+                      {
+                        // to stuff
+                        break;
+                      }
+                  }
                 },
               ),
             ],

@@ -50,9 +50,7 @@ class Settings extends StatelessWidget {
           child: const Text(
             'Settings',
             style: TextStyle(
-                color: Colors.black,
-                fontSize: 25,
-                fontWeight: FontWeight.bold),
+                color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -141,6 +139,14 @@ class Login extends StatelessWidget {
                       switch (response) {
                         case "success":
                           {
+                            context.read<LoginBloc>().username = context
+                                .read<LoginBloc>()
+                                .usernameController
+                                .text;
+                            context.read<LoginBloc>().password = context
+                                .read<LoginBloc>()
+                                .passwordController
+                                .text;
                             context.read<LoginBloc>().userTitle = context
                                 .read<LoginBloc>()
                                 .usernameController
@@ -206,7 +212,9 @@ class Login extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            Container(width: 60,),
+            Container(
+              width: 60,
+            ),
           ],
         ),
       ),
