@@ -1,7 +1,7 @@
 import 'package:Get_Table_App/blocs/formDataRawBloc.dart';
 import 'package:Get_Table_App/blocs/indexMainBloc.dart';
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
-import 'package:Get_Table_App/blocs/loginBloc.dart';
+import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
 import 'package:Get_Table_App/types/post.dart';
@@ -274,8 +274,8 @@ class TimeTable extends StatelessWidget {
                     "friday": _friday
                   };
                   Timetable.putIfAbsent("login", () => {
-                    "username": context.read<LoginBloc>().username,
-                    "password": context.read<LoginBloc>().password
+                    "username": context.read<UserBloc>().username,
+                    "password": context.read<UserBloc>().password
                   });
                   String response = (await postRequest(Timetable));
                   switch (response) {

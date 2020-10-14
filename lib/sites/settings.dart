@@ -1,4 +1,4 @@
-import 'package:Get_Table_App/blocs/loginBloc.dart';
+import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:Get_Table_App/types/post.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +23,10 @@ class Settings extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Colors.blue.shade800,
                   child: Text(
-                      context.watch<LoginBloc>().userTitle[0].toUpperCase()),
+                      context.watch<UserBloc>().userTitle[0].toUpperCase()),
                 ),
               ),
-              Text(context.watch<LoginBloc>().userTitle),
+              Text(context.watch<UserBloc>().userTitle),
               Spacer(),
               Padding(
                 padding: EdgeInsets.all(16.0),
@@ -95,7 +95,7 @@ class Login extends StatelessWidget {
                     border: OutlineInputBorder(),
                     labelText: 'User Name',
                   ),
-                  controller: context.watch<LoginBloc>().usernameController,
+                  controller: context.watch<UserBloc>().usernameController,
                 ),
               ),
               Container(
@@ -106,7 +106,7 @@ class Login extends StatelessWidget {
                     border: OutlineInputBorder(),
                     labelText: 'Password',
                   ),
-                  controller: context.watch<LoginBloc>().passwordController,
+                  controller: context.watch<UserBloc>().passwordController,
                 ),
               ),
               FlatButton(
@@ -126,29 +126,29 @@ class Login extends StatelessWidget {
                     onPressed: () async {
                       print({
                         "username":
-                            context.read<LoginBloc>().usernameController.text,
+                            context.read<UserBloc>().usernameController.text,
                         "password":
-                            context.read<LoginBloc>().passwordController.text,
+                            context.read<UserBloc>().passwordController.text,
                       });
                       String response = (await postRequest({
                         "username":
-                            context.read<LoginBloc>().usernameController.text,
+                            context.read<UserBloc>().usernameController.text,
                         "password":
-                            context.read<LoginBloc>().passwordController.text,
+                            context.read<UserBloc>().passwordController.text,
                       }));
                       switch (response) {
                         case "success":
                           {
-                            context.read<LoginBloc>().username = context
-                                .read<LoginBloc>()
+                            context.read<UserBloc>().username = context
+                                .read<UserBloc>()
                                 .usernameController
                                 .text;
-                            context.read<LoginBloc>().password = context
-                                .read<LoginBloc>()
+                            context.read<UserBloc>().password = context
+                                .read<UserBloc>()
                                 .passwordController
                                 .text;
-                            context.read<LoginBloc>().userTitle = context
-                                .read<LoginBloc>()
+                            context.read<UserBloc>().userTitle = context
+                                .read<UserBloc>()
                                 .usernameController
                                 .text;
                             Navigator.pop(context);

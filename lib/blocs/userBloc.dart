@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class LoginBloc extends ChangeNotifier {
+class UserBloc extends ChangeNotifier {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String _userTitle = "Not Logged in";
