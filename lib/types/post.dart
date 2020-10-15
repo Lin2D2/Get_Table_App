@@ -9,3 +9,17 @@ class Post {
     );
   }
 }
+
+class UserPost {
+  final String state;
+  final Map timetable;
+
+  UserPost({this.state, this.timetable});
+
+  factory UserPost.fromJson(Map<String, dynamic> json) {
+    return UserPost(
+      state: json['state'],
+      timetable: json["timetable"],
+    );
+  }
+}

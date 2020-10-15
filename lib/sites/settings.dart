@@ -78,7 +78,7 @@ class Login extends StatelessWidget {
         if (statusCode < 200 || statusCode > 400 || json == null) {
           throw new Exception("Error while fetching data");
         }
-        return Post.fromJson(json.decode(response.body)).state;
+        return UserPost.fromJson(json.decode(response.body));
       });
     }
 
@@ -130,13 +130,13 @@ class Login extends StatelessWidget {
                         "password":
                             context.read<UserBloc>().passwordController.text,
                       });
-                      String response = (await postRequest({
+                      UserPost response = (await postRequest({
                         "username":
                             context.read<UserBloc>().usernameController.text,
                         "password":
                             context.read<UserBloc>().passwordController.text,
                       }));
-                      switch (response) {
+                      switch (response.state) {
                         case "success":
                           {
                             context.read<UserBloc>().username = context
@@ -151,6 +151,8 @@ class Login extends StatelessWidget {
                                 .read<UserBloc>()
                                 .usernameController
                                 .text;
+                            context.read<UserBloc>().timetable =
+                                response.timetable;
                             Navigator.pop(context);
                             break;
                           }

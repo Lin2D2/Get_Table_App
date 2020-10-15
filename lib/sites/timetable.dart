@@ -49,16 +49,17 @@ class TimeTable extends StatelessWidget {
       children: [
         Scaffold(
           body: SingleChildScrollView(
-            child: Center(
-              child: Container(
-                  color: Colors.red,
-                  child: Padding(
-                    padding: EdgeInsets.all(6.0),
-                    child: Title(
-                      child: Text("Your not Logged in"),
-                      color: Colors.black,
-                    ),
-                  )), // TODO create Table from data of TableEdit or Database
+            child: Table(
+              border: TableBorder.all(),
+              children: generateTable(context),
+              columnWidths: {
+                0: FlexColumnWidth(2),
+                1: FlexColumnWidth(4),
+                2: FlexColumnWidth(4),
+                3: FlexColumnWidth(4),
+                4: FlexColumnWidth(4),
+                5: FlexColumnWidth(4),
+              },
             ),
           ),
           appBar: AppBar(
@@ -273,10 +274,12 @@ class TimeTable extends StatelessWidget {
                     "thursday": _thursday,
                     "friday": _friday
                   };
-                  Timetable.putIfAbsent("login", () => {
-                    "username": context.read<UserBloc>().username,
-                    "password": context.read<UserBloc>().password
-                  });
+                  Timetable.putIfAbsent(
+                      "login",
+                      () => {
+                            "username": context.read<UserBloc>().username,
+                            "password": context.read<UserBloc>().password
+                          });
                   String response = (await postRequest(Timetable));
                   switch (response) {
                     case "success":
@@ -293,4 +296,96 @@ class TimeTable extends StatelessWidget {
       ],
     );
   }
+}
+
+List<TableRow> generateTable(BuildContext context) {
+  TextStyle headerStyle =
+      TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white);
+  TextStyle bodyStyle =
+      TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black);
+  TableRow header = TableRow(
+    decoration: BoxDecoration(
+      color: Colors.grey[900],
+    ),
+    children: [
+          Text(
+            "lesson",
+            textAlign: TextAlign.center,
+            style: headerStyle,
+          ),
+        ] +
+        List.generate(
+          context.watch<UserBloc>().timetable.keys.length,
+          (index) => Text(
+            context.watch<UserBloc>().timetable.keys.elementAt(index),
+            textAlign: TextAlign.center,
+            style: headerStyle,
+          ),
+        ),
+  );
+  List lessons = [
+    "1/2",
+    "3/4",
+    "5/6",
+    "7/8",
+    "9/10",
+  ];
+  Widget findRightElement(
+      BuildContext context, int upperIndex, int lowerIndex) {
+    Map day = context.watch<UserBloc>().timetable[
+        context.watch<UserBloc>().timetable.keys.elementAt(lowerIndex)];
+    Widget result;
+    for (final lesson in day.keys) {
+      if (lessons.elementAt(upperIndex) == lesson) {
+        result = Text(
+          day[lesson]["subject"],
+          textAlign: TextAlign.center,
+          style: bodyStyle,
+        );
+        break;
+      }
+      else {
+        // TODO show column for non double lessons
+        result = Text(
+          "",
+          textAlign: TextAlign.center,
+          style: bodyStyle,
+        );
+      }
+    }
+    Text(
+      // context
+      //     .watch<UserBloc>()
+      //     .timetable
+      //     .values
+      //     .elementAt(lowerIndex)
+      //     .values
+      //     .elementAt(upperIndex)["subject"],
+      "",
+      textAlign: TextAlign.center,
+      style: bodyStyle,
+    );
+    return result;
+  }
+
+  List<TableRow> tableItems = List.generate(
+    lessons.length,
+    (upperIndex) => TableRow(
+      children: [
+            Text(
+              lessons[upperIndex],
+              textAlign: TextAlign.center,
+              style: bodyStyle,
+            ),
+          ] +
+          List.generate(
+            //context.watch<UserBloc>().timetable.keys.length,
+            5,
+            (lowerIndex) => findRightElement(context, upperIndex, lowerIndex),
+          ),
+    ),
+  );
+  tableItems.insert(0, header);
+
+  return tableItems;
 }
