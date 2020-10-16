@@ -1,4 +1,6 @@
+import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,6 +9,7 @@ class Home extends StatefulWidget {
 
 class DynamicList extends State<Home> {
   TableRow elementsToADD = TableRow(children: []);
+
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
@@ -31,17 +34,15 @@ class DynamicList extends State<Home> {
                 ),
               ],
               extraColumn: "change"),
-          createItem(
-            "Time Table Today",
-            [
-              createTableRow(
-                " ",
-                " ",
-                " ",
-                false,
-              ),
-            ],
-          ),
+          context.watch<UserBloc>().timetable != null
+              ? createItem(
+                  "Time Table Today",
+                  generateTable(context, true),
+                )
+              : createItem(
+                  "Time Table Today",
+                  [],
+                ),
           createItem(
               "Overview Tomorow",
               [
@@ -54,14 +55,15 @@ class DynamicList extends State<Home> {
                 ),
               ],
               extraColumn: "change"),
-          createItem("Time Table Tomorow", [
-            createTableRow(
-              " ",
-              " ",
-              " ",
-              false,
-            ),
-          ]),
+          context.watch<UserBloc>().timetable != null
+              ? createItem(
+                  "Time Table Tomorow",
+                  generateTable(context, true),
+                )
+              : createItem(
+                  "Time Table Tomorow",
+                  [],
+                ),
         ],
       ),
       appBar: AppBar(
@@ -147,4 +149,95 @@ TableRow createTableRow(String item1, String item2, String item3, bool header,
     ));
   }
   return row;
+}
+
+List<TableRow> generateTable(BuildContext context, bool today) {
+  DateTime date = DateTime.now();
+  int dayOfWeek =
+      today ? date.weekday - 1 : date.weekday; // TODO here because of holidays
+  // int dayOfWeek = today ? date.weekday : date.weekday + 1;  // TODO this is the actual one
+  if (dayOfWeek == 6 && today) {
+    dayOfWeek = 1;
+  }
+  if (dayOfWeek == 6 && !today) {
+    dayOfWeek = 1;
+  }
+  if (dayOfWeek == 7 && today) {
+    dayOfWeek = 1;
+  }
+  if (dayOfWeek == 7 && !today) {
+    dayOfWeek = 2;
+  }
+  if (dayOfWeek == 1 && !today) {
+    dayOfWeek = 2;
+  }
+  TextStyle bodyStyle =
+      TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black);
+  List lessons = [
+    "1/2",
+    "3/4",
+    "5/6",
+    "7/8",
+    "9/10",
+  ];
+  List<Widget> findRightElement(BuildContext context, int index) {
+    Map day = context.watch<UserBloc>().timetable.values.elementAt(dayOfWeek);
+    List<Widget> row;
+    for (final lesson in day.keys) {
+      print(lesson);
+      print(lessons.elementAt(index));
+      print("");
+      if (lesson.toString().contains("/")) {
+        if (lessons.elementAt(index) == lesson) {
+          row = [
+            Text(
+              lesson,
+              textAlign: TextAlign.center,
+              style: bodyStyle,
+            ),
+            Text(
+              day[lesson]["subject"],
+              textAlign: TextAlign.center,
+              style: bodyStyle,
+            ),
+            Text(
+              day[lesson]["room"],
+              textAlign: TextAlign.center,
+              style: bodyStyle,
+            ),
+          ];
+          break;
+        }
+      } else {
+        row = [
+          Text(
+            lesson,
+            textAlign: TextAlign.center,
+            style: bodyStyle,
+          ),
+          Text(
+            "",
+            textAlign: TextAlign.center,
+            style: bodyStyle,
+          ),
+          Text(
+            "",
+            textAlign: TextAlign.center,
+            style: bodyStyle,
+          ),
+        ];
+      }
+    }
+    print(row);
+    return row;
+  }
+
+  List<TableRow> tableItems = List.generate(
+    lessons.length - 1, // TODO fix
+    (index) => TableRow(
+      children: findRightElement(context, index),
+    ),
+  );
+  print(tableItems.length);
+  return tableItems;
 }
