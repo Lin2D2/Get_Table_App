@@ -29,7 +29,6 @@ class TimeTable extends StatelessWidget {
               context.read<IpAddressBloc>().ipAddress +
               ':5000/api/timetable/push',
           body: json.encode(body),
-          // TODO cross origin allow same origin isnt working
           headers: <String, String>{
             "Access-Control-Allow-Origin": "*",
             'Content-Type': 'application/json',
@@ -70,7 +69,6 @@ class TimeTable extends StatelessWidget {
                 Icons.settings,
                 color: Colors.black,
               ),
-              // TODO add link to settings page
               onPressed: () {
                 context.read<IndexMainBloc>().set(3);
               },

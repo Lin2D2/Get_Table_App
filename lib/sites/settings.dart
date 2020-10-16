@@ -67,7 +67,6 @@ class Login extends StatelessWidget {
               context.read<IpAddressBloc>().ipAddress +
               ':5000/api/login',
           body: json.encode(body),
-          // TODO cross origin allow same origin isnt working
           headers: <String, String>{
             "Access-Control-Allow-Origin": "*",
             'Content-Type': 'application/json',
