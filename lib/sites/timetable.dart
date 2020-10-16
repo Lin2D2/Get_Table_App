@@ -51,7 +51,8 @@ class TimeTable extends StatelessWidget {
           body: SingleChildScrollView(
             child: Table(
               border: TableBorder.all(),
-              children: generateTable(context),
+              children: context.watch<UserBloc>().timetable != null
+                  ? generateTable(context) : [],
               columnWidths: {
                 0: FlexColumnWidth(2),
                 1: FlexColumnWidth(4),
@@ -354,13 +355,6 @@ List<TableRow> generateTable(BuildContext context) {
       }
     }
     Text(
-      // context
-      //     .watch<UserBloc>()
-      //     .timetable
-      //     .values
-      //     .elementAt(lowerIndex)
-      //     .values
-      //     .elementAt(upperIndex)["subject"],
       "",
       textAlign: TextAlign.center,
       style: bodyStyle,
