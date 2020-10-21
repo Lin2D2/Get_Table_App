@@ -85,80 +85,84 @@ class _TableViewState extends State<TableView> {
             future: futureToday,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        // TODO make this minimal width so there is no free space next to the Text
-                        padding: EdgeInsets.all(8),
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text(
-                                  "Nachrichten zum Tag:",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
+                if (snapshot.data.day["massage"] != null) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          // TODO make this minimal width so there is no free space next to the Text
+                          padding: EdgeInsets.all(8),
+                          child: Card(
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    "Nachrichten zum Tag:",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              Text(snapshot.data.day["massage"]),
-                            ],
+                                Text(snapshot.data.day["massage"]),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                        child: Table(
-                          border: TableBorder.all(),
-                          children: List.generate(
-                                snapshot.data.day["header"].length,
-                                (row) => TableRow(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[900],
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                          child: Table(
+                            border: TableBorder.all(),
+                            children: List.generate(
+                                  snapshot.data.day["header"].length,
+                                  (row) => TableRow(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[900],
+                                    ),
+                                    children: List.generate(
+                                      snapshot.data.day["header"][row].length,
+                                      // Demo Content
+                                      (rowElement) => Center(
+                                        child: Text(
+                                          snapshot.data.day["header"][row]
+                                              [rowElement],
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  children: List.generate(
-                                    snapshot.data.day["header"][row].length,
-                                    // Demo Content
-                                    (rowElement) => Center(
-                                      child: Text(
-                                        snapshot.data.day["header"][row]
-                                            [rowElement],
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
+                                ) +
+                                List.generate(
+                                  snapshot.data.day["content"].length,
+                                  // Demo Content
+                                  (row) => TableRow(
+                                    children: List.generate(
+                                      snapshot.data.day["content"][row].length,
+                                      // Demo Content
+                                      (rowElement) => Center(
+                                        child: Text(
+                                          snapshot.data.day["content"][row]
+                                              [rowElement],
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ) +
-                              List.generate(
-                                snapshot.data.day["content"].length,
-                                // Demo Content
-                                (row) => TableRow(
-                                  children: List.generate(
-                                    snapshot.data.day["content"][row].length,
-                                    // Demo Content
-                                    (rowElement) => Center(
-                                      child: Text(
-                                        snapshot.data.day["content"][row]
-                                            [rowElement],
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
+                      ],
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
@@ -185,32 +189,42 @@ class _TableViewState extends State<TableView> {
                 future: futureToday,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    List _titleSplit = snapshot.data.day["title"].split(" ");
-                    return Text(
-                      _titleSplit[1] +
-                          " " +
-                          _titleSplit[2] +
-                          " " +
-                          _titleSplit[3],
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    );
+                    if (snapshot.data.day["title"] != null) {
+                      List _titleSplit = snapshot.data.day["title"].split(" ");
+                      return Text(
+                        _titleSplit[1] +
+                            " " +
+                            _titleSplit[2] +
+                            " " +
+                            _titleSplit[3],
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      );
+                    } else {
+                      return Text(
+                        "Holidays",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      );
+                    }
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
+                  } else {
+                    // By default, show a loading spinner.
+                    return Center(
+                      child: Text(
+                        'TableView',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    );
                   }
-
-                  // By default, show a loading spinner.
-                  return Center(
-                    child: Text(
-                      'TableView',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  );
                 },
               ),
             ),
@@ -241,80 +255,84 @@ class _TableViewState extends State<TableView> {
             future: futureTomorrow,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        // TODO make this minimal width so there is no free space next to the Text
-                        padding: EdgeInsets.all(8),
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text(
-                                  "Nachrichten zum Tag:",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
+                if (snapshot.data.day["massage"] != null) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          // TODO make this minimal width so there is no free space next to the Text
+                          padding: EdgeInsets.all(8),
+                          child: Card(
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    "Nachrichten zum Tag:",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              Text(snapshot.data.day["massage"]),
-                            ],
+                                Text(snapshot.data.day["massage"]),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                        child: Table(
-                          border: TableBorder.all(),
-                          children: List.generate(
-                                snapshot.data.day["header"].length,
-                                (row) => TableRow(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[900],
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                          child: Table(
+                            border: TableBorder.all(),
+                            children: List.generate(
+                                  snapshot.data.day["header"].length,
+                                  (row) => TableRow(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[900],
+                                    ),
+                                    children: List.generate(
+                                      snapshot.data.day["header"][row].length,
+                                      // Demo Content
+                                      (rowElement) => Center(
+                                        child: Text(
+                                          snapshot.data.day["header"][row]
+                                              [rowElement],
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  children: List.generate(
-                                    snapshot.data.day["header"][row].length,
-                                    // Demo Content
-                                    (rowElement) => Center(
-                                      child: Text(
-                                        snapshot.data.day["header"][row]
-                                            [rowElement],
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
+                                ) +
+                                List.generate(
+                                  snapshot.data.day["content"].length,
+                                  // Demo Content
+                                  (row) => TableRow(
+                                    children: List.generate(
+                                      snapshot.data.day["content"][row].length,
+                                      // Demo Content
+                                      (rowElement) => Center(
+                                        child: Text(
+                                          snapshot.data.day["content"][row]
+                                              [rowElement],
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ) +
-                              List.generate(
-                                snapshot.data.day["content"].length,
-                                // Demo Content
-                                (row) => TableRow(
-                                  children: List.generate(
-                                    snapshot.data.day["content"][row].length,
-                                    // Demo Content
-                                    (rowElement) => Center(
-                                      child: Text(
-                                        snapshot.data.day["content"][row]
-                                            [rowElement],
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
+                      ],
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
@@ -341,6 +359,7 @@ class _TableViewState extends State<TableView> {
                 future: futureTomorrow,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    if (snapshot.data.day["title"] != null) {
                     List _titleSplit = snapshot.data.day["title"].split(" ");
                     return Text(
                       _titleSplit[1] +
@@ -352,7 +371,16 @@ class _TableViewState extends State<TableView> {
                           color: Colors.black,
                           fontSize: 25,
                           fontWeight: FontWeight.bold),
-                    );
+                    );}
+                    else {
+                      return Text(
+                        "Weekend or Holidays",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      );
+                    }
                   } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   }
