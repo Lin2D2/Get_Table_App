@@ -155,9 +155,9 @@ TableRow createTableRow(String item1, String item2, String item3, bool header,
 
 List<TableRow> generateTable(BuildContext context, bool today) {
   DateTime date = DateTime.now();
-  int dayOfWeek =
-      today ? date.weekday - 1 : date.weekday; // TODO here because of holidays
-  // int dayOfWeek = today ? date.weekday : date.weekday + 1;  // TODO this is the actual one
+  // int dayOfWeek =
+  //     today ? date.weekday - 1 : date.weekday; // TODO here because of holidays
+  int dayOfWeek = today ? date.weekday : date.weekday + 1;  // TODO this is the actual one
   if (dayOfWeek == 6 && today) {
     dayOfWeek = 1;
   }

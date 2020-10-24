@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
         title: _title,
         initialRoute: '/home',
         onGenerateRoute: (settings) {
-          print(settings.arguments);
           switch (settings.name) {
             case '/home':
               return PageTransition(
