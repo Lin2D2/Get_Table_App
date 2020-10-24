@@ -1,6 +1,5 @@
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:Get_Table_App/sites/settings.dart';
 import 'package:flutter/material.dart';
 import 'blocs/formDataRawBloc.dart';
@@ -29,9 +28,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => UserBloc(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => IpAddressBloc(),
         ),
       ],
       child: MaterialApp(

@@ -2,14 +2,10 @@ import 'package:Get_Table_App/blocs/formDataRawBloc.dart';
 import 'package:Get_Table_App/blocs/indexMainBloc.dart';
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/blocs/severIpBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
-import 'package:Get_Table_App/types/post.dart';
+import 'package:Get_Table_App/services/apiManagerService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 // class TimeTable extends StatefulWidget {
 //   @override
@@ -23,26 +19,6 @@ class TimeTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future postRequest(Map body) async {
-      return http.post(
-          'http://' +
-              context.read<IpAddressBloc>().ipAddress +
-              ':5000/api/timetable/push',
-          body: json.encode(body),
-          headers: <String, String>{
-            "Access-Control-Allow-Origin": "*",
-            'Content-Type': 'application/json',
-            "Accept": "application/json",
-          }).then((http.Response response) {
-        final int statusCode = response.statusCode;
-
-        if (statusCode < 200 || statusCode > 400 || json == null) {
-          throw new Exception("Error while fetching data");
-        }
-        return Post.fromJson(json.decode(response.body)).state;
-      });
-    }
-
     return IndexedStack(
       index: context.watch<IndexTimeTableBloc>().index,
       children: [
@@ -279,7 +255,7 @@ class TimeTable extends StatelessWidget {
                             "username": context.read<UserBloc>().username,
                             "password": context.read<UserBloc>().password
                           });
-                  String response = (await postRequest(Timetable));
+                  String response = (await TimeTableApi.timeTablePostRequest(Timetable));
                   switch (response) {
                     case "success":
                       {

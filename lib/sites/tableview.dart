@@ -1,9 +1,7 @@
 import 'package:Get_Table_App/blocs/indexTableViewBloc.dart';
-import 'package:Get_Table_App/blocs/severIpBloc.dart';
+import 'package:Get_Table_App/services/apiManagerService.dart';
 import 'package:Get_Table_App/widgets/tableViewItem.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:Get_Table_App/types/days.dart';
 import 'package:Get_Table_App/types/day.dart';
 import 'package:provider/provider.dart';
@@ -22,57 +20,12 @@ class _TableViewState extends State<TableView> {
   Future<Day> futureToday;
   Future<Day> futureTomorrow;
 
-  Future<Days> fetchDays() async {
-    try {
-      final response = await http.get('http://' +
-          context.read<IpAddressBloc>().ipAddress +
-          ':5000/api/days');
-      if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-        return Days.fromJson(json.decode(response.body));
-      } else {
-        print(response.statusCode);
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
-        throw Exception('Failed to load Days, status code: ' +
-            response.statusCode.toString());
-      }
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
-  Future<Day> fetchTodayTomorrow(day) async {
-    try {
-      final response = await http.get('http://' +
-          context.read<IpAddressBloc>().ipAddress +
-          ':5000/api/' +
-          day);
-      if (response.statusCode == 200) {
-        // If the server did return a 200 OK response,
-        // then parse the JSON.
-        return Day.fromJson(json.decode(response.body));
-      } else {
-        print(response.statusCode);
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
-        throw Exception('Failed to load Today, status code: ' +
-            response.statusCode.toString());
-      }
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    futureDays = fetchDays();
-    futureToday = fetchTodayTomorrow("today");
-    futureTomorrow = fetchTodayTomorrow("tomorrow");
+    futureDays = TimeTableApi.fetchDays();
+    futureToday = TimeTableApi.fetchTomorrowToday("today");
+    futureTomorrow = TimeTableApi.fetchTomorrowToday("tomorrow");
   }
 
   @override

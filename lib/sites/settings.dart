@@ -1,11 +1,8 @@
 import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/blocs/severIpBloc.dart';
+import 'package:Get_Table_App/services/apiManagerService.dart';
 import 'package:Get_Table_App/types/post.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class Settings extends StatelessWidget {
   static const TextStyle optionStyle =
@@ -61,26 +58,6 @@ class Settings extends StatelessWidget {
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future postRequest(Map body) async {
-      return http.post(
-          'http://' +
-              context.read<IpAddressBloc>().ipAddress +
-              ':5000/api/login',
-          body: json.encode(body),
-          headers: <String, String>{
-            "Access-Control-Allow-Origin": "*",
-            'Content-Type': 'application/json',
-            "Accept": "application/json",
-          }).then((http.Response response) {
-        final int statusCode = response.statusCode;
-
-        if (statusCode < 200 || statusCode > 400 || json == null) {
-          throw new Exception("Error while fetching data");
-        }
-        return UserPost.fromJson(json.decode(response.body));
-      });
-    }
-
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -123,18 +100,15 @@ class Login extends StatelessWidget {
                     color: Colors.grey[900],
                     child: Text('Login'),
                     onPressed: () async {
-                      print({
+                      Map loginMap = {
                         "username":
                             context.read<UserBloc>().usernameController.text,
                         "password":
                             context.read<UserBloc>().passwordController.text,
-                      });
-                      UserPost response = (await postRequest({
-                        "username":
-                            context.read<UserBloc>().usernameController.text,
-                        "password":
-                            context.read<UserBloc>().passwordController.text,
-                      }));
+                      };
+                      print(loginMap);
+                      UserPost response =
+                          await TimeTableApi.userPostRequest(loginMap);
                       switch (response.state) {
                         case "success":
                           {

@@ -1,36 +1,11 @@
-import 'package:Get_Table_App/blocs/severIpBloc.dart';
+import 'package:Get_Table_App/services/apiManagerService.dart';
 import 'package:Get_Table_App/types/day.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 Widget tableViewItem(String title, BuildContext context) {
-    Future<Day> fetchDay(date) async {
-      try {
-        final response = await http.get('http://' +
-            context.watch<IpAddressBloc>().ipAddress +
-            ':5000/api/day/' +
-            date);
-        if (response.statusCode == 200) {
-          // If the server did return a 200 OK response,
-          // then parse the JSON.
-          return Day.fromJson(json.decode(response.body));
-        } else {
-          print(response.statusCode);
-          // If the server did not return a 200 OK response,
-          // then throw an exception.
-          throw Exception('Failed to load Days, status code: ' +
-              response.statusCode.toString());
-        }
-      } catch (e) {
-        print(e);
-        return null;
-      }
-    }
     return Scaffold(
       body: FutureBuilder<Day>(
-        future: fetchDay(title),
+        future: TimeTableApi.fetchDay(title),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return SingleChildScrollView(
