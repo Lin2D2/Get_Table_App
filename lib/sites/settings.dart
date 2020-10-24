@@ -1,10 +1,16 @@
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/services/apiManagerService.dart';
 import 'package:Get_Table_App/types/post.dart';
+import 'package:Get_Table_App/widgets/bottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
+  @override
+  State createState() => SettingsState();
+}
+
+class SettingsState extends State<Settings> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -42,6 +48,7 @@ class Settings extends StatelessWidget {
         ],
       ),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Center(
           child: const Text(

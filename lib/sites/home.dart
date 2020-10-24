@@ -1,4 +1,5 @@
 import 'package:Get_Table_App/blocs/userBloc.dart';
+import 'package:Get_Table_App/widgets/bottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -67,6 +68,7 @@ class DynamicList extends State<Home> {
         ],
       ),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Center(
           child: const Text(

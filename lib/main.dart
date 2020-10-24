@@ -1,7 +1,9 @@
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/sites/settings.dart';
+import 'package:Get_Table_App/widgets/bottomNavigationBar.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'blocs/formDataRawBloc.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/indexTableViewBloc.dart';
@@ -36,126 +38,142 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: _title,
-        home: MyStatefulWidget(),
+        initialRoute: '/home',
+        onGenerateRoute: (settings) {
+          print(settings.arguments);
+          switch (settings.name) {
+            case '/home':
+              return PageTransition(
+                child: HomeRoute(),
+                type: PageTransitionType.fade,
+                settings: settings,
+              );
+              break;
+            case '/tableView':
+              return PageTransition(
+                child: TableViewRoute(),
+                  type: PageTransitionType.fade,
+                settings: settings,
+              );
+              break;
+            case '/timeTable':
+              return PageTransition(
+                child: TimeTableRoute(),
+                  type: PageTransitionType.fade,
+                settings: settings,
+              );
+              break;
+            case '/settings':
+              return PageTransition(
+                child: SettingsRoute(),
+                  type: PageTransitionType.fade,
+                settings: settings,
+              );
+              break;
+            default:
+              return null;
+          }
+        },
       ),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key key}) : super(key: key);
-
-  @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
-}
-
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  void _onItemTapped(int index) {
-    context.read<IndexMainBloc>().set(index);
-  }
-
+class HomeRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => ThemeBloc()),
-          ],
-          child: IndexedStack(
-            index: context.watch<IndexMainBloc>().index,
-            children: <Widget>[
-              SwipeDetector(
-                onSwipeLeft: () {
-                  print(context.read<IndexMainBloc>().index);
-                  context.read<IndexMainBloc>().increment();
-                },
-                child: Home(),
-              ),
-              SwipeDetector(
-                onSwipeLeft: () {
-                  print(context.read<IndexMainBloc>().index);
-                  context.read<IndexMainBloc>().increment();
-                },
-                onSwipeRight: () {
-                  print(context.read<IndexMainBloc>().index);
-                  context.read<IndexMainBloc>().decrement();
-                },
-                child: MultiProvider(
-                  providers: [
-                    ChangeNotifierProvider(
-                      create: (_) => IndexTableViewBloc(),
-                    ),
-                  ],
-                  child: TableView(),
-                ),
-              ),
-              SwipeDetector(
-                onSwipeLeft: () {
-                  print(context.read<IndexMainBloc>().index);
-                  context.read<IndexMainBloc>().increment();
-                },
-                onSwipeRight: () {
-                  print(context.watch<IndexMainBloc>().index);
-                  context.read<IndexMainBloc>().decrement();
-                },
-                child: MultiProvider(
-                  providers: [
-                    ChangeNotifierProvider(
-                      create: (_) => TimeTableItemsBlock(),
-                    ),
-                    ChangeNotifierProvider(
-                      create: (_) => IndexTimeTableBloc(),
-                    ),
-                    ChangeNotifierProvider(
-                      create: (_) => FormDataRawBloc(),
-                    ),
-                  ],
-                  child: TimeTable(),
-                ),
-              ),
-              SwipeDetector(
-                onSwipeRight: () {
-                  print(context.read<IndexMainBloc>().index);
-                  context.read<IndexMainBloc>().decrement();
-                },
-                child: Settings(),
+    return SafeArea(
+      child: Scaffold(
+        body: SwipeDetector(
+          onSwipeRight: () {
+            Navigator.pushNamed(context, '/tableView');
+            context.read<IndexMainBloc>().increment();
+          },
+          child: Home(),
+        ),
+        bottomNavigationBar: bottomNavigationBar(context),
+      ),
+    );
+  }
+}
+
+class TableViewRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: SwipeDetector(
+          onSwipeRight: () {
+            context.read<IndexMainBloc>().increment();
+            Navigator.pushNamed(context, '/timeTable');
+          },
+          onSwipeLeft: () {
+            context.read<IndexMainBloc>().decrement();
+            Navigator.pushNamed(context, '/home');
+          },
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) => IndexTableViewBloc(),
               ),
             ],
+            child: TableView(),
           ),
         ),
+        bottomNavigationBar: bottomNavigationBar(context),
       ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-            canvasColor: Colors.grey[900],
-            primaryColor: Colors.red,
-            textTheme: Theme.of(context)
-                .textTheme
-                .copyWith(caption: new TextStyle(color: Colors.white))),
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              title: Text('Home'),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.table_chart),
-              title: Text('Tableview'),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.view_quilt),
-              title: Text('Timetable'),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.build),
-              title: Text('Settings'),
-            ),
-          ],
-          type: BottomNavigationBarType.fixed,
-          currentIndex: context.watch<IndexMainBloc>().index,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
+    );
+  }
+}
+
+class TimeTableRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: SwipeDetector(
+          onSwipeRight: () {
+            context.read<IndexMainBloc>().increment();
+            Navigator.pushNamed(context, '/settings');
+          },
+          onSwipeLeft: () {
+            context.read<IndexMainBloc>().decrement();
+            Navigator.pushNamed(context, '/tableView');
+          },
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) => TimeTableItemsBlock(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => IndexTimeTableBloc(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => FormDataRawBloc(),
+              ),
+            ],
+            child: TimeTable(),
+          ),
         ),
+        bottomNavigationBar: bottomNavigationBar(context),
+      ),
+    );
+  }
+}
+
+class SettingsRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: SwipeDetector(
+          onSwipeLeft: () {
+            context.read<IndexMainBloc>().decrement();
+            Navigator.pushNamed(context, '/timeTable');
+          },
+          child: Settings(),
+        ),
+        bottomNavigationBar: bottomNavigationBar(context),
       ),
     );
   }

@@ -7,16 +7,12 @@ import 'package:Get_Table_App/services/apiManagerService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// class TimeTable extends StatefulWidget {
-//   @override
-//   State createState() => new DynamicList();
-// }
-//
-// class DynamicList extends State<TimeTable> {
+class TimeTable extends StatefulWidget {
+  @override
+  State createState() => new DynamicList();
+}
 
-class TimeTable extends StatelessWidget {
-  const TimeTable({Key key}) : super(key: key);
-
+class DynamicList extends State<TimeTable> {
   @override
   Widget build(BuildContext context) {
     return IndexedStack(
@@ -47,6 +43,7 @@ class TimeTable extends StatelessWidget {
               ),
               onPressed: () {
                 context.read<IndexMainBloc>().set(3);
+                Navigator.pushNamed(context, '/settings');
               },
             ),
             title: Center(
