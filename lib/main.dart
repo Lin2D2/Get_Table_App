@@ -6,6 +6,7 @@ import 'blocs/formDataRawBloc.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/indexTableViewBloc.dart';
 import 'blocs/themeBloc.dart';
+import 'blocs/timeTableApiBloc.dart';
 import 'blocs/timeTableItemsBlock.dart';
 import 'sites/home.dart';
 import 'sites/tableview.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => UserBloc(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TimeTableApiBloc(),
         ),
       ],
       child: MaterialApp(

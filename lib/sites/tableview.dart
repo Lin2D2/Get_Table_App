@@ -1,5 +1,5 @@
 import 'package:Get_Table_App/blocs/indexTableViewBloc.dart';
-import 'package:Get_Table_App/services/apiManagerService.dart';
+import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
 import 'package:Get_Table_App/widgets/tableViewItem.dart';
 import 'package:flutter/material.dart';
 import 'package:Get_Table_App/types/days.dart';
@@ -15,18 +15,6 @@ class TableView extends StatefulWidget {
 
 class _TableViewState extends State<TableView> {
   double iconSize = 40;
-  Future<Days> futureDays;
-  Future<Day> futureDay;
-  Future<Day> futureToday;
-  Future<Day> futureTomorrow;
-
-  @override
-  void initState() {
-    super.initState();
-    futureDays = TimeTableApi.fetchDays();
-    futureToday = TimeTableApi.fetchTomorrowToday("today");
-    futureTomorrow = TimeTableApi.fetchTomorrowToday("tomorrow");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +23,7 @@ class _TableViewState extends State<TableView> {
       children: [
         Scaffold(
           body: FutureBuilder<Day>(
-            future: futureToday,
+            future: context.watch<TimeTableApiBloc>().dayToday,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data.day["massage"] != null) {
@@ -139,7 +127,7 @@ class _TableViewState extends State<TableView> {
             // TODO center title
             title: Center(
               child: FutureBuilder<Day>(
-                future: futureToday,
+                future: context.watch<TimeTableApiBloc>().dayToday,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data.day["title"] != null) {
@@ -205,7 +193,7 @@ class _TableViewState extends State<TableView> {
         ),
         Scaffold(
           body: FutureBuilder<Day>(
-            future: futureTomorrow,
+            future: context.watch<TimeTableApiBloc>().dayTomorrow,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data.day["massage"] != null) {
@@ -309,7 +297,7 @@ class _TableViewState extends State<TableView> {
             // TODO center title
             title: Center(
               child: FutureBuilder<Day>(
-                future: futureTomorrow,
+                future: context.watch<TimeTableApiBloc>().dayTomorrow,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data.day["title"] != null) {
@@ -375,7 +363,7 @@ class _TableViewState extends State<TableView> {
         ),
         Scaffold(
           body: FutureBuilder<Days>(
-            future: futureDays,
+            future: context.watch<TimeTableApiBloc>().days,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return GridView.extent(
