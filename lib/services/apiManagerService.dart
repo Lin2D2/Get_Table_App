@@ -54,39 +54,39 @@ class ApiBaseHelper {
 }
 
 class TimeTableApi {
-  static const String _days = 'days';
-  static const String _day = 'day';
-  static const String _tomorrowToday = 'today-tomorrow';
-  static const String _timeTablePush = "timetable/push";
-  static const String _userPush = 'login';
+  static const String _daysConst = 'days';
+  static const String _dayConst = 'day';
+  static const String _tomorrowTodayConst = 'today-tomorrow';
+  static const String _timeTablePushConst = "timetable/push";
+  static const String _userPushConst = 'login';
   static ApiBaseHelper _helper = ApiBaseHelper();
 
   static Future<Days> fetchDays() async {
-    final response = await _helper.get(_days);
+    final response = await _helper.get(_daysConst);
     print("response from fetchDays: $response");
     return Days.fromJson(response);
   }
 
-  static Future<Day> fetchDay(day) async {
-    final response = await _helper.get("$_day/$day");
+  static Future<Day> fetchDay(String day) async {
+    final response = await _helper.get("$_dayConst/$day");
     print("response from fetchDay: $response");
     return Day.fromJson(response);
   }
 
-  static Future<Day> fetchTomorrowToday(day) async {
-    final response = await _helper.get("$_tomorrowToday/$day");
+  static Future<Day> fetchTomorrowToday(String day) async {
+    final response = await _helper.get("$_tomorrowTodayConst/$day");
     print("response from fetchDay: $response");
     return Day.fromJson(response);
   }
 
-  static Future<String> timeTablePostRequest(body) async {
-    final response = await _helper.post(_timeTablePush, body);
+  static Future<String> timeTablePostRequest(Map body) async {
+    final response = await _helper.post(_timeTablePushConst, body);
     print("response from timeTablePostRequest: $response");
     return Post.fromJson(response).state;
   }
 
-  static Future<UserPost> userPostRequest(body) async {
-    final response = await _helper.post(_userPush, body);
+  static Future<UserPost> userPostRequest(Map body) async {
+    final response = await _helper.post(_userPushConst, body);
     print("response from userPostRequest: $response");
     return UserPost.fromJson(response);
   }
