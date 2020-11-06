@@ -216,19 +216,19 @@ class _TableViewState extends State<TableView> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data.day["title"] != null) {
-                    List _titleSplit = snapshot.data.day["title"].split(" ");
-                    return Text(
-                      _titleSplit[1] +
-                          " " +
-                          _titleSplit[2] +
-                          " " +
-                          _titleSplit[3],
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    );}
-                    else {
+                      List _titleSplit = snapshot.data.day["title"].split(" ");
+                      return Text(
+                        _titleSplit[1] +
+                            " " +
+                            _titleSplit[2] +
+                            " " +
+                            _titleSplit[3],
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      );
+                    } else {
                       return Text(
                         "Weekend or Holidays",
                         style: TextStyle(

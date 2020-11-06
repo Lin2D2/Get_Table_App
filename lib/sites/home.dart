@@ -14,68 +14,111 @@ class DynamicList extends State<Home> {
   @override
   Widget build(BuildContext ctxt) {
     return Scaffold(
-      body: ListView(
-        children: <Card>[
-          createItem(
-              "Overview Today",
-              [
-                createTableRow(
-                  "1/2",
-                  "MA",
-                  "C5",
-                  false,
-                  extraColumn: "room C6",
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxScrolled) => [
+          SliverAppBar(
+            elevation: 10,
+            forceElevated: true,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            stretch: true,
+            onStretchTrigger: () async {
+              print("stretch");
+            },
+            toolbarHeight: 1,
+            collapsedHeight: 40,
+            expandedHeight: 100,
+            flexibleSpace: FlexibleSpaceBar(
+              // title: const Text(
+              //   'Dashboard',
+              //   style: TextStyle(
+              //       color: Colors.black,
+              //       fontSize: 25,
+              //       fontWeight: FontWeight.bold),
+              // ),
+              background: Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Image.asset(
+                        "assets/logo-herderschule-luenburg-512-150x150.png"),
+                    Text(
+                      'Dashboard',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      width: 100,
+                      height: 50,
+                    ), // TODO Gesicht von Herder
+                  ],
                 ),
-                createTableRow(
-                  "3/4",
-                  "de",
-                  "C7",
-                  false,
-                  extraColumn: "vertretung",
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(181, 36, 30, 1),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(0),
+                      bottomRight: Radius.circular(0)),
                 ),
-              ],
-              extraColumn: "change"),
-          context.watch<UserBloc>().timetable != null
-              ? createItem(
-                  "Time Table Today",
-                  generateTable(context, true),
-                )
-              : createItem(
-                  "Time Table Today",
-                  [],
-                ),
-          createItem(
-              "Overview Tomorow",
-              [
-                createTableRow(
-                  " ",
-                  " ",
-                  " ",
-                  false,
-                  extraColumn: " ",
-                ),
-              ],
-              extraColumn: "change"),
-          context.watch<UserBloc>().timetable != null
-              ? createItem(
-                  "Time Table Tomorow",
-                  generateTable(context, true),
-                )
-              : createItem(
-                  "Time Table Tomorow",
-                  [],
-                ),
-        ],
-      ),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: Center(
-          child: const Text(
-            'Dashboard',
-            style: TextStyle(
-                color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              centerTitle: true,
+            ),
           ),
+        ],
+        body: ListView(
+          children: <Card>[
+            createItem(
+                "Overview Today",
+                [
+                  createTableRow(
+                    "1/2",
+                    "MA",
+                    "C5",
+                    false,
+                    extraColumn: "room C6",
+                  ),
+                  createTableRow(
+                    "3/4",
+                    "de",
+                    "C7",
+                    false,
+                    extraColumn: "vertretung",
+                  ),
+                ],
+                extraColumn: "change"),
+            context.watch<UserBloc>().timetable != null
+                ? createItem(
+                    "Time Table Today",
+                    generateAbsentsTable(context, true),
+                  )
+                : createItem(
+                    "Time Table Today",
+                    [],
+                  ),
+            createItem(
+                "Overview Tomorow",
+                [
+                  createTableRow(
+                    " ",
+                    " ",
+                    " ",
+                    false,
+                    extraColumn: " ",
+                  ),
+                ],
+                extraColumn: "change"),
+            context.watch<UserBloc>().timetable != null
+                ? createItem(
+                    "Time Table Tomorow",
+                    generateAbsentsTable(context, true),
+                  )
+                : createItem(
+                    "Time Table Tomorow",
+                    [],
+                  ),
+          ],
         ),
       ),
     );
@@ -153,11 +196,10 @@ TableRow createTableRow(String item1, String item2, String item3, bool header,
   return row;
 }
 
-List<TableRow> generateTable(BuildContext context, bool today) {
+List<TableRow> generateAbsentsTable(BuildContext context, bool today) {
   DateTime date = DateTime.now();
-  // int dayOfWeek =
-  //     today ? date.weekday - 1 : date.weekday; // TODO here because of holidays
-  int dayOfWeek = today ? date.weekday : date.weekday + 1;  // TODO this is the actual one
+  int dayOfWeek =
+      today ? date.weekday : date.weekday + 1;
   if (dayOfWeek == 6 && today) {
     dayOfWeek = 1;
   }
@@ -235,7 +277,7 @@ List<TableRow> generateTable(BuildContext context, bool today) {
   }
 
   List<TableRow> tableItems = List.generate(
-    lessons.length - 1, // TODO fix
+    lessons.length - 2, // TODO fix
     (index) => TableRow(
       children: findRightElement(context, index),
     ),
