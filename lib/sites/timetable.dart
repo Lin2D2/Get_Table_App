@@ -1,9 +1,8 @@
-import 'package:Get_Table_App/blocs/formDataRawBloc.dart';
 import 'package:Get_Table_App/blocs/indexMainBloc.dart';
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
-import 'package:Get_Table_App/services/apiManagerService.dart';
+import 'package:Get_Table_App/services/timetableService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -166,100 +165,7 @@ class DynamicList extends State<TimeTable> {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () async {
-                  // print(context.read<FormDataRawBloc>().formDataRaw);
-                  // TODO do api call and local call to save data local and to database
-                  // TODO need to implement User class and login
-                  Map _monday = {};
-                  Map _tuesday = {};
-                  Map _wednesday = {};
-                  Map _thursday = {};
-                  Map _friday = {};
-                  for (final day
-                      in context.read<FormDataRawBloc>().formDataRaw) {
-                    switch (day["day"]) {
-                      case "monday":
-                        {
-                          _monday.putIfAbsent(
-                              day["lesson"],
-                              () => {
-                                    "week":
-                                        "not implemented", //day["dropdown"].value,
-                                    "subject": day["controller"][0].text,
-                                    "room": day["controller"][1].text,
-                                  });
-                          break;
-                        }
-                      case "tuesday":
-                        {
-                          _tuesday.putIfAbsent(
-                              day["lesson"],
-                              () => {
-                                    "week":
-                                        "not implemented", //day["dropdown"].value,
-                                    "subject": day["controller"][0].text,
-                                    "room": day["controller"][1].text,
-                                  });
-                          break;
-                        }
-                      case "wednesday":
-                        {
-                          _wednesday.putIfAbsent(
-                              day["lesson"],
-                              () => {
-                                    "week":
-                                        "not implemented", //day["dropdown"].value,
-                                    "subject": day["controller"][0].text,
-                                    "room": day["controller"][1].text,
-                                  });
-                          break;
-                        }
-                      case "thursday":
-                        {
-                          _thursday.putIfAbsent(
-                              day["lesson"],
-                              () => {
-                                    "week":
-                                        "not implemented", //day["dropdown"].value,
-                                    "subject": day["controller"][0].text,
-                                    "room": day["controller"][1].text,
-                                  });
-                          break;
-                        }
-                      case "friday":
-                        {
-                          _friday.putIfAbsent(
-                              day["lesson"],
-                              () => {
-                                    "week":
-                                        "not implemented", //day["dropdown"].value,
-                                    "subject": day["controller"][0].text,
-                                    "room": day["controller"][1].text,
-                                  });
-                          break;
-                        }
-                    }
-                  }
-                  Map Timetable = {
-                    "monday": _monday,
-                    "tuesday": _tuesday,
-                    "wednesday": _wednesday,
-                    "thursday": _thursday,
-                    "friday": _friday
-                  };
-                  Timetable.putIfAbsent(
-                      "login",
-                      () => {
-                            "username": context.read<UserBloc>().username,
-                            "password": context.read<UserBloc>().password
-                          });
-                  String response = (await TimeTableApi.timeTablePostRequest(Timetable));
-                  switch (response) {
-                    case "success":
-                      {
-                        // to stuff
-                        break;
-                      }
-                  }
+                  await TimeTableService.saveTimeTable(context);
                 },
               ),
             ],
