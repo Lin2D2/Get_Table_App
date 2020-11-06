@@ -1,5 +1,6 @@
 import 'package:Get_Table_App/blocs/indexTableViewBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
+import 'package:Get_Table_App/widgets/absentsTable.dart';
 import 'package:Get_Table_App/widgets/tableViewItem.dart';
 import 'package:flutter/material.dart';
 import 'package:Get_Table_App/types/days.dart';
@@ -52,51 +53,8 @@ class _TableViewState extends State<TableView> {
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                          child: Table(
-                            border: TableBorder.all(),
-                            children: List.generate(
-                                  snapshot.data.day["header"].length,
-                                  (row) => TableRow(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[900],
-                                    ),
-                                    children: List.generate(
-                                      snapshot.data.day["header"][row].length,
-                                      // Demo Content
-                                      (rowElement) => Center(
-                                        child: Text(
-                                          snapshot.data.day["header"][row]
-                                              [rowElement],
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ) +
-                                List.generate(
-                                  snapshot.data.day["content"].length,
-                                  // Demo Content
-                                  (row) => TableRow(
-                                    children: List.generate(
-                                      snapshot.data.day["content"][row].length,
-                                      // Demo Content
-                                      (rowElement) => Center(
-                                        child: Text(
-                                          snapshot.data.day["content"][row]
-                                              [rowElement],
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                          ),
+                          child: createAbsentsTable(snapshot.data.day["header"],
+                              snapshot.data.day["content"]),
                         ),
                       ],
                     ),
@@ -222,51 +180,8 @@ class _TableViewState extends State<TableView> {
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                          child: Table(
-                            border: TableBorder.all(),
-                            children: List.generate(
-                                  snapshot.data.day["header"].length,
-                                  (row) => TableRow(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[900],
-                                    ),
-                                    children: List.generate(
-                                      snapshot.data.day["header"][row].length,
-                                      // Demo Content
-                                      (rowElement) => Center(
-                                        child: Text(
-                                          snapshot.data.day["header"][row]
-                                              [rowElement],
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ) +
-                                List.generate(
-                                  snapshot.data.day["content"].length,
-                                  // Demo Content
-                                  (row) => TableRow(
-                                    children: List.generate(
-                                      snapshot.data.day["content"][row].length,
-                                      // Demo Content
-                                      (rowElement) => Center(
-                                        child: Text(
-                                          snapshot.data.day["content"][row]
-                                              [rowElement],
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                          ),
+                          child: createAbsentsTable(snapshot.data.day["header"],
+                              snapshot.data.day["content"]),
                         ),
                       ],
                     ),
@@ -451,31 +366,4 @@ class _TableViewState extends State<TableView> {
       ],
     );
   }
-}
-
-TableRow headerRow() {
-  return TableRow(
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-      ),
-      children: [
-        Text(
-          "lesson",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        Text(
-          "subject",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        Text(
-          "room",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-      ]);
 }
