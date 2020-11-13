@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Table createAbsentsTable(String header, Map content, {Map filter}) {
+Table createAbsentsTable(String header, Map content, {String year, List<Map> courses}) {
   return Table(
     border: TableBorder.all(),
     children: List.generate(

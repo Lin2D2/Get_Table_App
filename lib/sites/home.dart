@@ -92,7 +92,7 @@ class DynamicList extends State<Home> {
             context.watch<UserBloc>().timetable != null
                 ? createItem(
                     "Time Table Today",
-                    generateAbsentsTable(context, true),
+                    generateDayOfTimeTable(context, true),
                   )
                 : createItem(
                     "Time Table Today",
@@ -113,7 +113,7 @@ class DynamicList extends State<Home> {
             context.watch<UserBloc>().timetable != null
                 ? createItem(
                     "Time Table Tomorow",
-                    generateAbsentsTable(context, true),
+                    generateDayOfTimeTable(context, true),
                   )
                 : createItem(
                     "Time Table Tomorow",
