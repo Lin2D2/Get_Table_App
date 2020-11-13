@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class IndexMainBloc extends ChangeNotifier {
   int _index = 0;
+  // TODO get current root not auto set to the first
   int get index => _index;
 
   set index(int val) {
