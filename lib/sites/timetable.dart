@@ -15,28 +15,30 @@ class DynamicList extends State<TimeTable> {
   @override
   Widget build(BuildContext context) {
     return IndexedStack(
-      index: context
-          .watch<IndexTimeTableBloc>()
-          .index,
+      index: context.watch<IndexTimeTableBloc>().index,
       children: [
         Scaffold(
           body: SingleChildScrollView(
-            child: Table(
-              border: TableBorder.all(),
-              children: context
-                  .watch<UserBloc>()
-                  .timetable != null
-                  ? generateTimeTable(context) : [],
-              columnWidths: {
-                0: FlexColumnWidth(2),
-                1: FlexColumnWidth(4),
-                2: FlexColumnWidth(4),
-                3: FlexColumnWidth(4),
-                4: FlexColumnWidth(4),
-                5: FlexColumnWidth(4),
-              },
-            ),
-          ),
+              child: context.watch<UserBloc>().timetable != null
+                  ? Table(
+                      border: TableBorder.all(),
+                      children: context.watch<UserBloc>().timetable != null
+                          ? generateTimeTable(context)
+                          : [],
+                      columnWidths: {
+                        0: FlexColumnWidth(2),
+                        1: FlexColumnWidth(4),
+                        2: FlexColumnWidth(4),
+                        3: FlexColumnWidth(4),
+                        4: FlexColumnWidth(4),
+                        5: FlexColumnWidth(4),
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                      "You have to Login",
+                      style: TextStyle(fontSize: 20),
+                    ))),
           appBar: AppBar(
             backgroundColor: Colors.white,
             leading: IconButton(
@@ -78,71 +80,64 @@ class DynamicList extends State<TimeTable> {
           body: Container(
             child: ListView(
               children: List.generate(
-                context
-                    .watch<TimeTableItemsBlock>()
-                    .daysString
-                    .length,
-                    (i) =>
-                    Card(
-                      child: Column(
+                context.watch<TimeTableItemsBlock>().daysString.length,
+                (i) => Card(
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          context.watch<TimeTableItemsBlock>().daysString[i],
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Table(
+                        border: TableBorder.all(),
+                        children: context.watch<TimeTableItemsBlock>().days(i),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Center(
-                            child: Text(
-                              context
-                                  .watch<TimeTableItemsBlock>()
-                                  .daysString[i],
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                            child: RaisedButton(
+                              onPressed: () {
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .add(i, true, context);
+                              },
+                              child: Text("add double lesson"),
                             ),
                           ),
-                          Table(
-                            border: TableBorder.all(),
-                            children: context.watch<TimeTableItemsBlock>().days(
-                                i),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                            child: RaisedButton(
+                              // add new Row to Table
+                              onPressed: () {
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .add(i, false, context);
+                              },
+                              child: Text("add single lesson"),
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
-                                child: RaisedButton(
-                                  onPressed: () {
-                                    context
-                                        .read<TimeTableItemsBlock>()
-                                        .add(i, true, context);
-                                  },
-                                  child: Text("add double lesson"),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
-                                child: RaisedButton(
-                                  // add new Row to Table
-                                  onPressed: () {
-                                    context
-                                        .read<TimeTableItemsBlock>()
-                                        .add(i, false, context);
-                                  },
-                                  child: Text("add single lesson"),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
-                                child: RaisedButton(
-                                  // add new Row to Table
-                                  onPressed: () {
-                                    context
-                                        .read<TimeTableItemsBlock>()
-                                        .removeLast(i, context);
-                                  },
-                                  child: Text("remove"),
-                                ),
-                              ),
-                            ],
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
+                            child: RaisedButton(
+                              // add new Row to Table
+                              onPressed: () {
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .removeLast(i, context);
+                              },
+                              child: Text("remove"),
+                            ),
                           ),
                         ],
                       ),
-                    ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -189,36 +184,27 @@ class DynamicList extends State<TimeTable> {
 
 List<TableRow> generateTimeTable(BuildContext context) {
   TextStyle headerStyle =
-  TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white);
+      TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white);
   TextStyle bodyStyle =
-  TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black);
+      TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black);
   TableRow header = TableRow(
     decoration: BoxDecoration(
       color: Colors.grey[900],
     ),
     children: [
-      Text(
-        "lesson",
-        textAlign: TextAlign.center,
-        style: headerStyle,
-      ),
-    ] +
+          Text(
+            "lesson",
+            textAlign: TextAlign.center,
+            style: headerStyle,
+          ),
+        ] +
         List.generate(
-          context
-              .watch<UserBloc>()
-              .timetable
-              .keys
-              .length,
-              (index) =>
-              Text(
-                context
-                    .watch<UserBloc>()
-                    .timetable
-                    .keys
-                    .elementAt(index),
-                textAlign: TextAlign.center,
-                style: headerStyle,
-              ),
+          context.watch<UserBloc>().timetable.keys.length,
+          (index) => Text(
+            context.watch<UserBloc>().timetable.keys.elementAt(index),
+            textAlign: TextAlign.center,
+            style: headerStyle,
+          ),
         ),
   );
   List lessons = [
@@ -228,16 +214,10 @@ List<TableRow> generateTimeTable(BuildContext context) {
     "7/8",
     "9/10",
   ];
-  Widget findRightElement(BuildContext context, int upperIndex,
-      int lowerIndex) {
-    Map day = context
-        .watch<UserBloc>()
-        .timetable[
-    context
-        .watch<UserBloc>()
-        .timetable
-        .keys
-        .elementAt(lowerIndex)];
+  Widget findRightElement(
+      BuildContext context, int upperIndex, int lowerIndex) {
+    Map day = context.watch<UserBloc>().timetable[
+        context.watch<UserBloc>().timetable.keys.elementAt(lowerIndex)];
     Widget result;
     for (final lesson in day.keys) {
       if (lessons.elementAt(upperIndex) == lesson) {
@@ -247,8 +227,7 @@ List<TableRow> generateTimeTable(BuildContext context) {
           style: bodyStyle,
         );
         break;
-      }
-      else {
+      } else {
         // TODO show column for non double lessons
         result = Text(
           "",
@@ -267,22 +246,20 @@ List<TableRow> generateTimeTable(BuildContext context) {
 
   List<TableRow> tableItems = List.generate(
     lessons.length,
-        (upperIndex) =>
-        TableRow(
-          children: [
+    (upperIndex) => TableRow(
+      children: [
             Text(
               lessons[upperIndex],
               textAlign: TextAlign.center,
               style: bodyStyle,
             ),
           ] +
-              List.generate(
-                //context.watch<UserBloc>().timetable.keys.length,
-                5,
-                    (lowerIndex) =>
-                    findRightElement(context, upperIndex, lowerIndex),
-              ),
-        ),
+          List.generate(
+            //context.watch<UserBloc>().timetable.keys.length,
+            5,
+            (lowerIndex) => findRightElement(context, upperIndex, lowerIndex),
+          ),
+    ),
   );
   tableItems.insert(0, header);
 

@@ -63,7 +63,8 @@ class _TableViewState extends State<TableView> {
                   return Container();
                 }
               } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
+                print(snapshot.error);
+                return Container();
               }
 
               // By default, show a loading spinner.
@@ -111,7 +112,7 @@ class _TableViewState extends State<TableView> {
                       );
                     }
                   } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
+                    return Text("Sever not reachable", style: TextStyle(color: Colors.red),);
                   } else {
                     // By default, show a loading spinner.
                     return Center(
@@ -190,7 +191,8 @@ class _TableViewState extends State<TableView> {
                   return Container();
                 }
               } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
+                print(snapshot.error);
+                return Container();
               }
 
               // By default, show a loading spinner.
@@ -238,7 +240,7 @@ class _TableViewState extends State<TableView> {
                       );
                     }
                   } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
+                    return Text("Sever not reachable", style: TextStyle(color: Colors.red),);
                   }
 
                   // By default, show a loading spinner.
