@@ -1,4 +1,5 @@
 import 'package:Get_Table_App/blocs/userBloc.dart';
+import 'package:Get_Table_App/services/dayOfWeek.dart';
 import 'package:Get_Table_App/widgets/bottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -196,25 +197,8 @@ TableRow createTableRow(String item1, String item2, String item3, bool header,
   return row;
 }
 
-List<TableRow> generateAbsentsTable(BuildContext context, bool today) {
-  DateTime date = DateTime.now();
-  int dayOfWeek =
-      today ? date.weekday : date.weekday + 1;
-  if (dayOfWeek == 6 && today) {
-    dayOfWeek = 1;
-  }
-  if (dayOfWeek == 6 && !today) {
-    dayOfWeek = 1;
-  }
-  if (dayOfWeek == 7 && today) {
-    dayOfWeek = 1;
-  }
-  if (dayOfWeek == 7 && !today) {
-    dayOfWeek = 2;
-  }
-  if (dayOfWeek == 1 && !today) {
-    dayOfWeek = 2;
-  }
+List<TableRow> generateDayOfTimeTable(BuildContext context, bool today) {
+  int dayOfWeek = getdayOfWeek(today);
   TextStyle bodyStyle =
       TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black);
   List lessons = [
