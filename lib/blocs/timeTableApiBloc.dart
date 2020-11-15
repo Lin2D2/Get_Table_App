@@ -12,8 +12,10 @@ class TimeTableApiBloc extends ChangeNotifier{
   Future<Day> get dayToday => _dayToday;
   Future<Day> get dayTomorrow => _dayTomorrow;
 
-  void updateDays() {
+  void refresh() {
     _days = TimeTableApi.fetchDays();
+    _dayToday = TimeTableApi.fetchTomorrowToday("today");
+    _dayTomorrow = TimeTableApi.fetchTomorrowToday("tomorrow");
     notifyListeners();
   }
 }

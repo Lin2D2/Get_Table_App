@@ -24,9 +24,6 @@ class DynamicList extends State<Home> {
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             stretch: true,
-            onStretchTrigger: () async {
-              print("stretch");
-            },
             toolbarHeight: 1,
             collapsedHeight: 40,
             expandedHeight: 100,
@@ -69,107 +66,113 @@ class DynamicList extends State<Home> {
             ),
           ),
         ],
-        body: ListView(
-          children: <Card>[
-            context.watch<UserBloc>().timetable != null
-                ? createDashboardCard(
-                    "Time Table Today",
-                    Table(
-                      border: TableBorder.all(),
-                      children: generateTimeTable(context, today: true),
-                    ),
-                  )
-                : createDashboardCard(
-                    "Time Table Today",
-                    Center(
-                      child: Text(
-                        "You have to Login",
-                        style: TextStyle(color: Colors.red),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            print("refresh");
+            //context.watch<TimeTableApiBloc>.refresh();
+          },
+          child: ListView(
+            children: context.watch<UserBloc>().timetable != null
+                ? <Card>[
+                    createDashboardCard(
+                      "Time Table Today",
+                      Table(
+                        border: TableBorder.all(),
+                        children: generateTimeTable(context, today: true),
                       ),
-                    )),
-            context.watch<UserBloc>().timetable != null
-                ? createDashboardCard(
-                    "Overview Today",
-                    FutureBuilder<Day>(
-                      future: context.watch<TimeTableApiBloc>().dayToday,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return createAbsentsTable(snapshot.data.day["header"],
-                              snapshot.data.day["content"],
-                              year: context.watch<UserBloc>().year);
-                        } else if (snapshot.hasError) {
-                          print(snapshot.error);
+                    ),
+                    createDashboardCard(
+                      "Overview Today",
+                      FutureBuilder<Day>(
+                        future: context.watch<TimeTableApiBloc>().dayToday,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return createAbsentsTable(
+                                snapshot.data.day["header"],
+                                snapshot.data.day["content"],
+                                year: context.watch<UserBloc>().year);
+                          } else if (snapshot.hasError) {
+                            print(snapshot.error);
+                            return Center(
+                              child: Text(
+                                "Sever not reachable",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            );
+                          }
                           return Center(
-                            child: Text(
-                              "Sever not reachable",
-                              style: TextStyle(color: Colors.red),
-                            ),
+                            child: CircularProgressIndicator(),
                           );
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
-                  )
-                : createDashboardCard(
-                    "Overview Tomorow",
-                    Center(
-                      child: Text(
-                        "You have to Login",
-                        style: TextStyle(color: Colors.red),
+                        },
                       ),
-                    )),
-            context.watch<UserBloc>().timetable != null
-                ? createDashboardCard(
-                    "Time Table Tomorow",
-                    Table(
-                      border: TableBorder.all(),
-                      children: generateTimeTable(context, today: false),
                     ),
-                  )
-                : createDashboardCard(
-                    "Time Table Tomorow",
-                    Center(
-                      child: Text(
-                        "You have to Login",
-                        style: TextStyle(color: Colors.red),
+                    createDashboardCard(
+                      "Time Table Tomorow",
+                      Table(
+                        border: TableBorder.all(),
+                        children: generateTimeTable(context, today: false),
                       ),
-                    )),
-            context.watch<UserBloc>().timetable != null
-                ? createDashboardCard(
-                    "Overview Tomorow",
-                    FutureBuilder<Day>(
-                      future: context.watch<TimeTableApiBloc>().dayTomorrow,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return createAbsentsTable(snapshot.data.day["header"],
-                              snapshot.data.day["content"],
-                              year: context.watch<UserBloc>().year);
-                        } else if (snapshot.hasError) {
-                          print(snapshot.error);
+                    ),
+                    createDashboardCard(
+                      "Overview Tomorow",
+                      FutureBuilder<Day>(
+                        future: context.watch<TimeTableApiBloc>().dayTomorrow,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return createAbsentsTable(
+                                snapshot.data.day["header"],
+                                snapshot.data.day["content"],
+                                year: context.watch<UserBloc>().year);
+                          } else if (snapshot.hasError) {
+                            print(snapshot.error);
+                            return Center(
+                              child: Text(
+                                "Sever not reachable",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            );
+                          }
                           return Center(
-                            child: Text(
-                              "Sever not reachable",
-                              style: TextStyle(color: Colors.red),
-                            ),
+                            child: CircularProgressIndicator(),
                           );
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
-                  )
-                : createDashboardCard(
-                    "Overview Tomorow",
-                    Center(
-                      child: Text(
-                        "You have to Login",
+                        },
+                      ),
+                    )
+                  ]
+                : <Card>[
+                    createDashboardCard(
+                      "Not logged in",
+                      Text(
+                        "You are not logged in, Login to see the full Dashboard",
                         style: TextStyle(color: Colors.red),
                       ),
-                    )),
-          ],
+                    ),
+                    createDashboardCard(
+                      "Overview Today",
+                      FutureBuilder<Day>(
+                        future: context.watch<TimeTableApiBloc>().dayToday,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return createAbsentsTable(
+                                snapshot.data.day["header"],
+                                snapshot.data.day["content"]);
+                          } else if (snapshot.hasError) {
+                            print(snapshot.error);
+                            return Center(
+                              child: Text(
+                                "Sever not reachable",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            );
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+          ),
         ),
       ),
     );
