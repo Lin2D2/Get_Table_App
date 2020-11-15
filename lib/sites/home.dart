@@ -17,7 +17,7 @@ class DynamicList extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxScrolled) => [
+        headerSliverBuilder: (sliverContext, innerBoxScrolled) => [
           SliverAppBar(
             elevation: 10,
             forceElevated: true,
