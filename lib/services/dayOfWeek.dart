@@ -6,7 +6,7 @@ int getdayOfWeek (bool today) {
     dayOfWeek = 1;
   }
   if (dayOfWeek == 6 && !today) {
-    dayOfWeek = 1;
+    dayOfWeek = 2;
   }
   if (dayOfWeek == 7 && today) {
     dayOfWeek = 1;
@@ -14,7 +14,7 @@ int getdayOfWeek (bool today) {
   if (dayOfWeek == 7 && !today) {
     dayOfWeek = 2;
   }
-  if (dayOfWeek == 1 && !today) {
+  if (dayOfWeek == 8 && !today) {
     dayOfWeek = 2;
   }
   return dayOfWeek;
