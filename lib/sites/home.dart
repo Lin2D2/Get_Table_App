@@ -1,6 +1,9 @@
+import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/services/dayOfWeek.dart';
-import 'package:Get_Table_App/widgets/bottomNavigationBar.dart';
+import 'package:Get_Table_App/types/day.dart';
+import 'package:Get_Table_App/widgets/absentsTable.dart';
+import 'package:Get_Table_App/widgets/dashboradCard.dart';
+import 'package:Get_Table_App/widgets/generateTimeTable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -68,202 +71,107 @@ class DynamicList extends State<Home> {
         ],
         body: ListView(
           children: <Card>[
-            createItem(
-                "Overview Today",
-                [
-                  createTableRow(
-                    "1/2",
-                    "MA",
-                    "C5",
-                    false,
-                    extraColumn: "room C6",
-                  ),
-                  createTableRow(
-                    "3/4",
-                    "de",
-                    "C7",
-                    false,
-                    extraColumn: "vertretung",
-                  ),
-                ],
-                extraColumn: "change"),
             context.watch<UserBloc>().timetable != null
-                ? createItem(
+                ? createDashboardCard(
                     "Time Table Today",
-                    generateDayOfTimeTable(context, true),
+                    Table(
+                      border: TableBorder.all(),
+                      children: generateTimeTable(context, today: true),
+                    ),
                   )
-                : createItem(
+                : createDashboardCard(
                     "Time Table Today",
-                    [],
-                  ),
-            createItem(
-                "Overview Tomorow",
-                [
-                  createTableRow(
-                    " ",
-                    " ",
-                    " ",
-                    false,
-                    extraColumn: " ",
-                  ),
-                ],
-                extraColumn: "change"),
+                    Center(
+                      child: Text(
+                        "You have to Login",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    )),
             context.watch<UserBloc>().timetable != null
-                ? createItem(
-                    "Time Table Tomorow",
-                    generateDayOfTimeTable(context, true),
+                ? createDashboardCard(
+                    "Overview Today",
+                    FutureBuilder<Day>(
+                      future: context.watch<TimeTableApiBloc>().dayToday,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return createAbsentsTable(snapshot.data.day["header"],
+                              snapshot.data.day["content"],
+                              year: context.watch<UserBloc>().year);
+                        } else if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return Center(
+                            child: Text(
+                              "Sever not reachable",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          );
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    ),
                   )
-                : createItem(
+                : createDashboardCard(
+                    "Overview Tomorow",
+                    Center(
+                      child: Text(
+                        "You have to Login",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    )),
+            context.watch<UserBloc>().timetable != null
+                ? createDashboardCard(
                     "Time Table Tomorow",
-                    [],
-                  ),
+                    Table(
+                      border: TableBorder.all(),
+                      children: generateTimeTable(context, today: false),
+                    ),
+                  )
+                : createDashboardCard(
+                    "Time Table Tomorow",
+                    Center(
+                      child: Text(
+                        "You have to Login",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    )),
+            context.watch<UserBloc>().timetable != null
+                ? createDashboardCard(
+                    "Overview Tomorow",
+                    FutureBuilder<Day>(
+                      future: context.watch<TimeTableApiBloc>().dayTomorrow,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return createAbsentsTable(snapshot.data.day["header"],
+                              snapshot.data.day["content"],
+                              year: context.watch<UserBloc>().year);
+                        } else if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return Center(
+                            child: Text(
+                              "Sever not reachable",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          );
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    ),
+                  )
+                : createDashboardCard(
+                    "Overview Tomorow",
+                    Center(
+                      child: Text(
+                        "You have to Login",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    )),
           ],
         ),
       ),
     );
   }
-}
-
-Card createItem(String title, List<TableRow> tableRows,
-    {String extraColumn = ""}) {
-  tableRows.insert(
-      0,
-      createTableRow(
-        "lesson",
-        "subject",
-        "room",
-        true,
-        extraColumn: extraColumn,
-      ));
-  return Card(
-    color: Colors.white,
-    elevation: 5.0,
-    child: Column(
-      children: [
-        Center(
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Table(
-            border: TableBorder.all(),
-            children: tableRows,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-TableRow createTableRow(String item1, String item2, String item3, bool header,
-    {String extraColumn = ""}) {
-  TextStyle style = TextStyle(
-      fontSize: 13,
-      fontWeight: FontWeight.bold,
-      color: (header ? Colors.white : Colors.black));
-  TableRow row = TableRow(
-      decoration: BoxDecoration(
-        color: (header ? Colors.grey[900] : Colors.white),
-      ),
-      children: [
-        Text(
-          item1,
-          textAlign: TextAlign.center,
-          style: style,
-        ),
-        Text(
-          item2,
-          textAlign: TextAlign.center,
-          style: style,
-        ),
-        Text(
-          item3,
-          textAlign: TextAlign.center,
-          style: style,
-        ),
-      ]);
-  if (extraColumn != "") {
-    row.children.add(Text(
-      extraColumn,
-      textAlign: TextAlign.center,
-      style: style,
-    ));
-  }
-  return row;
-}
-
-List<TableRow> generateDayOfTimeTable(BuildContext context, bool today) {
-  int dayOfWeek = getdayOfWeek(today);
-  TextStyle bodyStyle =
-      TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black);
-  List lessons = [
-    "1/2",
-    "3/4",
-    "5/6",
-    "7/8",
-    "9/10",
-  ];
-  List<Widget> findRightElement(BuildContext context, int index) {
-    Map day = context.watch<UserBloc>().timetable.values.elementAt(dayOfWeek);
-    List<Widget> row;
-    for (final lesson in day.keys) {
-      print(lesson);
-      print(lessons.elementAt(index));
-      print("");
-      if (lesson.toString().contains("/")) {
-        if (lessons.elementAt(index) == lesson) {
-          row = [
-            Text(
-              lesson,
-              textAlign: TextAlign.center,
-              style: bodyStyle,
-            ),
-            Text(
-              day[lesson]["subject"],
-              textAlign: TextAlign.center,
-              style: bodyStyle,
-            ),
-            Text(
-              day[lesson]["room"],
-              textAlign: TextAlign.center,
-              style: bodyStyle,
-            ),
-          ];
-          break;
-        }
-      } else {
-        row = [
-          Text(
-            lesson,
-            textAlign: TextAlign.center,
-            style: bodyStyle,
-          ),
-          Text(
-            "",
-            textAlign: TextAlign.center,
-            style: bodyStyle,
-          ),
-          Text(
-            "",
-            textAlign: TextAlign.center,
-            style: bodyStyle,
-          ),
-        ];
-      }
-    }
-    print(row);
-    return row;
-  }
-
-  List<TableRow> tableItems = List.generate(
-    lessons.length - 2, // TODO fix
-    (index) => TableRow(
-      children: findRightElement(context, index),
-    ),
-  );
-  print(tableItems.length);
-  return tableItems;
 }

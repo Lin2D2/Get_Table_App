@@ -133,6 +133,8 @@ class Login extends StatelessWidget {
                                 .text;
                             context.read<UserBloc>().timetable =
                                 response.timetable;
+                            context.read<UserBloc>().year =
+                                response.year;
                             Navigator.pop(context);
                             break;
                           }

@@ -12,14 +12,16 @@ class Post {
 
 class UserPost {
   final String state;
+  final String year;
   final Map timetable;
 
-  UserPost({this.state, this.timetable});
+  UserPost({this.state, this.timetable, this.year});
 
   factory UserPost.fromJson(Map<String, dynamic> json) {
     return UserPost(
       state: json['state'],
       timetable: json["timetable"],
+      year: json["year"]
     );
   }
 }

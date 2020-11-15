@@ -1,6 +1,40 @@
 import 'package:flutter/material.dart';
 
-Table createAbsentsTable(String header, Map content, {String year, List<Map> courses}) {
+Table createAbsentsTable(List header, List content,
+    {String year, List<Map> courses}) {
+  List<TableRow> rows = [];
+  for (final List row in content) {
+    if (year == null) {
+      rows.add(TableRow(
+        children: List.generate(
+          row.length,
+          // Demo Content
+              (rowElement) => Center(
+            child: Text(
+              row[rowElement],
+              style: TextStyle(
+                  fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+          ),
+        ),
+      ));
+    }
+    else if (row[1] == year) {
+      rows.add(TableRow(
+        children: List.generate(
+          row.length,
+          // Demo Content
+              (rowElement) => Center(
+            child: Text(
+              row[rowElement],
+              style: TextStyle(
+                  fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+          ),
+        ),
+      ));
+    }
+  }
   return Table(
     border: TableBorder.all(),
     children: List.generate(
@@ -23,25 +57,6 @@ Table createAbsentsTable(String header, Map content, {String year, List<Map> cou
               ),
             ),
           ),
-        ) +
-        List.generate(
-          content.length,
-          // Demo Content
-          (row) => TableRow(
-            children: List.generate(
-              content[row].length,
-              // Demo Content
-              (rowElement) => Center(
-                child: Text(
-                  content[row][rowElement],
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-              ),
-            ),
-          ),
-        ),
+        ) + rows
   );
 }

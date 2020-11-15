@@ -7,10 +7,12 @@ class UserBloc extends ChangeNotifier {
   String _userTitle = "Not Logged in";
   String _username;
   String _password;
+  String _year;
   Map _timetable;
 
   String get username => _username;
   String get password => _password;
+  String get year => _year;
   Map get timetable => _timetable;
 
   TextEditingController get usernameController => _usernameController;
@@ -28,6 +30,11 @@ class UserBloc extends ChangeNotifier {
   }
   set password(String val) {
     _password = val;
+    notifyListeners();
+  }
+
+  set year(String val) {
+    _year = val;
     notifyListeners();
   }
 
