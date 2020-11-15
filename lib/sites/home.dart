@@ -10,10 +10,8 @@ class Home extends StatefulWidget {
 }
 
 class DynamicList extends State<Home> {
-  TableRow elementsToADD = TableRow(children: []);
-
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxScrolled) => [
