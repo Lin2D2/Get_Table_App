@@ -1,3 +1,4 @@
+import 'package:Get_Table_App/blocs/filterTable.dart';
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/sites/settings.dart';
@@ -88,7 +89,14 @@ class HomeRoute extends StatelessWidget {
             Navigator.pushNamed(context, '/tableView');
             context.read<IndexMainBloc>().increment();
           },
-          child: Home(),
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) => FilterTable(),
+              ),
+            ],
+            child: Home(),
+          ),
         ),
         bottomNavigationBar: bottomNavigationBar(context),
       ),

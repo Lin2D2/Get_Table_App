@@ -18,8 +18,7 @@ Table createAbsentsTable(List header, List content,
           ),
         ),
       ));
-    }
-    else if (row[1] == year) {
+    } else if (row[1].toString().contains(year)) {
       rows.add(TableRow(
         children: List.generate(
           row.length,

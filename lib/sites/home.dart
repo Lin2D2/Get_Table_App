@@ -1,10 +1,13 @@
+import 'package:Get_Table_App/blocs/filterTable.dart';
 import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/types/day.dart';
 import 'package:Get_Table_App/widgets/absentsTable.dart';
 import 'package:Get_Table_App/widgets/dashboradCard.dart';
 import 'package:Get_Table_App/widgets/generateTimeTable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -15,6 +18,8 @@ class Home extends StatefulWidget {
 class DynamicList extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController _filterController =
+        TextEditingController();
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (sliverContext, innerBoxScrolled) => [
@@ -139,41 +144,81 @@ class DynamicList extends State<Home> {
                       ),
                     )
                   ]
-                : <Card>[
-                    createDashboardCard(
-                      "Not logged in",
-                      Text(
-                        "You are not logged in, Login to see the full Dashboard",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ),
-                    createDashboardCard(
-                      "Overview Today",
-                      FutureBuilder<Day>(
-                        future: context.watch<TimeTableApiBloc>().dayToday,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return createAbsentsTable(
-                                snapshot.data.day["header"],
-                                snapshot.data.day["content"]);
-                          } else if (snapshot.hasError) {
-                            print(snapshot.error);
-                            return Center(
-                              child: Text(
-                                "Sever not reachable",
-                                style: TextStyle(color: Colors.red),
+                : [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(),
+                          Text(
+                            "Login to see the full Dashboard",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          Row(
+                            children: [
+                              Text("Filter for Year:"),
+                              Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  child: TextField(
+                                    controller: _filterController,
+                                    onChanged: (value) {
+                                      print(value);
+                                      context.read<FilterTable>().filterValue =
+                                          value;
+                                    },
+                                  ),
+                                ),
                               ),
-                            );
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
+                            ],
+                          )
+                        ],
                       ),
                     ),
+                    DayTable(),
                   ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class DayTable extends StatefulWidget {
+  const DayTable({Key key}) : super(key: key);
+
+  @override
+  _DayState createState() => _DayState();
+}
+
+class _DayState extends State<DayTable> {
+  @override
+  Widget build(BuildContext context) {
+    return createDashboardCard(
+      "Overview Today",
+      FutureBuilder<Day>(
+        future: context.watch<TimeTableApiBloc>().dayToday,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return createAbsentsTable(
+                snapshot.data.day["header"], snapshot.data.day["content"],
+                year: context.watch<FilterTable>().filterValue);
+          } else if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(
+              child: Text(
+                "Sever not reachable",
+                style: TextStyle(color: Colors.red),
+              ),
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }
