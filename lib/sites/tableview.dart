@@ -94,12 +94,12 @@ class _TableViewState extends State<TableView> {
                       return Text(
                         _titleSplit[1] +
                             " " +
-                            _titleSplit[2] +
+                            _titleSplit[3] +
                             " " +
-                            _titleSplit[3],
+                            _titleSplit[2],
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold),
                       );
                     } else {
@@ -107,12 +107,15 @@ class _TableViewState extends State<TableView> {
                         "Holidays",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold),
                       );
                     }
                   } else if (snapshot.hasError) {
-                    return Text("Sever not reachable", style: TextStyle(color: Colors.red),);
+                    return Text(
+                      "Sever not reachable",
+                      style: TextStyle(color: Colors.red),
+                    );
                   } else {
                     // By default, show a loading spinner.
                     return Center(
@@ -120,7 +123,7 @@ class _TableViewState extends State<TableView> {
                         'TableView',
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
                     );
@@ -129,24 +132,31 @@ class _TableViewState extends State<TableView> {
               ),
             ),
             actions: [
-              FlatButton(
-                child: Text(
-                  "Tomorrow",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
+              ConstrainedBox(
+                constraints: BoxConstraints.tight(Size(58, double.infinity)),
+                child: FlatButton(
+                  child: Text(
+                    "next",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () {
+                    context.read<IndexTableViewBloc>().index = 1;
+                  },
                 ),
-                onPressed: () {
-                  context.read<IndexTableViewBloc>().index = 1;
-                },
               ),
-              IconButton(
-                  icon: Icon(
+              ConstrainedBox(
+                constraints: BoxConstraints.tight(Size(50, double.infinity)),
+                child: FlatButton(
+                  child: Icon(
                     Icons.refresh,
                     color: Colors.black,
                   ),
-                  onPressed: () {}),
+                  onPressed: () {},
+                ),
+              ),
             ],
           ),
         ),
@@ -222,12 +232,12 @@ class _TableViewState extends State<TableView> {
                       return Text(
                         _titleSplit[1] +
                             " " +
-                            _titleSplit[2] +
+                            _titleSplit[3] +
                             " " +
-                            _titleSplit[3],
+                            _titleSplit[2],
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold),
                       );
                     } else {
@@ -235,12 +245,15 @@ class _TableViewState extends State<TableView> {
                         "Weekend or Holidays",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold),
                       );
                     }
                   } else if (snapshot.hasError) {
-                    return Text("Sever not reachable", style: TextStyle(color: Colors.red),);
+                    return Text(
+                      "Sever not reachable",
+                      style: TextStyle(color: Colors.red),
+                    );
                   }
 
                   // By default, show a loading spinner.
@@ -249,7 +262,7 @@ class _TableViewState extends State<TableView> {
                       'TableView',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 25,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                   );
@@ -257,24 +270,31 @@ class _TableViewState extends State<TableView> {
               ),
             ),
             actions: [
-              FlatButton(
-                child: Text(
-                  "Today",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
+              ConstrainedBox(
+                constraints: BoxConstraints.tight(Size(65, double.infinity)),
+                child: FlatButton(
+                  child: Text(
+                    "today",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () {
+                    context.read<IndexTableViewBloc>().index = 0;
+                  },
                 ),
-                onPressed: () {
-                  context.read<IndexTableViewBloc>().index = 0;
-                },
               ),
-              IconButton(
-                  icon: Icon(
+              ConstrainedBox(
+                constraints: BoxConstraints.tight(Size(50, double.infinity)),
+                child: FlatButton(
+                  child: Icon(
                     Icons.refresh,
                     color: Colors.black,
                   ),
-                  onPressed: () {}),
+                  onPressed: () {},
+                ),
+              ),
             ],
           ),
         ),
