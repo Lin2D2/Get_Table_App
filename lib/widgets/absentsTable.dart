@@ -9,7 +9,9 @@ Table createAbsentsTable(List header, List content,
     if (year == null) {
       rows.add(TableRow(
         decoration: BoxDecoration(
-          color: index.isEven ? Color.fromRGBO(250, 211, 166, 1) : Color.fromRGBO(253, 236, 217, 1),
+          color: index.isEven
+              ? Color.fromRGBO(250, 211, 166, 1)
+              : Color.fromRGBO(253, 236, 217, 1),
         ),
         children: List.generate(
           row.length,
@@ -28,7 +30,9 @@ Table createAbsentsTable(List header, List content,
     } else if (row[1].toString().contains(year)) {
       rows.add(TableRow(
         decoration: BoxDecoration(
-          color: index.isEven ? Color.fromRGBO(250, 211, 166, 1) : Color.fromRGBO(253, 236, 217, 1),
+          color: index.isEven
+              ? Color.fromRGBO(250, 211, 166, 1)
+              : Color.fromRGBO(253, 236, 217, 1),
         ),
         children: List.generate(
           row.length,
