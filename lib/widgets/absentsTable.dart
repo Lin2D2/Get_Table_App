@@ -28,7 +28,7 @@ Table createAbsentsTable(List header, List content,
         ),
       ));
     } else if (row[1].toString().contains(year) ||
-        row[1].toString().toString().contains(" ")) {
+        (row[1].toString().toString().contains(" ") && !row[0].toString().toString().contains(" "))) {
       rows.add(TableRow(
         decoration: BoxDecoration(
           color: index.isEven
