@@ -6,34 +6,41 @@ Table createAbsentsTable(List header, List content,
     {String year,
     List<Map> courses,
     bool fullMatch = false,
-    bool recursive = false}) {
-  List boldList = [0, 2, 3, 4, 8];
+    bool recursive = false,
+    bool smallScreen = false}) {
+  List boldList = [0, 1, 2, 3, 4, 5];
   List<TableRow> rows = [];
   int index = 1;
   for (final List row in content) {
     if (year == null) {
-      rows.add(TableRow(
-        decoration: BoxDecoration(
-          color: index.isEven
-              ? Color.fromRGBO(250, 211, 166, 1)
-              : Color.fromRGBO(253, 236, 217, 1),
-        ),
-        children: List.generate(
-          row.length,
-          (rowElement) => Center(
-            child: Text(
-              row[rowElement],
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: boldList.contains(rowElement.toInt())
-                    ? FontWeight.w600
-                    : FontWeight.w400,
-                color: Colors.black,
+      List<Widget> rowElements = [];
+      int lowerIndex = 0;
+      for (final rowElement in row) {
+        if (smallScreen ? ![6, 7, 8].contains(lowerIndex) : true) {
+          rowElements.add(
+            Center(
+              child: Text(
+                rowElement,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: boldList.contains(lowerIndex)
+                      ? FontWeight.w600
+                      : FontWeight.w400,
+                  color: Colors.black,
+                ),
               ),
             ),
+          );
+        }
+        lowerIndex++;
+      }
+      rows.add(TableRow(
+          decoration: BoxDecoration(
+            color: index.isEven
+                ? Color.fromRGBO(250, 211, 166, 1)
+                : Color.fromRGBO(253, 236, 217, 1),
           ),
-        ),
-      ));
+          children: rowElements));
     } else if (row[1].toString().contains(year) ||
         (row[1].toString().toString().contains(" ") &&
             !row[0].toString().toString().contains(" "))) {
@@ -46,7 +53,9 @@ Table createAbsentsTable(List header, List content,
       List<Widget> rowElements = [];
       int lowerIndex = 0;
       for (final rowElement in row) {
-        if ((year == null || year == "" || lowerIndex != 1) || !fullMatch) {
+        if ((year != null || year != "") &&
+            (fullMatch ? lowerIndex != 1 : true) &&
+            (smallScreen ? ![6, 7, 8].contains(lowerIndex) : true)) {
           rowElements.add(
             Center(
               child: Text(
@@ -78,7 +87,9 @@ Table createAbsentsTable(List header, List content,
     List<Widget> headerElements = [];
     int headerIndex = 0;
     for (final headerElement in header[0]) {
-      if ((year == null || year == "" || headerIndex != 1) || !fullMatch) {
+      if ((year != null || year != "") &&
+          (fullMatch ? headerIndex != 1 : true) &&
+          (smallScreen ? ![6, 7, 8].contains(headerIndex) : true)) {
         headerElements.add(
           Center(
             child: Text(
@@ -98,9 +109,13 @@ Table createAbsentsTable(List header, List content,
           color: Colors.grey[900],
         ),
         children: headerElements);
-    return Table(border: TableBorder.all(), children: [headerRow] + rows);
+    return Table(border: TableBorder.all(), children: [headerRow] + rows, columnWidths: fullMatch ? {1: FlexColumnWidth(2)} : {2: FlexColumnWidth(2)},);
   } else {
     return createAbsentsTable(header, content,
-        year: year, courses: courses, fullMatch: fullMatch, recursive: true);
+        year: year,
+        courses: courses,
+        fullMatch: fullMatch,
+        recursive: true,
+        smallScreen: smallScreen);
   }
 }

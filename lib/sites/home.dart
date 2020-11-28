@@ -92,10 +92,21 @@ class DynamicList extends State<Home> {
                         future: context.watch<TimeTableApiBloc>().dayToday,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return createAbsentsTable(
-                                snapshot.data.day["header"],
-                                snapshot.data.day["content"],
-                                year: context.watch<UserBloc>().year);
+                            return LayoutBuilder(
+                                builder: (layoutBuilderContext, constraints) {
+                              if (constraints.maxWidth > 600) {
+                                return createAbsentsTable(
+                                    snapshot.data.day["header"],
+                                    snapshot.data.day["content"],
+                                    year: layoutBuilderContext.watch<UserBloc>().year);
+                              } else {
+                                return createAbsentsTable(
+                                    snapshot.data.day["header"],
+                                    snapshot.data.day["content"],
+                                    year: layoutBuilderContext.watch<UserBloc>().year,
+                                    smallScreen: true);
+                              }
+                            });
                           } else if (snapshot.hasError) {
                             print(snapshot.error);
                             return Center(
@@ -124,10 +135,21 @@ class DynamicList extends State<Home> {
                         future: context.watch<TimeTableApiBloc>().dayTomorrow,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return createAbsentsTable(
-                                snapshot.data.day["header"],
-                                snapshot.data.day["content"],
-                                year: context.watch<UserBloc>().year);
+                            return LayoutBuilder(
+                                builder: (layoutBuilderContext, constraints) {
+                              if (constraints.maxWidth > 600) {
+                                return createAbsentsTable(
+                                    snapshot.data.day["header"],
+                                    snapshot.data.day["content"],
+                                    year: layoutBuilderContext.watch<UserBloc>().year);
+                              } else {
+                                return createAbsentsTable(
+                                    snapshot.data.day["header"],
+                                    snapshot.data.day["content"],
+                                    year: layoutBuilderContext.watch<UserBloc>().year,
+                                    smallScreen: true);
+                              }
+                            });
                           } else if (snapshot.hasError) {
                             print(snapshot.error);
                             return Center(
@@ -166,7 +188,6 @@ class DynamicList extends State<Home> {
                                   child: TextField(
                                     controller: _filterController,
                                     onChanged: (value) {
-                                      print(value);
                                       context.read<FilterTable>().filterValue =
                                           value;
                                     },
@@ -204,9 +225,18 @@ class _DayState extends State<DayTable> {
         future: context.watch<TimeTableApiBloc>().dayToday,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return createAbsentsTable(
-                snapshot.data.day["header"], snapshot.data.day["content"],
-                year: context.watch<FilterTable>().filterValue);
+            return LayoutBuilder(builder: (layoutBuilderContext, constraints) {
+              if (constraints.maxWidth > 600) {
+                return createAbsentsTable(
+                    snapshot.data.day["header"], snapshot.data.day["content"],
+                    year: layoutBuilderContext.watch<FilterTable>().filterValue);
+              } else {
+                return createAbsentsTable(
+                    snapshot.data.day["header"], snapshot.data.day["content"],
+                    year: layoutBuilderContext.watch<FilterTable>().filterValue,
+                    smallScreen: true);
+              }
+            });
           } else if (snapshot.hasError) {
             print(snapshot.error);
             return Center(

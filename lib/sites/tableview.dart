@@ -53,8 +53,20 @@ class _TableViewState extends State<TableView> {
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                          child: createAbsentsTable(snapshot.data.day["header"],
-                              snapshot.data.day["content"]),
+                          child: LayoutBuilder(
+                              builder: (layoutBuilderContext, constraints) {
+                                if (constraints.maxWidth > 600) {
+                                  return createAbsentsTable(
+                                    snapshot.data.day["header"],
+                                    snapshot.data.day["content"],
+                                  );
+                                } else {
+                                  return createAbsentsTable(
+                                      snapshot.data.day["header"],
+                                      snapshot.data.day["content"],
+                                      smallScreen: true);
+                                }
+                              }),
                         ),
                       ],
                     ),
@@ -191,8 +203,20 @@ class _TableViewState extends State<TableView> {
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                          child: createAbsentsTable(snapshot.data.day["header"],
-                              snapshot.data.day["content"]),
+                          child: LayoutBuilder(
+                              builder: (layoutBuilderContext, constraints) {
+                            if (constraints.maxWidth > 600) {
+                              return createAbsentsTable(
+                                snapshot.data.day["header"],
+                                snapshot.data.day["content"],
+                              );
+                            } else {
+                              return createAbsentsTable(
+                                  snapshot.data.day["header"],
+                                  snapshot.data.day["content"],
+                                  smallScreen: true);
+                            }
+                          }),
                         ),
                       ],
                     ),
