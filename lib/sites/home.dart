@@ -161,7 +161,7 @@ class DynamicList extends State<Home> {
                               Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Container(
-                                  width: 30,
+                                  width: 35,
                                   height: 30,
                                   child: TextField(
                                     controller: _filterController,
@@ -170,6 +170,7 @@ class DynamicList extends State<Home> {
                                       context.read<FilterTable>().filterValue =
                                           value;
                                     },
+                                    style: TextStyle(fontSize: 15),
                                   ),
                                 ),
                               ),
