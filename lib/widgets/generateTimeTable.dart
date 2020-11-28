@@ -74,34 +74,49 @@ List<TableRow> generateTimeTable(BuildContext context, {bool today}) {
     return result;
   }
 
-  List<TableRow> tableItems = today == null
-      ? (List.generate(
-          lessons.length,
-          (upperIndex) => TableRow(
-            children: [
-                  Text(
-                    lessons[upperIndex],
-                    textAlign: TextAlign.center,
-                    style: bodyStyle,
-                  ),
-                ] +
-                List.generate(
-                  //context.watch<UserBloc>().timetable.keys.length,
-                  5,
-                  (lowerIndex) =>
-                      findRightElement(context, upperIndex, lowerIndex),
+  List<TableRow> tableItems = [
+    header,
+  ];
+  int index = 0;
+  if (today == null) {
+    for (final lesson in lessons) {
+      tableItems.add(
+        TableRow(
+          children: [
+                Text(
+                  lesson,
+                  textAlign: TextAlign.center,
+                  style: bodyStyle,
                 ),
+              ] +
+              List.generate(
+                //context.watch<UserBloc>().timetable.keys.length,
+                5,
+                (lowerIndex) => findRightElement(context, index, lowerIndex),
+              ),
+          decoration: BoxDecoration(
+            color: index.isEven
+                ? Color.fromRGBO(250, 211, 166, 1)
+                : Color.fromRGBO(253, 236, 217, 1),
           ),
-        ))
-      : [
-          TableRow(
-              children: List.generate(
-            //context.watch<UserBloc>().timetable.keys.length,
-            5,
-            (upperIndex) =>
-                findRightElement(context, upperIndex, getdayOfWeek(today)-1),
-          ))
-        ];
-  tableItems.insert(0, header);
+        ),
+      );
+      index++;
+    }
+  } else {
+    tableItems.add(
+      TableRow(
+        children: List.generate(
+          //context.watch<UserBloc>().timetable.keys.length,
+          5,
+          (upperIndex) => findRightElement(
+              context, upperIndex, getdayOfWeek(today) - 1), // TODO ?
+        ),
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(250, 211, 166, 1),
+        ),
+      ),
+    );
+  }
   return tableItems;
 }
