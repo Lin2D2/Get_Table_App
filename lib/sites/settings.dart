@@ -1,9 +1,9 @@
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/services/apiManagerService.dart';
 import 'package:Get_Table_App/types/post.dart';
-import 'package:Get_Table_App/widgets/bottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:settings_ui/settings_ui.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -17,33 +17,47 @@ class SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          Card(
-            child: Row(children: [
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.blue.shade800,
-                  child: Text(
-                      context.watch<UserBloc>().userTitle[0].toUpperCase()),
+      body: SettingsList(
+        sections: [
+          SettingsSection(
+            title: 'Account',
+            tiles: [
+              SettingsTile(
+                title: context.watch<UserBloc>().userTitle != null
+                    ? context.watch<UserBloc>().userTitle
+                    : "Gast",
+                trailing: RaisedButton(
+                  child: Text(context.watch<UserBloc>().userTitle != null
+                      ? "Logout"
+                      : "Login"),
+                  onPressed: context.watch<UserBloc>().userTitle != null
+                      ? () {
+                          // TODO Logout
+                        }
+                      : () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Login()),
+                          );
+                        },
                 ),
-              ),
-              Text(context.watch<UserBloc>().userTitle),
-              Spacer(),
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: RaisedButton(
-                  child: Text('Login'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login()),
-                    );
-                  },
+                leading: CircleAvatar(
+                  backgroundColor: context.watch<UserBloc>().userTitle != null
+                      ? Colors.blue.shade800
+                      : Colors.red,
+                  child: Text(context.watch<UserBloc>().userTitle != null
+                      ? context.watch<UserBloc>().userTitle[0].toUpperCase()
+                      : "G"),
                 ),
+                onTap: () {
+                  // TODO Edit User
+                },
               ),
-            ]),
+            ],
+          ),
+          SettingsSection(
+            title: 'Common',
+            tiles: [],
           ),
         ],
       ),
@@ -133,8 +147,7 @@ class Login extends StatelessWidget {
                                 .text;
                             context.read<UserBloc>().timetable =
                                 response.timetable;
-                            context.read<UserBloc>().year =
-                                response.year;
+                            context.read<UserBloc>().year = response.year;
                             Navigator.pop(context);
                             break;
                           }
