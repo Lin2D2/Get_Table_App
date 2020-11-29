@@ -1,5 +1,4 @@
 import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/services/dayOfWeek.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +10,7 @@ List lessons = [
   "9/10",
 ];
 
-List<TableRow> generateTimeTable(BuildContext context, {bool today}) {
+List<TableRow> generateTimeTable(BuildContext context, {int dayOfWeek, bool today}) {
   TextStyle headerStyle =
       TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white);
   TextStyle bodyStyle =
@@ -110,7 +109,7 @@ List<TableRow> generateTimeTable(BuildContext context, {bool today}) {
           //context.watch<UserBloc>().timetable.keys.length,
           5,
           (upperIndex) => findRightElement(
-              context, upperIndex, getdayOfWeek(today) - 1), // TODO ?
+              context, upperIndex, dayOfWeek - 1),
         ),
         decoration: BoxDecoration(
           color: Color.fromRGBO(250, 211, 166, 1),

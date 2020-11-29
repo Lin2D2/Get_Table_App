@@ -1,6 +1,7 @@
 import 'package:Get_Table_App/blocs/filterTable.dart';
 import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
+import 'package:Get_Table_App/services/dayOfWeek.dart';
 import 'package:Get_Table_App/types/day.dart';
 import 'package:Get_Table_App/widgets/absentsTable.dart';
 import 'package:Get_Table_App/widgets/dashboradCard.dart';
@@ -18,8 +19,7 @@ class Home extends StatefulWidget {
 class DynamicList extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController _filterController =
-        TextEditingController();
+    TextEditingController _filterController = TextEditingController();
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (sliverContext, innerBoxScrolled) => [
@@ -78,93 +78,175 @@ class DynamicList extends State<Home> {
           },
           child: ListView(
             children: context.watch<UserBloc>().timetable != null
-                ? <Card>[
-                    createDashboardCard(
-                      "Time Table Today",
-                      Table(
-                        border: TableBorder.all(),
-                        children: generateTimeTable(context, today: true),
-                      ),
-                    ),
-                    createDashboardCard(
-                      "Overview Today",
-                      FutureBuilder<Day>(
-                        future: context.watch<TimeTableApiBloc>().dayToday,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return LayoutBuilder(
-                                builder: (layoutBuilderContext, constraints) {
-                              if (constraints.maxWidth > 600) {
-                                return createAbsentsTable(
-                                    snapshot.data.day["header"],
-                                    snapshot.data.day["content"],
-                                    year: layoutBuilderContext.watch<UserBloc>().year);
-                              } else {
-                                return createAbsentsTable(
-                                    snapshot.data.day["header"],
-                                    snapshot.data.day["content"],
-                                    year: layoutBuilderContext.watch<UserBloc>().year,
-                                    smallScreen: true);
-                              }
-                            });
-                          } else if (snapshot.hasError) {
-                            print(snapshot.error);
-                            return Center(
-                              child: Text(
-                                "Sever not reachable",
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            );
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(),
+                ? [
+                    FutureBuilder<Day>(
+                      future: context.watch<TimeTableApiBloc>().dayToday,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          String weekday = snapshot.data.day["title"]
+                              .toString()
+                              .split(" ")[1];
+                          return createDashboardCard(
+                            "TimeTable " + weekday,
+                            Table(
+                              border: TableBorder.all(),
+                              children: generateTimeTable(context,
+                                  dayOfWeek: getdayOfWeek(weekDay: weekday),
+                                  today: true),
+                            ),
                           );
-                        },
-                      ),
+                        } else if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return createDashboardCard(
+                              "TimeTable Today",
+                              Center(
+                                child: Text(
+                                  "Sever not reachable",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ));
+                        }
+                        return createDashboardCard(
+                            "TimeTable Today",
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ));
+                      },
                     ),
-                    createDashboardCard(
-                      "Time Table Tomorow",
-                      Table(
-                        border: TableBorder.all(),
-                        children: generateTimeTable(context, today: false),
-                      ),
+                    FutureBuilder<Day>(
+                      future: context.watch<TimeTableApiBloc>().dayToday,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return LayoutBuilder(
+                              builder: (layoutBuilderContext, constraints) {
+                            List titleList = snapshot.data.day["title"]
+                                .toString()
+                                .split(" ");
+                            titleList = [titleList[0].split(".")[0] + "."] +
+                                [titleList[1], titleList[3], titleList[2]];
+                            if (constraints.maxWidth > 600) {
+                              return createDashboardCard(
+                                  titleList.join(" "),
+                                  createAbsentsTable(
+                                      snapshot.data.day["header"],
+                                      snapshot.data.day["content"],
+                                      year: layoutBuilderContext
+                                          .watch<UserBloc>()
+                                          .year));
+                            } else {
+                              return createDashboardCard(
+                                  titleList.join(" "),
+                                  createAbsentsTable(
+                                      snapshot.data.day["header"],
+                                      snapshot.data.day["content"],
+                                      year: layoutBuilderContext
+                                          .watch<UserBloc>()
+                                          .year,
+                                      smallScreen: true));
+                            }
+                          });
+                        } else if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return createDashboardCard(
+                              "Overview Today",
+                              Center(
+                                child: Text(
+                                  "Sever not reachable",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ));
+                        }
+                        return createDashboardCard(
+                            "Overview Today",
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ));
+                      },
                     ),
-                    createDashboardCard(
-                      "Overview Tomorow",
-                      FutureBuilder<Day>(
-                        future: context.watch<TimeTableApiBloc>().dayTomorrow,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return LayoutBuilder(
-                                builder: (layoutBuilderContext, constraints) {
-                              if (constraints.maxWidth > 600) {
-                                return createAbsentsTable(
-                                    snapshot.data.day["header"],
-                                    snapshot.data.day["content"],
-                                    year: layoutBuilderContext.watch<UserBloc>().year);
-                              } else {
-                                return createAbsentsTable(
-                                    snapshot.data.day["header"],
-                                    snapshot.data.day["content"],
-                                    year: layoutBuilderContext.watch<UserBloc>().year,
-                                    smallScreen: true);
-                              }
-                            });
-                          } else if (snapshot.hasError) {
-                            print(snapshot.error);
-                            return Center(
-                              child: Text(
-                                "Sever not reachable",
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            );
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(),
+                    FutureBuilder<Day>(
+                      future: context.watch<TimeTableApiBloc>().dayTomorrow,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          String weekday = snapshot.data.day["title"]
+                              .toString()
+                              .split(" ")[1];
+                          return createDashboardCard(
+                            "TimeTable " + weekday,
+                            Table(
+                              border: TableBorder.all(),
+                              children: generateTimeTable(context,
+                                  dayOfWeek: getdayOfWeek(weekDay: weekday),
+                                  today: false),
+                            ),
                           );
-                        },
-                      ),
-                    )
+                        } else if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return createDashboardCard(
+                              "TimeTable Tomorow",
+                              Center(
+                                child: Text(
+                                  "Sever not reachable",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ));
+                        }
+                        return createDashboardCard(
+                            "TimeTable Tomorow",
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ));
+                      },
+                    ),
+                    FutureBuilder<Day>(
+                      future: context.watch<TimeTableApiBloc>().dayTomorrow,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return LayoutBuilder(
+                              builder: (layoutBuilderContext, constraints) {
+                            List titleList = snapshot.data.day["title"]
+                                .toString()
+                                .split(" ");
+                            titleList = [titleList[0].split(".")[0] + "."] +
+                                [titleList[1], titleList[3], titleList[2]];
+                            if (constraints.maxWidth > 600) {
+                              return createDashboardCard(
+                                  titleList.join(" "),
+                                  createAbsentsTable(
+                                      snapshot.data.day["header"],
+                                      snapshot.data.day["content"],
+                                      year: layoutBuilderContext
+                                          .watch<UserBloc>()
+                                          .year));
+                            } else {
+                              return createDashboardCard(
+                                  titleList.join(" "),
+                                  createAbsentsTable(
+                                      snapshot.data.day["header"],
+                                      snapshot.data.day["content"],
+                                      year: layoutBuilderContext
+                                          .watch<UserBloc>()
+                                          .year,
+                                      smallScreen: true));
+                            }
+                          });
+                        } else if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return createDashboardCard(
+                              "Overview Tomorrow",
+                              Center(
+                                child: Text(
+                                  "Sever not reachable",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ));
+                        }
+                        return createDashboardCard(
+                            "Overview Tomorrow",
+                            Center(
+                              child: CircularProgressIndicator(),
+                            ));
+                      },
+                    ),
                   ]
                 : [
                     SizedBox(
@@ -229,7 +311,8 @@ class _DayState extends State<DayTable> {
               if (constraints.maxWidth > 600) {
                 return createAbsentsTable(
                     snapshot.data.day["header"], snapshot.data.day["content"],
-                    year: layoutBuilderContext.watch<FilterTable>().filterValue);
+                    year:
+                        layoutBuilderContext.watch<FilterTable>().filterValue);
               } else {
                 return createAbsentsTable(
                     snapshot.data.day["header"], snapshot.data.day["content"],
