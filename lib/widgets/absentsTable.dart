@@ -10,6 +10,7 @@ Table createAbsentsTable(List header, List content,
     bool smallScreen = false}) {
   List boldList = [0, 1, 2, 3, 4, 5];
   List<TableRow> rows = [];
+  List addedIndexes = [];
   int index = 1;
   for (final List row in content) {
     if (year == null) {
@@ -34,9 +35,10 @@ Table createAbsentsTable(List header, List content,
         }
         lowerIndex++;
       }
+      addedIndexes.add(index);
       rows.add(TableRow(
           decoration: BoxDecoration(
-            color: index.isEven
+            color: addedIndexes.length.isOdd
                 ? Color.fromRGBO(250, 211, 166, 1)
                 : Color.fromRGBO(253, 236, 217, 1),
           ),
@@ -73,9 +75,10 @@ Table createAbsentsTable(List header, List content,
         }
         lowerIndex++;
       }
+      addedIndexes.add(index);
       rows.add(TableRow(
           decoration: BoxDecoration(
-            color: index.isEven
+            color: addedIndexes.length.isOdd
                 ? Color.fromRGBO(250, 211, 166, 1)
                 : Color.fromRGBO(253, 236, 217, 1),
           ),
