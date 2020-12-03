@@ -34,36 +34,33 @@ Widget bottomNavigationBar(BuildContext context) {
     }
   }
 
-  return Theme(
-    data: Theme.of(context).copyWith(
-        canvasColor: Colors.grey[900],
-        primaryColor: Colors.red,
-        textTheme: Theme.of(context)
-            .textTheme
-            .copyWith(caption: new TextStyle(color: Colors.white))),
-    child: BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.home),
-          title: Text('Home'),
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.table_chart),
-          title: Text('Tableview'),
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.view_quilt),
-          title: Text('Timetable'),
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.build),
-          title: Text('Settings'),
-        ),
-      ],
-      type: BottomNavigationBarType.fixed,
-      currentIndex: context.watch<IndexMainBloc>().index,
-      selectedItemColor: Colors.amber[800],
-      onTap: _onItemTapped,
-    ),
+  return BottomNavigationBar(
+    type: BottomNavigationBarType.fixed,
+    currentIndex: context.watch<IndexMainBloc>().index,
+    backgroundColor: Colors.grey[900],
+    // TODO the Colors below don't apply
+    unselectedLabelStyle: TextStyle(color: Colors.white),
+    unselectedIconTheme: IconThemeData(color: Colors.white),
+    selectedLabelStyle: TextStyle(color: Colors.amber[800]),
+    selectedIconTheme: IconThemeData(color: Colors.amber[800]),
+    onTap: _onItemTapped,
+    items: const <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+        icon: const Icon(Icons.home),
+        label: 'Home',
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(Icons.table_chart),
+        label: 'TableView',
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(Icons.view_quilt),
+        label: 'Timetable',
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(Icons.build),
+        label: 'Settings',
+      ),
+    ],
   );
 }
