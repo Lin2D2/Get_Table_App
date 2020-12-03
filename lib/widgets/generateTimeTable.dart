@@ -73,12 +73,34 @@ List<TableRow> generateTimeTable(BuildContext context,
     for (final doubleLesson in doubleLessons) {
       int dayIndex = 0;
       List<Widget> dayRowChildren = [
-        Text(
-          doubleLesson,
-          textAlign: TextAlign.center,
-          style: bodyStyle,
+        TableCell(
+          child: Column(
+            children: [
+              Text(
+                doubleLesson.split("/")[0],
+                textAlign: TextAlign.center,
+                style: bodyStyle,
+              ),
+              Text(
+                doubleLesson.split("/")[1],
+                textAlign: TextAlign.center,
+                style: bodyStyle,
+              )
+            ],
+          ),
         )
       ];
+      // // alternative
+      // List<Widget> dayRowChildren = [
+      //   TableCell(
+      //     child:
+      //         Text(
+      //           doubleLesson,
+      //           textAlign: TextAlign.center,
+      //           style: bodyStyle,
+      //         ),
+      //     ),
+      // ];
       for (final dayKey in timeTable.keys) {
         Map dayMap = timeTable[dayKey];
         for (final lessonKey in dayMap.keys) {
@@ -180,22 +202,14 @@ List<TableRow> generateTimeTable(BuildContext context,
               child: Column(
                 children: [
                   Text(
-                    dayMap[lessonKey]["subject"],
+                    dayMap.keys.contains((int.parse(lessonKey) + 1).toString())
+                        ? dayMap[lessonKey]["subject"] +
+                            " / " +
+                            dayMap[(int.parse(lessonKey) + 1).toString()]
+                        : dayMap[lessonKey]["subject"] + " / ---",
                     textAlign: TextAlign.center,
                     style: bodyStyle,
                   ),
-                  dayMap.keys.contains((int.parse(lessonKey) + 1).toString())
-                      ? Text(
-                          dayMap[(int.parse(lessonKey) + 1).toString()]
-                              ["subject"],
-                          textAlign: TextAlign.center,
-                          style: bodyStyle,
-                        )
-                      : Text(
-                          "---",
-                          textAlign: TextAlign.center,
-                          style: bodyStyle,
-                        ),
                 ],
               ),
             ),
