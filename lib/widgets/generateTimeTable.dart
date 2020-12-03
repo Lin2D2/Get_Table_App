@@ -26,7 +26,7 @@ List singleLessons = [
 List<TableRow> generateTimeTable(BuildContext context,
     {int dayOfWeek, bool today}) {
   TextStyle headerStyle =
-      TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white);
+      TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white);
   TextStyle bodyStyle =
       TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black);
   TableRow header = TableRow(
