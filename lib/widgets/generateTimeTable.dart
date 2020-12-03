@@ -2,7 +2,7 @@ import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-List lessons = [
+List doubleLessons = [
   "1/2",
   "3/4",
   "5/6",
@@ -10,107 +10,218 @@ List lessons = [
   "9/10",
 ];
 
-List<TableRow> generateTimeTable(BuildContext context, {int dayOfWeek, bool today}) {
+List singleLessons = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+];
+
+List<TableRow> generateTimeTable(BuildContext context,
+    {int dayOfWeek, bool today}) {
   TextStyle headerStyle =
       TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white);
   TextStyle bodyStyle =
       TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black);
   TableRow header = TableRow(
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-      ),
-      children: today == null
-          ? ([
-                Text(
+    decoration: BoxDecoration(
+      color: Colors.grey[900],
+    ),
+    children: today == null
+        ? ([
+              TableCell(
+                child: Text(
                   "lesson",
                   textAlign: TextAlign.center,
                   style: headerStyle,
                 ),
-              ] +
-              List.generate(
-                context.watch<UserBloc>().timetable.keys.length,
-                (index) => Text(
+              )
+            ] +
+            List.generate(
+              context.watch<UserBloc>().timetable.keys.length,
+              (index) => TableCell(
+                child: Text(
                   context.watch<UserBloc>().timetable.keys.elementAt(index),
                   textAlign: TextAlign.center,
                   style: headerStyle,
                 ),
-              ))
-          : List.generate(
-              lessons.length,
-              (index) => Text(
-                lessons.elementAt(index),
+              ),
+            ))
+        : List.generate(
+            doubleLessons.length,
+            (index) => TableCell(
+              child: Text(
+                doubleLessons.elementAt(index),
                 textAlign: TextAlign.center,
                 style: headerStyle,
               ),
-            ));
-  Widget findRightElement(
-      BuildContext context, int upperIndex, int lowerIndex) {
-    Map day = context.watch<UserBloc>().timetable[
-        context.watch<UserBloc>().timetable.keys.elementAt(lowerIndex)];
-    Widget result;
-    for (final lesson in day.keys) {
-      if (lessons.elementAt(upperIndex) == lesson) {
-        result = Text(
-          day[lesson]["subject"],
-          textAlign: TextAlign.center,
-          style: bodyStyle,
-        );
-        break;
-      } else {
-        // TODO show column for non double lessons
-        result = Text(
-          "",
-          textAlign: TextAlign.center,
-          style: bodyStyle,
-        );
-      }
-    }
-    Text(
-      "",
-      textAlign: TextAlign.center,
-      style: bodyStyle,
-    );
-    return result;
-  }
-
+            ),
+          ),
+  );
   List<TableRow> tableItems = [
     header,
   ];
-  int index = 0;
   if (today == null) {
-    for (final lesson in lessons) {
-      tableItems.add(
-        TableRow(
-          children: [
-                Text(
-                  lesson,
+    List buildLessons = [[], [], [], [], []];
+    Map timeTable = context.watch<UserBloc>().timetable;
+    for (final doubleLesson in doubleLessons) {
+      int dayIndex = 0;
+      List<Widget> dayRowChildren = [
+        Text(
+          doubleLesson,
+          textAlign: TextAlign.center,
+          style: bodyStyle,
+        )
+      ];
+      for (final dayKey in timeTable.keys) {
+        Map dayMap = timeTable[dayKey];
+        for (final lessonKey in dayMap.keys) {
+          if (doubleLesson == lessonKey && !buildLessons.contains(lessonKey)) {
+            dayRowChildren.add(
+              TableCell(
+                verticalAlignment: TableCellVerticalAlignment.middle,
+                child: Text(
+                  dayMap[lessonKey]["subject"],
                   textAlign: TextAlign.center,
                   style: bodyStyle,
                 ),
-              ] +
-              List.generate(
-                //context.watch<UserBloc>().timetable.keys.length,
-                5,
-                (lowerIndex) => findRightElement(context, index, lowerIndex),
               ),
+            );
+            buildLessons[dayIndex].add(lessonKey);
+            break;
+          } else if (singleLessons.contains(lessonKey) &&
+              !buildLessons.contains(lessonKey) &&
+              doubleLesson.toString().split("/").contains(lessonKey)) {
+            dayRowChildren.add(
+              TableCell(
+                child: Column(
+                  children: [
+                    Text(
+                      dayMap[lessonKey]["subject"],
+                      textAlign: TextAlign.center,
+                      style: bodyStyle,
+                    ),
+                    dayMap.keys.contains((int.parse(lessonKey) + 1).toString())
+                        ? Text(
+                            dayMap[(int.parse(lessonKey) + 1).toString()]
+                                ["subject"],
+                            textAlign: TextAlign.center,
+                            style: bodyStyle,
+                          )
+                        : Text(
+                            "---",
+                            textAlign: TextAlign.center,
+                            style: bodyStyle,
+                          ),
+                  ],
+                ),
+              ),
+            );
+            buildLessons[dayIndex].add(lessonKey);
+            break;
+          }
+        }
+        // -2 -> -1 of index to length and -1 of num of lesson beginning of each row
+        if (dayRowChildren.length - 2 < dayIndex) {
+          dayRowChildren.add(
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: Text(
+                "---",
+                textAlign: TextAlign.center,
+                style: bodyStyle,
+              ),
+            ),
+          );
+        }
+        dayIndex++;
+      }
+      tableItems.add(
+        TableRow(
+          children: dayRowChildren,
           decoration: BoxDecoration(
-            color: index.isEven
-                ? Color.fromRGBO(250, 211, 166, 1)
-                : Color.fromRGBO(253, 236, 217, 1),
+            color: Color.fromRGBO(250, 211, 166, 1),
           ),
         ),
       );
-      index++;
     }
   } else {
+    List<Widget> dayRowChildren = [];
+    List buildLessons = [];
+    Map dayMap = context.watch<UserBloc>().timetable[
+        // -1 because monday is 1 but the index is 0
+        context.watch<UserBloc>().timetable.keys.elementAt(dayOfWeek - 1)];
+    for (final doubleLesson in doubleLessons) {
+      for (final lessonKey in dayMap.keys) {
+        if (doubleLesson == lessonKey && !buildLessons.contains(doubleLesson)) {
+          dayRowChildren.add(
+            TableCell(
+              verticalAlignment: TableCellVerticalAlignment.middle,
+              child: Text(
+                dayMap[lessonKey]["subject"],
+                textAlign: TextAlign.center,
+                style: bodyStyle,
+              ),
+            ),
+          );
+          buildLessons.add(doubleLesson);
+          break;
+        } else if (singleLessons.contains(lessonKey) &&
+            !buildLessons.contains(lessonKey) &&
+            doubleLesson.toString().split("/").contains(lessonKey)) {
+          dayRowChildren.add(
+            TableCell(
+              child: Column(
+                children: [
+                  Text(
+                    dayMap[lessonKey]["subject"],
+                    textAlign: TextAlign.center,
+                    style: bodyStyle,
+                  ),
+                  dayMap.keys.contains((int.parse(lessonKey) + 1).toString())
+                      ? Text(
+                          dayMap[(int.parse(lessonKey) + 1).toString()]
+                              ["subject"],
+                          textAlign: TextAlign.center,
+                          style: bodyStyle,
+                        )
+                      : Text(
+                          "---",
+                          textAlign: TextAlign.center,
+                          style: bodyStyle,
+                        ),
+                ],
+              ),
+            ),
+          );
+          buildLessons.add(doubleLesson);
+          break;
+        }
+      }
+    }
+    for (int i = 0; i < doubleLessons.length - dayRowChildren.length; i++) {
+      if (dayRowChildren.length < doubleLessons.length) {
+        dayRowChildren.add(
+          TableCell(
+            verticalAlignment: TableCellVerticalAlignment.middle,
+            child: Text(
+              "---",
+              textAlign: TextAlign.center,
+              style: bodyStyle,
+            ),
+          ),
+        );
+      }
+    }
     tableItems.add(
       TableRow(
-        children: List.generate(
-          //context.watch<UserBloc>().timetable.keys.length,
-          5,
-          (upperIndex) => findRightElement(
-              context, upperIndex, dayOfWeek - 1),
-        ),
+        children: dayRowChildren,
         decoration: BoxDecoration(
           color: Color.fromRGBO(250, 211, 166, 1),
         ),
