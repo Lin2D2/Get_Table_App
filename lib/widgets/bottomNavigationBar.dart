@@ -38,11 +38,8 @@ Widget bottomNavigationBar(BuildContext context) {
     type: BottomNavigationBarType.fixed,
     currentIndex: context.watch<IndexMainBloc>().index,
     backgroundColor: Colors.grey[900],
-    // TODO the Colors below don't apply
-    unselectedLabelStyle: TextStyle(color: Colors.white),
-    unselectedIconTheme: IconThemeData(color: Colors.white),
-    selectedLabelStyle: TextStyle(color: Colors.amber[800]),
-    selectedIconTheme: IconThemeData(color: Colors.amber[800]),
+    fixedColor: Colors.amber[800],
+    unselectedItemColor: Colors.white,
     onTap: _onItemTapped,
     items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(
