@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 Widget sideNavigationRail(BuildContext context) {
   void _onItemTapped(int index) {
     int oldIndex = context.read<IndexMainBloc>().index;
-    context.read<IndexMainBloc>().set(index);
     String route;
     switch (index) {
       case 0:
@@ -32,17 +31,18 @@ Widget sideNavigationRail(BuildContext context) {
     if (oldIndex != index) {
       Navigator.pushNamed(context, route);
     }
+    context.read<IndexMainBloc>().set(index);
   }
 
   return NavigationRail(
     selectedIndex: context.read<IndexMainBloc>().index,
     onDestinationSelected: _onItemTapped,
-    labelType: NavigationRailLabelType.selected,
+    labelType: NavigationRailLabelType.all,
     backgroundColor: Colors.grey[900],
     // TODO the Colors below don't apply
-    unselectedLabelTextStyle: TextStyle(color: Colors.white),
+    unselectedLabelTextStyle: TextStyle(color: Colors.white, fontSize: 11),
     unselectedIconTheme: IconThemeData(color: Colors.white),
-    selectedLabelTextStyle: TextStyle(color: Colors.amber[800]),
+    selectedLabelTextStyle: TextStyle(color: Colors.amber[800], fontSize: 13),
     selectedIconTheme: IconThemeData(color: Colors.amber[800]),
     destinations: [
       NavigationRailDestination(

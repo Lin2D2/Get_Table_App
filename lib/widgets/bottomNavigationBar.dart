@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 Widget bottomNavigationBar(BuildContext context) {
   void _onItemTapped(int index) {
     int oldIndex = context.read<IndexMainBloc>().index;
-    context.read<IndexMainBloc>().set(index);
     String route;
     switch (index) {
       case 0:
@@ -32,6 +31,7 @@ Widget bottomNavigationBar(BuildContext context) {
     if (oldIndex != index) {
       Navigator.pushNamed(context, route);
     }
+    context.read<IndexMainBloc>().set(index);
   }
 
   return BottomNavigationBar(
