@@ -2,13 +2,13 @@ import 'package:Get_Table_App/blocs/filterTable.dart';
 import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/services/dayOfWeek.dart';
+import 'package:Get_Table_App/sites/settings.dart';
 import 'package:Get_Table_App/types/day.dart';
 import 'package:Get_Table_App/widgets/absentsTable.dart';
 import 'package:Get_Table_App/widgets/dashboradCard.dart';
 import 'package:Get_Table_App/widgets/generateTimeTable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -41,24 +41,44 @@ class DynamicList extends State<Home> {
               //       fontWeight: FontWeight.bold),
               // ),
               background: Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.asset(
-                        "assets/logo-herderschule-luenburg-512-150x150.png"),
-                    Text(
-                      'Dashboard',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      width: 100,
-                      height: 50,
-                    ), // TODO Gesicht von Herder
-                  ],
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth < 330) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Dashboard',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Image.asset(
+                              "assets/logo-herderschule-luenburg-512-150x150.png"),
+                          Text(
+                            'Dashboard',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            width: 100,
+                            height: 50,
+                          ), // TODO Logo Face of Herder
+                        ],
+                      );
+                    }
+                  },
                 ),
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(181, 36, 30, 1),
@@ -249,37 +269,124 @@ class DynamicList extends State<Home> {
                     ),
                   ]
                 : [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(),
-                          Text(
-                            "Login to see the full Dashboard",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          Row(
-                            children: [
-                              Text("Filter for Year:"),
-                              Padding(
-                                padding: EdgeInsets.all(5),
-                                child: Container(
-                                  width: 35,
-                                  height: 30,
-                                  child: TextField(
-                                    controller: _filterController,
-                                    onChanged: (value) {
-                                      context.read<FilterTable>().filterValue =
-                                          value;
-                                    },
-                                    style: TextStyle(fontSize: 15),
+                    Card(
+                      color: Colors.white,
+                      elevation: 5.0,
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          if (constraints.maxWidth < 600) {
+                            return MaterialBanner(
+                              forceActionsBelow: true,
+                              leading: Icon(
+                                Icons.error,
+                                color: Colors.red,
+                              ),
+                              content: Text(
+                                  'You have to Login to see Personalised content, '
+                                  'but you can filter the table'),
+                              actions: [
+                                SizedBox(
+                                  width: 235,
+                                  height: 50,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: RaisedButton(
+                                          child: Text("Login"),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Login()),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      Text("Filter for Year:"),
+                                      Padding(
+                                        padding: EdgeInsets.all(5),
+                                        child: Container(
+                                          width: 40,
+                                          child: TextField(
+                                            textAlignVertical:
+                                                TextAlignVertical.center,
+                                            controller: _filterController,
+                                            onChanged: (value) {
+                                              context
+                                                  .read<FilterTable>()
+                                                  .filterValue = value;
+                                            },
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                              ],
+                            );
+                          } else {
+                            return MaterialBanner(
+                              leading: Icon(
+                                Icons.error,
+                                color: Colors.red,
                               ),
-                            ],
-                          )
-                        ],
+                              content: Text(
+                                  'You have to Login to see Personalised content, '
+                                  'but you can filter the table'),
+                              actions: [
+                                SizedBox(
+                                  width: 235,
+                                  height: 50,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: RaisedButton(
+                                          child: Text("Login"),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Login()),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      Text("Filter for Year:"),
+                                      Padding(
+                                        padding: EdgeInsets.all(5),
+                                        child: Container(
+                                          width: 40,
+                                          child: TextField(
+                                            textAlignVertical:
+                                                TextAlignVertical.center,
+                                            controller: _filterController,
+                                            onChanged: (value) {
+                                              context
+                                                  .read<FilterTable>()
+                                                  .filterValue = value;
+                                            },
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                        },
                       ),
                     ),
                     DayTable(),

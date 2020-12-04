@@ -1,8 +1,8 @@
-import 'package:Get_Table_App/blocs/indexMainBloc.dart';
 import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
 import 'package:Get_Table_App/services/timetableService.dart';
+import 'package:Get_Table_App/sites/settings.dart';
 import 'package:Get_Table_App/widgets/generateTimeTable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,38 +20,66 @@ class DynamicList extends State<TimeTable> {
       children: [
         Scaffold(
           body: SingleChildScrollView(
-              child: context.watch<UserBloc>().timetable != null
-                  ? Table(
-                      border: TableBorder.all(),
-                      children: context.watch<UserBloc>().timetable != null
-                          ? generateTimeTable(context)
-                          : [],
-                      columnWidths: {
-                        0: FlexColumnWidth(2),
-                        1: FlexColumnWidth(4),
-                        2: FlexColumnWidth(4),
-                        3: FlexColumnWidth(4),
-                        4: FlexColumnWidth(4),
-                        5: FlexColumnWidth(4),
-                      },
-                    )
-                  : Center(
-                      child: Text(
-                      "You have to Login",
-                      style: TextStyle(fontSize: 20),
-                    ))),
+            child: context.watch<UserBloc>().timetable != null
+                ? Column(
+                    children: [
+                      MaterialBanner(
+                        // TODO display A or B week here
+                        content: Text(''),
+                        actions: [
+                          RaisedButton(
+                            child: Chip(
+                              avatar: Icon(Icons.edit),
+                              label: Text("Edit"),
+                            ),
+                            onPressed: () {
+                              context.read<IndexTimeTableBloc>().set(1);
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Table(
+                          border: TableBorder.all(),
+                          children: context.watch<UserBloc>().timetable != null
+                              ? generateTimeTable(context)
+                              : [],
+                          columnWidths: {
+                            0: FlexColumnWidth(2),
+                            1: FlexColumnWidth(4),
+                            2: FlexColumnWidth(4),
+                            3: FlexColumnWidth(4),
+                            4: FlexColumnWidth(4),
+                            5: FlexColumnWidth(4),
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : MaterialBanner(
+                    leading: Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    ),
+                    content:
+                        const Text('You have to Login to see content here'),
+                    actions: [
+                      RaisedButton(
+                        child: Text("Login"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Login()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+          ),
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
-            leading: IconButton(
-              icon: Icon(
-                Icons.settings,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                context.read<IndexMainBloc>().set(3);
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
             title: Center(
               child: const Text(
                 'TimeTable',
@@ -61,20 +89,6 @@ class DynamicList extends State<TimeTable> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  "edit",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-                onPressed: () {
-                  context.read<IndexTimeTableBloc>().set(1);
-                },
-              ),
-            ],
           ),
         ),
         Scaffold(
