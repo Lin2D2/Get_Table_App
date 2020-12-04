@@ -9,7 +9,6 @@ import 'package:page_transition/page_transition.dart';
 import 'blocs/formDataRawBloc.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/indexTableViewBloc.dart';
-import 'blocs/themeBloc.dart';
 import 'blocs/timeTableApiBloc.dart';
 import 'blocs/timeTableItemsBlock.dart';
 import 'sites/home.dart';
@@ -90,7 +89,7 @@ class HomeRoute extends StatelessWidget {
           if (constraints.maxWidth < 600) {
             return Scaffold(
               body: SwipeDetector(
-                onSwipeRight: () {
+                onSwipeLeft: () {
                   Navigator.pushNamed(context, '/tableView');
                   context.read<IndexMainBloc>().increment();
                 },
@@ -113,7 +112,7 @@ class HomeRoute extends StatelessWidget {
                   VerticalDivider(thickness: 1, width: 1),
                   Expanded(
                     child: SwipeDetector(
-                      onSwipeRight: () {
+                      onSwipeLeft: () {
                         Navigator.pushNamed(context, '/tableView');
                         context.read<IndexMainBloc>().increment();
                       },
@@ -146,11 +145,11 @@ class TableViewRoute extends StatelessWidget {
           if (constraints.maxWidth < 600) {
             return Scaffold(
               body: SwipeDetector(
-                onSwipeRight: () {
+                onSwipeLeft: () {
                   context.read<IndexMainBloc>().increment();
                   Navigator.pushNamed(context, '/timeTable');
                 },
-                onSwipeLeft: () {
+                onSwipeRight: () {
                   context.read<IndexMainBloc>().decrement();
                   Navigator.pushNamed(context, '/home');
                 },
@@ -173,11 +172,11 @@ class TableViewRoute extends StatelessWidget {
                   VerticalDivider(thickness: 1, width: 1),
                   Expanded(
                     child: SwipeDetector(
-                      onSwipeRight: () {
+                      onSwipeLeft: () {
                         context.read<IndexMainBloc>().increment();
                         Navigator.pushNamed(context, '/timeTable');
                       },
-                      onSwipeLeft: () {
+                      onSwipeRight: () {
                         context.read<IndexMainBloc>().decrement();
                         Navigator.pushNamed(context, '/home');
                       },
@@ -210,11 +209,11 @@ class TimeTableRoute extends StatelessWidget {
           if (constraints.maxWidth < 600) {
             return Scaffold(
               body: SwipeDetector(
-                onSwipeRight: () {
+                onSwipeLeft: () {
                   context.read<IndexMainBloc>().increment();
                   Navigator.pushNamed(context, '/settings');
                 },
-                onSwipeLeft: () {
+                onSwipeRight: () {
                   context.read<IndexMainBloc>().decrement();
                   Navigator.pushNamed(context, '/tableView');
                 },
@@ -243,11 +242,11 @@ class TimeTableRoute extends StatelessWidget {
                   VerticalDivider(thickness: 1, width: 1),
                   Expanded(
                     child: SwipeDetector(
-                      onSwipeRight: () {
+                      onSwipeLeft: () {
                         context.read<IndexMainBloc>().increment();
                         Navigator.pushNamed(context, '/settings');
                       },
-                      onSwipeLeft: () {
+                      onSwipeRight: () {
                         context.read<IndexMainBloc>().decrement();
                         Navigator.pushNamed(context, '/tableView');
                       },
@@ -286,7 +285,7 @@ class SettingsRoute extends StatelessWidget {
           if (constraints.maxWidth < 600) {
             return Scaffold(
               body: SwipeDetector(
-                onSwipeLeft: () {
+                onSwipeRight: () {
                   context.read<IndexMainBloc>().decrement();
                   Navigator.pushNamed(context, '/timeTable');
                 },
@@ -302,7 +301,7 @@ class SettingsRoute extends StatelessWidget {
                   VerticalDivider(thickness: 1, width: 1),
                   Expanded(
                     child: SwipeDetector(
-                      onSwipeLeft: () {
+                      onSwipeRight: () {
                         context.read<IndexMainBloc>().decrement();
                         Navigator.pushNamed(context, '/timeTable');
                       },
