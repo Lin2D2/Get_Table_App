@@ -206,6 +206,7 @@ List<TableRow> generateTimeTable(BuildContext context,
                         ? dayMap[lessonKey]["subject"] +
                             " / " +
                             dayMap[(int.parse(lessonKey) + 1).toString()]
+                                ["subject"]
                         : dayMap[lessonKey]["subject"] + " / ---",
                     textAlign: TextAlign.center,
                     style: bodyStyle,
