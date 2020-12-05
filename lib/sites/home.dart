@@ -286,7 +286,7 @@ class DynamicList extends State<Home> {
                                   'but you can filter the table'),
                               actions: [
                                 SizedBox(
-                                  width: 235,
+                                  width: 190,
                                   height: 50,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -307,7 +307,7 @@ class DynamicList extends State<Home> {
                                           },
                                         ),
                                       ),
-                                      Text("Filter for Year:"),
+                                      Text("Year:"),
                                       Padding(
                                         padding: EdgeInsets.all(5),
                                         child: Container(
