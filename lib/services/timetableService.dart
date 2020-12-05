@@ -94,6 +94,7 @@ class TimeTableService {
       "thursday": _thursday,
       "friday": _friday
     };
+    // TODO the year: parameter is missing
     timeTable.putIfAbsent(
         "login",
             () =>
@@ -109,7 +110,7 @@ class TimeTableService {
     switch (response) {
       case "success":
         {
-          // to stuff
+          context.read<UserBloc>().timetable = timeTable;
           break;
         }
     }
