@@ -20,43 +20,57 @@ class DynamicList extends State<TimeTable> {
       children: [
         Scaffold(
           body: SingleChildScrollView(
-            child: context.watch<UserBloc>().timetable != null
-                ? Column(
-                    children: [
-                      MaterialBanner(
+            child: context.watch<UserBloc>().userTitle != null
+                ? context.watch<UserBloc>().timetable != null
+                    ? Column(
+                        children: [
+                          MaterialBanner(
+                            // TODO display A or B week here
+                            content: Text(''),
+                            actions: [
+                              RaisedButton(
+                                child: Chip(
+                                  avatar: Icon(Icons.edit),
+                                  label: Text("Edit"),
+                                ),
+                                onPressed: () {
+                                  context.read<IndexTimeTableBloc>().set(1);
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Table(
+                              border: TableBorder.all(),
+                              children: generateTimeTable(context),
+                              columnWidths: {
+                                0: FlexColumnWidth(2),
+                                1: FlexColumnWidth(4),
+                                2: FlexColumnWidth(4),
+                                3: FlexColumnWidth(4),
+                                4: FlexColumnWidth(4),
+                                5: FlexColumnWidth(4),
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    : MaterialBanner(
                         // TODO display A or B week here
-                        content: Text(''),
+                        content: Text('You have to create a TimeTable'),
                         actions: [
                           RaisedButton(
                             child: Chip(
                               avatar: Icon(Icons.edit),
-                              label: Text("Edit"),
+                              label: Text("Create"),
                             ),
                             onPressed: () {
                               context.read<IndexTimeTableBloc>().set(1);
                             },
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Table(
-                          border: TableBorder.all(),
-                          children: context.watch<UserBloc>().timetable != null
-                              ? generateTimeTable(context)
-                              : [],
-                          columnWidths: {
-                            0: FlexColumnWidth(2),
-                            1: FlexColumnWidth(4),
-                            2: FlexColumnWidth(4),
-                            3: FlexColumnWidth(4),
-                            4: FlexColumnWidth(4),
-                            5: FlexColumnWidth(4),
-                          },
-                        ),
-                      ),
-                    ],
-                  )
+                      )
                 : MaterialBanner(
                     leading: Icon(
                       Icons.error,

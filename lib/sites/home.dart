@@ -1,4 +1,5 @@
 import 'package:Get_Table_App/blocs/filterTable.dart';
+import 'package:Get_Table_App/blocs/indexMainBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/services/dayOfWeek.dart';
@@ -22,7 +23,8 @@ class DynamicList extends State<Home> {
     TextEditingController _filterController = TextEditingController();
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (sliverContext, innerBoxScrolled) => [
+        headerSliverBuilder: (sliverContext, innerBoxScrolled) =>
+        [
           SliverAppBar(
             elevation: 10,
             forceElevated: true,
@@ -97,300 +99,333 @@ class DynamicList extends State<Home> {
             //context.watch<TimeTableApiBloc>.refresh();
           },
           child: ListView(
-            children: context.watch<UserBloc>().timetable != null
+            children: context
+                .watch<UserBloc>()
+                .timetable != null
+            // TODO check if user is login or if he has a timetable
                 ? [
-                    FutureBuilder<Day>(
-                      future: context.watch<TimeTableApiBloc>().dayToday,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          String weekday = snapshot.data.day["title"]
-                              .toString()
-                              .split(" ")[1];
-                          return createDashboardCard(
-                            "TimeTable " + weekday,
-                            Table(
-                              border: TableBorder.all(),
-                              children: generateTimeTable(context,
-                                  dayOfWeek: getdayOfWeek(weekDay: weekday),
-                                  today: true),
-                            ),
-                          );
-                        } else if (snapshot.hasError) {
-                          print(snapshot.error);
-                          return createDashboardCard(
-                              "TimeTable Today",
-                              Center(
-                                child: Text(
-                                  "Sever not reachable",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ));
-                        }
-                        return createDashboardCard(
-                            "TimeTable Today",
-                            Center(
-                              child: CircularProgressIndicator(),
-                            ));
-                      },
-                    ),
-                    FutureBuilder<Day>(
-                      future: context.watch<TimeTableApiBloc>().dayToday,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return LayoutBuilder(
-                              builder: (layoutBuilderContext, constraints) {
-                            List titleList = snapshot.data.day["title"]
-                                .toString()
-                                .split(" ");
-                            titleList = [titleList[0].split(".")[0] + "."] +
-                                [titleList[1], titleList[3], titleList[2]];
-                            if (constraints.maxWidth > 600) {
-                              return createDashboardCard(
-                                  titleList.join(" "),
-                                  createAbsentsTable(
-                                      snapshot.data.day["header"],
-                                      snapshot.data.day["content"],
-                                      year: layoutBuilderContext
-                                          .watch<UserBloc>()
-                                          .year));
-                            } else {
-                              return createDashboardCard(
-                                  titleList.join(" "),
-                                  createAbsentsTable(
-                                      snapshot.data.day["header"],
-                                      snapshot.data.day["content"],
-                                      year: layoutBuilderContext
-                                          .watch<UserBloc>()
-                                          .year,
-                                      smallScreen: true));
-                            }
-                          });
-                        } else if (snapshot.hasError) {
-                          print(snapshot.error);
-                          return createDashboardCard(
-                              "Overview Today",
-                              Center(
-                                child: Text(
-                                  "Sever not reachable",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ));
-                        }
-                        return createDashboardCard(
-                            "Overview Today",
-                            Center(
-                              child: CircularProgressIndicator(),
-                            ));
-                      },
-                    ),
-                    FutureBuilder<Day>(
-                      future: context.watch<TimeTableApiBloc>().dayTomorrow,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          String weekday = snapshot.data.day["title"]
-                              .toString()
-                              .split(" ")[1];
-                          return createDashboardCard(
-                            "TimeTable " + weekday,
-                            Table(
-                              border: TableBorder.all(),
-                              children: generateTimeTable(context,
-                                  dayOfWeek: getdayOfWeek(weekDay: weekday),
-                                  today: false),
-                            ),
-                          );
-                        } else if (snapshot.hasError) {
-                          print(snapshot.error);
-                          return createDashboardCard(
-                              "TimeTable Tomorow",
-                              Center(
-                                child: Text(
-                                  "Sever not reachable",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ));
-                        }
-                        return createDashboardCard(
-                            "TimeTable Tomorow",
-                            Center(
-                              child: CircularProgressIndicator(),
-                            ));
-                      },
-                    ),
-                    FutureBuilder<Day>(
-                      future: context.watch<TimeTableApiBloc>().dayTomorrow,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return LayoutBuilder(
-                              builder: (layoutBuilderContext, constraints) {
-                            List titleList = snapshot.data.day["title"]
-                                .toString()
-                                .split(" ");
-                            titleList = [titleList[0].split(".")[0] + "."] +
-                                [titleList[1], titleList[3], titleList[2]];
-                            if (constraints.maxWidth > 600) {
-                              return createDashboardCard(
-                                  titleList.join(" "),
-                                  createAbsentsTable(
-                                      snapshot.data.day["header"],
-                                      snapshot.data.day["content"],
-                                      year: layoutBuilderContext
-                                          .watch<UserBloc>()
-                                          .year));
-                            } else {
-                              return createDashboardCard(
-                                  titleList.join(" "),
-                                  createAbsentsTable(
-                                      snapshot.data.day["header"],
-                                      snapshot.data.day["content"],
-                                      year: layoutBuilderContext
-                                          .watch<UserBloc>()
-                                          .year,
-                                      smallScreen: true));
-                            }
-                          });
-                        } else if (snapshot.hasError) {
-                          print(snapshot.error);
-                          return createDashboardCard(
-                              "Overview Tomorrow",
-                              Center(
-                                child: Text(
-                                  "Sever not reachable",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ));
-                        }
-                        return createDashboardCard(
-                            "Overview Tomorrow",
-                            Center(
-                              child: CircularProgressIndicator(),
-                            ));
-                      },
-                    ),
-                  ]
-                : [
-                    Card(
-                      color: Colors.white,
-                      elevation: 5.0,
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          if (constraints.maxWidth < 600) {
-                            return MaterialBanner(
-                              forceActionsBelow: true,
-                              leading: Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              ),
-                              content: Text(
-                                  'You have to Login to see Personalised content, '
-                                  'but you can filter the table'),
-                              actions: [
-                                SizedBox(
-                                  width: 190,
-                                  height: 50,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: RaisedButton(
-                                          child: Text("Login"),
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Login()),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      Text("Year:"),
-                                      Padding(
-                                        padding: EdgeInsets.all(5),
-                                        child: Container(
-                                          width: 40,
-                                          child: TextField(
-                                            textAlignVertical:
-                                                TextAlignVertical.center,
-                                            controller: _filterController,
-                                            onChanged: (value) {
-                                              context
-                                                  .read<FilterTable>()
-                                                  .filterValue = value;
-                                            },
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            );
-                          } else {
-                            return MaterialBanner(
-                              leading: Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              ),
-                              content: Text(
-                                  'You have to Login to see Personalised content, '
-                                  'but you can filter the table'),
-                              actions: [
-                                SizedBox(
-                                  width: 235,
-                                  height: 50,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: RaisedButton(
-                                          child: Text("Login"),
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Login()),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      Text("Filter for Year:"),
-                                      Padding(
-                                        padding: EdgeInsets.all(5),
-                                        child: Container(
-                                          width: 40,
-                                          child: TextField(
-                                            textAlignVertical:
-                                                TextAlignVertical.center,
-                                            controller: _filterController,
-                                            onChanged: (value) {
-                                              context
-                                                  .read<FilterTable>()
-                                                  .filterValue = value;
-                                            },
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
-                        },
+              FutureBuilder<Day>(
+                future: context
+                    .watch<TimeTableApiBloc>()
+                    .dayToday,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    String weekday = snapshot.data.day["title"]
+                        .toString()
+                        .split(" ")[1];
+                    return createDashboardCard(
+                      "TimeTable " + weekday,
+                      Table(
+                        border: TableBorder.all(),
+                        children: generateTimeTable(context,
+                            dayOfWeek: getdayOfWeek(weekDay: weekday),
+                            today: true),
                       ),
-                    ),
-                    DayTable(),
-                  ],
+                    );
+                  } else if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return createDashboardCard(
+                        "TimeTable Today",
+                        Center(
+                          child: Text(
+                            "Sever not reachable",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ));
+                  }
+                  return createDashboardCard(
+                      "TimeTable Today",
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ));
+                },
+              ),
+              FutureBuilder<Day>(
+                future: context
+                    .watch<TimeTableApiBloc>()
+                    .dayToday,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return LayoutBuilder(
+                        builder: (layoutBuilderContext, constraints) {
+                          List titleList = snapshot.data.day["title"]
+                              .toString()
+                              .split(" ");
+                          titleList = [titleList[0].split(".")[0] + "."] +
+                              [titleList[1], titleList[3], titleList[2]];
+                          if (constraints.maxWidth > 600) {
+                            return createDashboardCard(
+                                titleList.join(" "),
+                                createAbsentsTable(
+                                    snapshot.data.day["header"],
+                                    snapshot.data.day["content"],
+                                    year: layoutBuilderContext
+                                        .watch<UserBloc>()
+                                        .year));
+                          } else {
+                            return createDashboardCard(
+                                titleList.join(" "),
+                                createAbsentsTable(
+                                    snapshot.data.day["header"],
+                                    snapshot.data.day["content"],
+                                    year: layoutBuilderContext
+                                        .watch<UserBloc>()
+                                        .year,
+                                    smallScreen: true));
+                          }
+                        });
+                  } else if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return createDashboardCard(
+                        "Overview Today",
+                        Center(
+                          child: Text(
+                            "Sever not reachable",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ));
+                  }
+                  return createDashboardCard(
+                      "Overview Today",
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ));
+                },
+              ),
+              FutureBuilder<Day>(
+                future: context
+                    .watch<TimeTableApiBloc>()
+                    .dayTomorrow,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    String weekday = snapshot.data.day["title"]
+                        .toString()
+                        .split(" ")[1];
+                    return createDashboardCard(
+                      "TimeTable " + weekday,
+                      Table(
+                        border: TableBorder.all(),
+                        children: generateTimeTable(context,
+                            dayOfWeek: getdayOfWeek(weekDay: weekday),
+                            today: false),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return createDashboardCard(
+                        "TimeTable Tomorow",
+                        Center(
+                          child: Text(
+                            "Sever not reachable",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ));
+                  }
+                  return createDashboardCard(
+                      "TimeTable Tomorow",
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ));
+                },
+              ),
+              FutureBuilder<Day>(
+                future: context
+                    .watch<TimeTableApiBloc>()
+                    .dayTomorrow,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return LayoutBuilder(
+                        builder: (layoutBuilderContext, constraints) {
+                          List titleList = snapshot.data.day["title"]
+                              .toString()
+                              .split(" ");
+                          titleList = [titleList[0].split(".")[0] + "."] +
+                              [titleList[1], titleList[3], titleList[2]];
+                          if (constraints.maxWidth > 600) {
+                            return createDashboardCard(
+                                titleList.join(" "),
+                                createAbsentsTable(
+                                    snapshot.data.day["header"],
+                                    snapshot.data.day["content"],
+                                    year: layoutBuilderContext
+                                        .watch<UserBloc>()
+                                        .year));
+                          } else {
+                            return createDashboardCard(
+                                titleList.join(" "),
+                                createAbsentsTable(
+                                    snapshot.data.day["header"],
+                                    snapshot.data.day["content"],
+                                    year: layoutBuilderContext
+                                        .watch<UserBloc>()
+                                        .year,
+                                    smallScreen: true));
+                          }
+                        });
+                  } else if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return createDashboardCard(
+                        "Overview Tomorrow",
+                        Center(
+                          child: Text(
+                            "Sever not reachable",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ));
+                  }
+                  return createDashboardCard(
+                      "Overview Tomorrow",
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ));
+                },
+              ),
+            ] : [
+              Card(
+                color: Colors.white,
+                elevation: 5.0,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth < 600) {
+                      return MaterialBanner(
+                        forceActionsBelow: true,
+                        leading: Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        ),
+                        content: Text(context
+                            .watch<UserBloc>()
+                            .userTitle ==
+                            null
+                            ? 'You have to Login to see Personalised content, '
+                            'but you can filter the table'
+                            : 'You have to Create an TimeTable to see Personalised content'),
+                        actions: [
+                          SizedBox(
+                            width: context
+                                .watch<UserBloc>()
+                                .userTitle ==
+                                null
+                                ? 190
+                                : 225,
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: context
+                                      .watch<UserBloc>()
+                                      .userTitle ==
+                                      null
+                                      ? RaisedButton(
+                                    child: Text("Login"),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Login()),
+                                      );
+                                    },
+                                  )
+                                      : RaisedButton(
+                                    child: Chip(
+                                      avatar: Icon(Icons.edit),
+                                      label: Text("Create"),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, "/timeTable");
+                                      context.read<IndexMainBloc>().set(2);
+                                    },
+                                  ),
+                                ),
+                                Text("Year:"),
+                                Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: Container(
+                                    width: 40,
+                                    child: TextField(
+                                      textAlignVertical:
+                                      TextAlignVertical.center,
+                                      controller: _filterController,
+                                      onChanged: (value) {
+                                        context
+                                            .read<FilterTable>()
+                                            .filterValue = value;
+                                      },
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return MaterialBanner(
+                        leading: Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        ),
+                        content: Text(
+                            'You have to Login to see Personalised content, '
+                                'but you can filter the table'),
+                        actions: [
+                          SizedBox(
+                            width: 190,
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: RaisedButton(
+                                    child: Text("Login"),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Login()),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Text("Year:"),
+                                Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: Container(
+                                    width: 40,
+                                    child: TextField(
+                                      textAlignVertical:
+                                      TextAlignVertical.center,
+                                      controller: _filterController,
+                                      onChanged: (value) {
+                                        context
+                                            .read<FilterTable>()
+                                            .filterValue = value;
+                                      },
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                ),
+              ),
+              DayTable(),
+            ],
           ),
         ),
       ),
@@ -411,7 +446,9 @@ class _DayState extends State<DayTable> {
     return createDashboardCard(
       "Overview Today",
       FutureBuilder<Day>(
-        future: context.watch<TimeTableApiBloc>().dayToday,
+        future: context
+            .watch<TimeTableApiBloc>()
+            .dayToday,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return LayoutBuilder(builder: (layoutBuilderContext, constraints) {
@@ -419,11 +456,15 @@ class _DayState extends State<DayTable> {
                 return createAbsentsTable(
                     snapshot.data.day["header"], snapshot.data.day["content"],
                     year:
-                        layoutBuilderContext.watch<FilterTable>().filterValue);
+                    layoutBuilderContext
+                        .watch<FilterTable>()
+                        .filterValue);
               } else {
                 return createAbsentsTable(
                     snapshot.data.day["header"], snapshot.data.day["content"],
-                    year: layoutBuilderContext.watch<FilterTable>().filterValue,
+                    year: layoutBuilderContext
+                        .watch<FilterTable>()
+                        .filterValue,
                     smallScreen: true);
               }
             });
