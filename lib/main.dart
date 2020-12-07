@@ -6,6 +6,7 @@ import 'package:Get_Table_App/widgets/bottomNavigationBar.dart';
 import 'package:Get_Table_App/widgets/sideNavigationRail.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:workmanager/workmanager.dart';
 import 'blocs/formDataRawBloc.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/indexTableViewBloc.dart';
@@ -17,9 +18,43 @@ import 'sites/timetable.dart';
 import 'package:swipedetector/swipedetector.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void callbackDispatcher() {
+  Workmanager.executeTask((task, inputData) {
+    var backgroundTask = "BackgroundFetch";
+    switch (task) {
+      case Workmanager.iOSBackgroundTask:
+        print("IOS called background task: $backgroundTask");
+        break;
+      case "BackgroundFetch":
+        print("Android called background task: $backgroundTask");
+        break;
+    }
+    return Future.value(true);
+  });
+}
 
-/// This Widget is the main application widget.
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // Workmanager.initialize(
+  //   callbackDispatcher,
+  //   isInDebugMode: true,
+  // );
+  // Workmanager.cancelByTag("BackgroundFetch");
+  // Workmanager.registerPeriodicTask(
+  //   "BackgroundFetch",
+  //   "BackgroundFetch",
+  //   tag: "BackgroundFetch",
+  //   frequency: Duration(minutes: 15),
+  //   initialDelay: Duration(seconds: 0),
+  //   constraints: Constraints(
+  //     networkType: NetworkType.connected,
+  //     // requiresBatteryNotLow: true,
+  //   ),
+  //   inputData: {"dummy": false},
+  // );
+  runApp(MyApp());
+}
+
 class MyApp extends StatelessWidget {
   static const String _title = 'Time Table App';
 
