@@ -220,7 +220,7 @@ List<TableRow> generateTimeTable(BuildContext context,
         }
       }
     }
-    for (int i = 0; i <= doubleLessons.length - dayRowChildren.length; i++) {
+    for (int i = doubleLessons.length - dayRowChildren.length; i > 0 ; i--) {
       if (dayRowChildren.length < doubleLessons.length) {
         dayRowChildren.add(
           TableCell(
