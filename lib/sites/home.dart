@@ -1,6 +1,6 @@
 import 'package:Get_Table_App/blocs/filterTable.dart';
 import 'package:Get_Table_App/blocs/indexMainBloc.dart';
-import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
+import 'package:Get_Table_App/blocs/absentsTableApiBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/sites/settings.dart';
 import 'package:Get_Table_App/types/day.dart';
@@ -102,20 +102,20 @@ class DynamicList extends State<Home> {
                 ? [
                     TimeTableFuture(
                         futureObject:
-                            context.watch<TimeTableApiBloc>().dayToday,
+                            context.watch<AbsentsTableApiBloc>().dayToday,
                         today: true),
                     AbsentsTableFuture(
-                      futureObject: context.watch<TimeTableApiBloc>().dayToday,
+                      futureObject: context.watch<AbsentsTableApiBloc>().dayToday,
                       filter: context.watch<UserBloc>().year,
                       title: true,
                     ),
                     TimeTableFuture(
                         futureObject:
-                            context.watch<TimeTableApiBloc>().dayTomorrow,
+                            context.watch<AbsentsTableApiBloc>().dayTomorrow,
                         today: false),
                     AbsentsTableFuture(
                       futureObject:
-                          context.watch<TimeTableApiBloc>().dayTomorrow,
+                          context.watch<AbsentsTableApiBloc>().dayTomorrow,
                       filter: context.watch<UserBloc>().year,
                       title: true,
                     ),
@@ -285,7 +285,7 @@ class _DayState extends State<DayTable> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Day>(
-      future: context.watch<TimeTableApiBloc>().dayToday,
+      future: context.watch<AbsentsTableApiBloc>().dayToday,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return LayoutBuilder(builder: (layoutBuilderContext, constraints) {

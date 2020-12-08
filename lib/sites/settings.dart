@@ -129,7 +129,7 @@ class Login extends StatelessWidget {
                       };
                       print(loginMap);
                       UserPost response =
-                          await TimeTableApi.userPostRequest(loginMap);
+                          await ApiRoutes.userPostRequest(loginMap);
                       switch (response.state) {
                         case "success":
                           {

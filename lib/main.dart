@@ -10,7 +10,7 @@ import 'package:workmanager/workmanager.dart';
 import 'blocs/formDataRawBloc.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/indexTableViewBloc.dart';
-import 'blocs/timeTableApiBloc.dart';
+import 'blocs/absentsTableApiBloc.dart';
 import 'blocs/timeTableItemsBlock.dart';
 import 'sites/home.dart';
 import 'sites/tableview.dart';
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
           create: (_) => UserBloc(),
         ),
         ChangeNotifierProvider(
-          create: (_) => TimeTableApiBloc(),
+          create: (_) => AbsentsTableApiBloc(),
         ),
       ],
       child: MaterialApp(

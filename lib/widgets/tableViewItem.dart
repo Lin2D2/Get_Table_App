@@ -7,7 +7,7 @@ import 'absentsTable.dart';
 Widget tableViewItem(String title, BuildContext context) {
   return Scaffold(
     body: FutureBuilder<Day>(
-      future: TimeTableApi.fetchDay(title),
+      future: ApiRoutes.fetchDay(title),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SingleChildScrollView(

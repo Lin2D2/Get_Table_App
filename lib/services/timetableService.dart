@@ -106,7 +106,7 @@ class TimeTableService {
               .read<UserBloc>()
               .password
         });
-    String response = (await TimeTableApi.timeTablePostRequest(timeTable));
+    String response = (await ApiRoutes.timeTablePostRequest(timeTable));
     switch (response) {
       case "success":
         {

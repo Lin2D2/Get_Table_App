@@ -53,7 +53,7 @@ class ApiBaseHelper {
   }
 }
 
-class TimeTableApi {
+class ApiRoutes {
   static const String _daysConst = 'days';
   static const String _dayConst = 'day';
   static const String _tomorrowTodayConst = 'today-tomorrow';

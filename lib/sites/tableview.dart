@@ -1,5 +1,5 @@
 import 'package:Get_Table_App/blocs/indexTableViewBloc.dart';
-import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
+import 'package:Get_Table_App/blocs/absentsTableApiBloc.dart';
 import 'package:Get_Table_App/widgets/absentsTableStatefulFuture.dart';
 import 'package:Get_Table_App/widgets/tableViewItem.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class _TableViewState extends State<TableView> {
         Scaffold(
           body: SingleChildScrollView(
             child: AbsentsTableFuture(
-                futureObject: context.watch<TimeTableApiBloc>().dayToday),
+                futureObject: context.watch<AbsentsTableApiBloc>().dayToday),
           ),
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -40,7 +40,7 @@ class _TableViewState extends State<TableView> {
             // TODO center title
             title: Center(
               child: FutureBuilder<Day>(
-                future: context.watch<TimeTableApiBloc>().dayToday,
+                future: context.watch<AbsentsTableApiBloc>().dayToday,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data.day["title"] != null) {
@@ -117,7 +117,7 @@ class _TableViewState extends State<TableView> {
         Scaffold(
           body: SingleChildScrollView(
             child: AbsentsTableFuture(
-                futureObject: context.watch<TimeTableApiBloc>().dayTomorrow),
+                futureObject: context.watch<AbsentsTableApiBloc>().dayTomorrow),
           ),
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -132,7 +132,7 @@ class _TableViewState extends State<TableView> {
             // TODO center title
             title: Center(
               child: FutureBuilder<Day>(
-                future: context.watch<TimeTableApiBloc>().dayTomorrow,
+                future: context.watch<AbsentsTableApiBloc>().dayTomorrow,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data.day["title"] != null) {
@@ -208,7 +208,7 @@ class _TableViewState extends State<TableView> {
         ),
         Scaffold(
           body: FutureBuilder<Days>(
-            future: context.watch<TimeTableApiBloc>().days,
+            future: context.watch<AbsentsTableApiBloc>().days,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return GridView.extent(
