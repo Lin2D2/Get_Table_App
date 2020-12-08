@@ -1,6 +1,6 @@
 import 'package:Get_Table_App/blocs/indexTableViewBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableApiBloc.dart';
-import 'package:Get_Table_App/widgets/absentsTable.dart';
+import 'package:Get_Table_App/widgets/absentsTableStatefulFuture.dart';
 import 'package:Get_Table_App/widgets/tableViewItem.dart';
 import 'package:flutter/material.dart';
 import 'package:Get_Table_App/types/days.dart';
@@ -23,67 +23,9 @@ class _TableViewState extends State<TableView> {
       index: context.watch<IndexTableViewBloc>().index,
       children: [
         Scaffold(
-          body: FutureBuilder<Day>(
-            future: context.watch<TimeTableApiBloc>().dayToday,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.day["massage"] != null) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          // TODO make this minimal width so there is no free space next to the Text
-                          padding: EdgeInsets.all(8),
-                          child: Card(
-                            child: Column(
-                              children: [
-                                Center(
-                                  child: Text(
-                                    "Nachrichten zum Tag:",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Text(snapshot.data.day["massage"]),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                          child: LayoutBuilder(
-                              builder: (layoutBuilderContext, constraints) {
-                                if (constraints.maxWidth > 600) {
-                                  return createAbsentsTable(
-                                    snapshot.data.day["header"],
-                                    snapshot.data.day["content"],
-                                  );
-                                } else {
-                                  return createAbsentsTable(
-                                      snapshot.data.day["header"],
-                                      snapshot.data.day["content"],
-                                      smallScreen: true);
-                                }
-                              }),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              } else if (snapshot.hasError) {
-                print(snapshot.error);
-                return Container();
-              }
-
-              // By default, show a loading spinner.
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
+          body: SingleChildScrollView(
+            child: AbsentsTableFuture(
+                futureObject: context.watch<TimeTableApiBloc>().dayToday),
           ),
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -173,67 +115,9 @@ class _TableViewState extends State<TableView> {
           ),
         ),
         Scaffold(
-          body: FutureBuilder<Day>(
-            future: context.watch<TimeTableApiBloc>().dayTomorrow,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.day["massage"] != null) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          // TODO make this minimal width so there is no free space next to the Text
-                          padding: EdgeInsets.all(8),
-                          child: Card(
-                            child: Column(
-                              children: [
-                                Center(
-                                  child: Text(
-                                    "Nachrichten zum Tag:",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Text(snapshot.data.day["massage"]),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                          child: LayoutBuilder(
-                              builder: (layoutBuilderContext, constraints) {
-                            if (constraints.maxWidth > 600) {
-                              return createAbsentsTable(
-                                snapshot.data.day["header"],
-                                snapshot.data.day["content"],
-                              );
-                            } else {
-                              return createAbsentsTable(
-                                  snapshot.data.day["header"],
-                                  snapshot.data.day["content"],
-                                  smallScreen: true);
-                            }
-                          }),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              } else if (snapshot.hasError) {
-                print(snapshot.error);
-                return Container();
-              }
-
-              // By default, show a loading spinner.
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
+          body: SingleChildScrollView(
+            child: AbsentsTableFuture(
+                futureObject: context.watch<TimeTableApiBloc>().dayTomorrow),
           ),
           appBar: AppBar(
             backgroundColor: Colors.white,
