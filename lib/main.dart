@@ -1,5 +1,4 @@
 import 'package:Get_Table_App/blocs/filterTable.dart';
-import 'package:Get_Table_App/blocs/indexTimeTableBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/sites/settings.dart';
 import 'package:Get_Table_App/widgets/bottomNavigationBar.dart';
@@ -258,9 +257,6 @@ class TimeTableRoute extends StatelessWidget {
                       create: (_) => TimeTableItemsBlock(),
                     ),
                     ChangeNotifierProvider(
-                      create: (_) => IndexTimeTableBloc(),
-                    ),
-                    ChangeNotifierProvider(
                       create: (_) => FormDataRawBloc(),
                     ),
                   ],
@@ -289,9 +285,6 @@ class TimeTableRoute extends StatelessWidget {
                         providers: [
                           ChangeNotifierProvider(
                             create: (_) => TimeTableItemsBlock(),
-                          ),
-                          ChangeNotifierProvider(
-                            create: (_) => IndexTimeTableBloc(),
                           ),
                           ChangeNotifierProvider(
                             create: (_) => FormDataRawBloc(),

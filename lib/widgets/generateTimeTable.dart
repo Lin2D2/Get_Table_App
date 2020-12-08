@@ -1,3 +1,4 @@
+import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ List singleLessons = [
 ];
 
 List<TableRow> generateTimeTable(BuildContext context,
-    {int dayOfWeek, bool today}) {
+    {int dayOfWeek, bool today, bool edit}) {
   TextStyle headerStyle =
       TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white);
   TextStyle bodyStyle =
@@ -108,11 +109,23 @@ List<TableRow> generateTimeTable(BuildContext context,
             dayRowChildren.add(
               TableCell(
                 verticalAlignment: TableCellVerticalAlignment.middle,
-                child: Text(
-                  dayMap[lessonKey]["subject"],
-                  textAlign: TextAlign.center,
-                  style: bodyStyle,
-                ),
+                child: edit
+                    ? FlatButton(
+                        onPressed: () {
+                          context.read<TimeTableItemsBlock>().selectedElement =
+                              {"day": dayKey, "lesson": doubleLesson};
+                        },
+                        child: Text(
+                          dayMap[lessonKey]["subject"],
+                          textAlign: TextAlign.center,
+                          style: bodyStyle,
+                        ),
+                      )
+                    : Text(
+                        dayMap[lessonKey]["subject"],
+                        textAlign: TextAlign.center,
+                        style: bodyStyle,
+                      ),
               ),
             );
             buildLessons[dayIndex].add(lessonKey);
@@ -122,27 +135,60 @@ List<TableRow> generateTimeTable(BuildContext context,
               doubleLesson.toString().split("/").contains(lessonKey)) {
             dayRowChildren.add(
               TableCell(
-                child: Column(
-                  children: [
-                    Text(
-                      dayMap[lessonKey]["subject"],
-                      textAlign: TextAlign.center,
-                      style: bodyStyle,
-                    ),
-                    dayMap.keys.contains((int.parse(lessonKey) + 1).toString())
-                        ? Text(
-                            dayMap[(int.parse(lessonKey) + 1).toString()]
-                                ["subject"],
-                            textAlign: TextAlign.center,
-                            style: bodyStyle,
-                          )
-                        : Text(
-                            "---",
+                child: edit
+                    ? FlatButton(
+                        onPressed: () {
+                          context.read<TimeTableItemsBlock>().selectedElement =
+                              {
+                            "day": dayKey,
+                            "lesson": doubleLesson,
+                          };
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              dayMap[lessonKey]["subject"],
+                              textAlign: TextAlign.center,
+                              style: bodyStyle,
+                            ),
+                            dayMap.keys.contains(
+                                    (int.parse(lessonKey) + 1).toString())
+                                ? Text(
+                                    dayMap[(int.parse(lessonKey) + 1)
+                                        .toString()]["subject"],
+                                    textAlign: TextAlign.center,
+                                    style: bodyStyle,
+                                  )
+                                : Text(
+                                    "---",
+                                    textAlign: TextAlign.center,
+                                    style: bodyStyle,
+                                  ),
+                          ],
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          Text(
+                            dayMap[lessonKey]["subject"],
                             textAlign: TextAlign.center,
                             style: bodyStyle,
                           ),
-                  ],
-                ),
+                          dayMap.keys.contains(
+                                  (int.parse(lessonKey) + 1).toString())
+                              ? Text(
+                                  dayMap[(int.parse(lessonKey) + 1).toString()]
+                                      ["subject"],
+                                  textAlign: TextAlign.center,
+                                  style: bodyStyle,
+                                )
+                              : Text(
+                                  "---",
+                                  textAlign: TextAlign.center,
+                                  style: bodyStyle,
+                                ),
+                        ],
+                      ),
               ),
             );
             buildLessons[dayIndex].add(lessonKey);
@@ -154,11 +200,25 @@ List<TableRow> generateTimeTable(BuildContext context,
           dayRowChildren.add(
             TableCell(
               verticalAlignment: TableCellVerticalAlignment.middle,
-              child: Text(
-                "---",
-                textAlign: TextAlign.center,
-                style: bodyStyle,
-              ),
+              child: edit
+                  ? FlatButton(
+                      onPressed: () {
+                        context.read<TimeTableItemsBlock>().selectedElement = {
+                          "day": dayKey,
+                          "lesson": doubleLesson
+                        };
+                      },
+                      child: Text(
+                        "---",
+                        textAlign: TextAlign.center,
+                        style: bodyStyle,
+                      ),
+                    )
+                  : Text(
+                      "---",
+                      textAlign: TextAlign.center,
+                      style: bodyStyle,
+                    ),
             ),
           );
         }
@@ -220,7 +280,7 @@ List<TableRow> generateTimeTable(BuildContext context,
         }
       }
     }
-    for (int i = doubleLessons.length - dayRowChildren.length; i > 0 ; i--) {
+    for (int i = doubleLessons.length - dayRowChildren.length; i > 0; i--) {
       if (dayRowChildren.length < doubleLessons.length) {
         dayRowChildren.add(
           TableCell(
