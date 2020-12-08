@@ -98,7 +98,7 @@ class DynamicList extends State<Home> {
             //context.watch<TimeTableApiBloc>.refresh();
           },
           child: ListView(
-            children: context.watch<UserBloc>().timetable != null
+            children: context.watch<UserBloc>().userTitle != null
                 ? [
                     TimeTableFuture(
                         futureObject:
