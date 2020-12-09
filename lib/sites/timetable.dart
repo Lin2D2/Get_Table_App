@@ -1,7 +1,8 @@
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
-import 'package:Get_Table_App/sites/settings.dart';
 import 'package:Get_Table_App/widgets/generateTimeTable.dart';
+import 'package:Get_Table_App/widgets/timeTableEdit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,10 +35,20 @@ class DynamicList extends State<TimeTable> {
                         onPressed: context.watch<TimeTableItemsBlock>().edit
                             ? () {
                                 // TODO need still to save data
+                                context.read<UserBloc>().timetable = context
+                                    .read<TimeTableItemsBlock>()
+                                    .copyTimeTable;
                                 context.read<TimeTableItemsBlock>().edit =
                                     false;
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .selectedElement = null;
                               }
                             : () {
+                                context
+                                        .read<TimeTableItemsBlock>()
+                                        .copyTimeTable =
+                                    context.read<UserBloc>().timetable;
                                 context.read<TimeTableItemsBlock>().edit = true;
                               },
                       ),
@@ -59,21 +70,10 @@ class DynamicList extends State<TimeTable> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 200,
-                    child: Container(
-                      child: Center(
-                        child: Text(
-                          context
-                              .watch<TimeTableItemsBlock>()
-                              .selectedElement
-                              .toString(),
-                        ),
-                      ),
-                      color: Colors.red,
-                    ),
-                  ),
+                  Divider(),
+                  context.watch<TimeTableItemsBlock>().edit
+                      ? TimeTableEdit()
+                      : Container(),
                 ],
               )
             : MaterialBanner(
