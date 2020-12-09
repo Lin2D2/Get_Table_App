@@ -1,5 +1,6 @@
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
+import 'package:Get_Table_App/sites/settings.dart';
 import 'package:Get_Table_App/widgets/generateTimeTable.dart';
 import 'package:Get_Table_App/widgets/timeTableEdit.dart';
 import 'package:flutter/cupertino.dart';
