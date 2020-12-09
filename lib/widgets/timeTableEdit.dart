@@ -9,17 +9,20 @@ class TimeTableEdit extends StatefulWidget {
 }
 
 class _TimeTableEditState extends State<TimeTableEdit> {
+  // TODO screen with smaller 375 brakes the Layout
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
-      height: 260,
+      height: 300,
       width: width,
       // context.read<TimeTableItemsBlock>().copyTimeTable
       child: Container(
         child: Column(
           children: context.watch<TimeTableItemsBlock>().selectedElement == null
               ? [
+                  TimeTableEditAddRow(),
+                  Divider(),
                   Center(
                     child: Padding(
                       padding: EdgeInsets.all(10),
@@ -30,6 +33,8 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                   ),
                 ]
               : [
+                  TimeTableEditAddRow(),
+                  Divider(),
                   Center(
                     child: Padding(
                       padding: EdgeInsets.all(10),
@@ -44,6 +49,7 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                       ),
                     ),
                   ),
+                  Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -56,7 +62,7 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                       Container(
                         width: 90,
                         child: Center(
-                          child: Text("lesson"),
+                          child: Text("subject"),
                         ),
                       ),
                       Container(
@@ -114,6 +120,7 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                             },
                           ),
                         ),
+                        // TODO Problem: CupertinoPicker only updates on scroll
                         Container(
                           width: 90,
                           child: CupertinoPicker.builder(
@@ -177,96 +184,289 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                       ],
                     ),
                   ),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        width: width / 4,
-                        height: 50,
-                        child: Column(
-                          children: [
-                            Text("add lesson"),
-                            Row(
-                              children: [
-                                Container(
-                                  width: width / 7,
-                                  height: 30,
-                                  child: TextField(),
-                                ),
-                                Container(
-                                  width: 40,
-                                  height: 30,
-                                  child: FlatButton(
-                                    padding: EdgeInsets.all(0.0),
-                                    child: Text("add"),
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: width / 4,
-                        height: 50,
-                        child: Column(
-                          children: [
-                            Text("add room"),
-                            Row(
-                              children: [
-                                Container(
-                                  width: width / 7,
-                                  height: 30,
-                                  child: TextField(),
-                                ),
-                                Container(
-                                  width: 40,
-                                  height: 30,
-                                  child: FlatButton(
-                                    padding: EdgeInsets.all(0.0),
-                                    child: Text("add"),
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: width / 4,
-                        height: 50,
-                        child: Column(
-                          children: [
-                            Text("add teacher"),
-                            Row(
-                              children: [
-                                Container(
-                                  width: width / 7,
-                                  height: 30,
-                                  child: TextField(),
-                                ),
-                                Container(
-                                  width: 40,
-                                  height: 30,
-                                  child: FlatButton(
-                                    padding: EdgeInsets.all(0.0),
-                                    child: Text("add"),
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
         ),
       ),
+    );
+  }
+}
+
+class TimeTableEditAddRow extends StatefulWidget {
+  TimeTableEditAddRow({Key key});
+
+  @override
+  State createState() => new _TimeTableEditAddRowState();
+}
+
+class _TimeTableEditAddRowState extends State<TimeTableEditAddRow> {
+  // TODO screen with smaller 375 brakes the Layout
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    TextEditingController _subjectController = TextEditingController();
+    TextEditingController _roomController = TextEditingController();
+    TextEditingController _teacherController = TextEditingController();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          width: width / 4,
+          height: 50,
+          child: Column(
+            children: [
+              Text("add subject"),
+              Row(
+                children: [
+                  Container(
+                    width: width / 7,
+                    height: 30,
+                    child: TextField(
+                      autocorrect: false,
+                      enableSuggestions: false,
+                      controller: _subjectController,
+                      onSubmitted: (value) {
+                        if (value.length > 0 && value.length < 3) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('added'),
+                            ),
+                          );
+                          context
+                              .read<TimeTableItemsBlock>()
+                              .subjectsAdd(value);
+                          print(context
+                              .read<TimeTableItemsBlock>().subjects);
+                        } else if (value.length == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('Enter some Text'),
+                            ),
+                          );
+                        } else if (value.length > 2) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text("Input can't be longer than 2"),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 40,
+                    height: 30,
+                    child: FlatButton(
+                      padding: EdgeInsets.all(0.0),
+                      child: Text("add"),
+                      onPressed: () {
+                        if (_subjectController.text.length > 0 &&
+                            _subjectController.text.length < 3) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('Changed'),
+                            ),
+                          );
+                          context
+                              .read<TimeTableItemsBlock>()
+                              .subjectsAdd(_subjectController.text);
+                        } else if (_subjectController.text.length == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('Enter some Text'),
+                            ),
+                          );
+                        } else if (_subjectController.text.length > 2) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text("Input can't be longer than 2"),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: width / 4,
+          height: 50,
+          child: Column(
+            children: [
+              Text("add room"),
+              Row(
+                children: [
+                  Container(
+                    width: width / 7,
+                    height: 30,
+                    child: TextField(
+                      autocorrect: false,
+                      enableSuggestions: false,
+                      controller: _roomController,
+                      onSubmitted: (value) {
+                        if (value.length > 0 && value.length < 4) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('added'),
+                            ),
+                          );
+                          context
+                              .read<TimeTableItemsBlock>()
+                              .roomsAdd(value);
+                        } else if (value.length == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('Enter some Text'),
+                            ),
+                          );
+                        } else if (value.length > 3) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text("Input can't be longer than 3"),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 40,
+                    height: 30,
+                    child: FlatButton(
+                      padding: EdgeInsets.all(0.0),
+                      child: Text("add"),
+                      onPressed: () {
+                        if (_roomController.text.length > 0 &&
+                            _roomController.text.length < 4) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('Changed'),
+                            ),
+                          );
+                          context
+                              .read<TimeTableItemsBlock>()
+                              .roomsAdd(_roomController.text);
+                        } else if (_roomController.text.length == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('Enter some Text'),
+                            ),
+                          );
+                        } else if (_roomController.text.length > 3) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text("Input can't be longer than 3"),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: width / 4,
+          height: 50,
+          child: Column(
+            children: [
+              Text("add teacher"),
+              Row(
+                children: [
+                  Container(
+                    width: width / 7,
+                    height: 30,
+                    child: TextField(
+                      autocorrect: false,
+                      enableSuggestions: false,
+                      controller: _teacherController,
+                      onSubmitted: (value) {
+                        if (value.length > 0 && value.length < 3) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('added'),
+                            ),
+                          );
+                          context
+                              .read<TimeTableItemsBlock>()
+                              .teacherAdd(value);
+                        } else if (value.length == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('Enter some Text'),
+                            ),
+                          );
+                        } else if (value.length > 2) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text("Input can't be longer than 2"),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 40,
+                    height: 30,
+                    child: FlatButton(
+                      padding: EdgeInsets.all(0.0),
+                      child: Text("add"),
+                      onPressed: () {
+                        if (_teacherController.text.length > 0 &&
+                            _teacherController.text.length < 3) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('Changed'),
+                            ),
+                          );
+                          context
+                              .read<TimeTableItemsBlock>()
+                              .teacherAdd(_teacherController.text);
+                        } else if (_teacherController.text.length == 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('Enter some Text'),
+                            ),
+                          );
+                        } else if (_teacherController.text.length > 2) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text("Input can't be longer than 2"),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
