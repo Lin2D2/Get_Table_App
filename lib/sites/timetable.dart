@@ -60,19 +60,20 @@ class DynamicList extends State<TimeTable> {
                     ),
                   ),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 200,
-                      child: Container(
-                        child: Center(
-                          child: Text(
-                            context
-                                .watch<TimeTableItemsBlock>()
-                                .selectedElement
-                                .toString(),
-                          ),
+                    width: MediaQuery.of(context).size.width,
+                    height: 200,
+                    child: Container(
+                      child: Center(
+                        child: Text(
+                          context
+                              .watch<TimeTableItemsBlock>()
+                              .selectedElement
+                              .toString(),
                         ),
-                        color: Colors.red,
-                      )),
+                      ),
+                      color: Colors.red,
+                    ),
+                  ),
                 ],
               )
             : MaterialBanner(

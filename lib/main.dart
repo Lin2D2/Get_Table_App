@@ -6,7 +6,6 @@ import 'package:Get_Table_App/widgets/sideNavigationRail.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:workmanager/workmanager.dart';
-import 'blocs/formDataRawBloc.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/indexTableViewBloc.dart';
 import 'blocs/absentsTableApiBloc.dart';
@@ -256,9 +255,6 @@ class TimeTableRoute extends StatelessWidget {
                     ChangeNotifierProvider(
                       create: (_) => TimeTableItemsBlock(),
                     ),
-                    ChangeNotifierProvider(
-                      create: (_) => FormDataRawBloc(),
-                    ),
                   ],
                   child: TimeTable(),
                 ),
@@ -285,9 +281,6 @@ class TimeTableRoute extends StatelessWidget {
                         providers: [
                           ChangeNotifierProvider(
                             create: (_) => TimeTableItemsBlock(),
-                          ),
-                          ChangeNotifierProvider(
-                            create: (_) => FormDataRawBloc(),
                           ),
                         ],
                         child: TimeTable(),
