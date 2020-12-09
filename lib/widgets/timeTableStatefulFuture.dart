@@ -25,6 +25,7 @@ class _TimeTableFutureState extends State<TimeTableFuture> {
         if (snapshot.hasData) {
           String weekday = snapshot.data.day["title"].toString().split(" ")[1];
           return createCard(
+            context,
             Table(
               border: TableBorder.all(),
               children: generateTimeTable(context,
@@ -36,6 +37,7 @@ class _TimeTableFutureState extends State<TimeTableFuture> {
         } else if (snapshot.hasError) {
           print(snapshot.error);
           return createCard(
+            context,
             Center(
               child: Text(
                 "Sever not reachable",
@@ -46,6 +48,7 @@ class _TimeTableFutureState extends State<TimeTableFuture> {
           );
         }
         return createCard(
+          context,
           Center(
             child: CircularProgressIndicator(),
           ),

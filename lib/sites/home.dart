@@ -291,6 +291,7 @@ class _DayState extends State<DayTable> {
           return LayoutBuilder(builder: (layoutBuilderContext, constraints) {
             if (constraints.maxWidth > 600) {
               return createCard(
+                context,
                 createAbsentsTable(
                   snapshot.data.day["header"],
                   snapshot.data.day["content"],
@@ -301,6 +302,7 @@ class _DayState extends State<DayTable> {
               );
             } else {
               return createCard(
+                context,
                 createAbsentsTable(
                     snapshot.data.day["header"], snapshot.data.day["content"],
                     year: layoutBuilderContext.watch<FilterTable>().filterValue,
@@ -313,12 +315,14 @@ class _DayState extends State<DayTable> {
         } else if (snapshot.hasError) {
           print(snapshot.error);
           return createCard(
+            context,
             Container(),
             title: "Overview Today",
           );
         }
         return Center(
             child: createCard(
+              context,
           CircularProgressIndicator(),
           title: "Overview Today",
         ));
