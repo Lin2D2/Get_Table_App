@@ -23,7 +23,10 @@ class _TimeTableFutureState extends State<TimeTableFuture> {
       future: widget.futureObject,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          String weekday = snapshot.data.day["title"].toString().split(" ")[1];
+          String weekday = snapshot.data.day["title"]
+              .toString()
+              .split(" ")[1]
+              .replaceAll(",", "");
           return createCard(
             Table(
               border: TableBorder.all(),

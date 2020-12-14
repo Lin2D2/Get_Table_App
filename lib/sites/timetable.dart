@@ -1,11 +1,13 @@
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
-import 'package:Get_Table_App/sites/settings.dart';
 import 'package:Get_Table_App/widgets/generateTimeTable.dart';
 import 'package:Get_Table_App/widgets/timeTableEdit.dart';
+import 'package:Get_Table_App/widgets/timeTableToolRow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'login.dart';
 
 class TimeTable extends StatefulWidget {
   @override
@@ -17,44 +19,54 @@ class DynamicList extends State<TimeTable> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: context.watch<UserBloc>().userTitle != null
-            ? Column(
-                children: [
+        child: Column(
+          children: context.watch<UserBloc>().userTitle != null
+              ? [
+                  timeTableToolRow(context),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Table(
+                      border: TableBorder.all(),
+                      children: generateTimeTable(context,
+                          edit: context.watch<TimeTableItemsBlock>().edit),
+                      columnWidths: {
+                        0: FlexColumnWidth(2),
+                        1: FlexColumnWidth(4),
+                        2: FlexColumnWidth(4),
+                        3: FlexColumnWidth(4),
+                        4: FlexColumnWidth(4),
+                        5: FlexColumnWidth(4),
+                      },
+                    ),
+                  ),
+                  Divider(),
+                  context.watch<TimeTableItemsBlock>().edit
+                      ? TimeTableEdit()
+                      : Container(),
+                ]
+              : [
                   MaterialBanner(
-                    // TODO display A or B week here
-                    content: Text(''),
+                    leading: Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    ),
+                    content:
+                        const Text('You have to Login to see content here'),
                     actions: [
                       RaisedButton(
-                        child: Chip(
-                          avatar: Icon(context.watch<TimeTableItemsBlock>().edit
-                              ? Icons.save
-                              : Icons.edit),
-                          label: Text(context.watch<TimeTableItemsBlock>().edit
-                              ? "Save"
-                              : "Edit"),
-                        ),
-                        onPressed: context.watch<TimeTableItemsBlock>().edit
-                            ? () {
-                                // TODO need still to save data
-                                context.read<UserBloc>().timetable = context
-                                    .read<TimeTableItemsBlock>()
-                                    .copyTimeTable;
-                                context.read<TimeTableItemsBlock>().edit =
-                                    false;
-                                context
-                                    .read<TimeTableItemsBlock>()
-                                    .selectedElement = null;
-                              }
-                            : () {
-                                context
-                                        .read<TimeTableItemsBlock>()
-                                        .copyTimeTable =
-                                    context.read<UserBloc>().timetable;
-                                context.read<TimeTableItemsBlock>().edit = true;
-                              },
+                        child: Text("Login"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Login(),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
+                  timeTableToolRow(context),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Table(
@@ -76,25 +88,7 @@ class DynamicList extends State<TimeTable> {
                       ? TimeTableEdit()
                       : Container(),
                 ],
-              )
-            : MaterialBanner(
-                leading: Icon(
-                  Icons.error,
-                  color: Colors.red,
-                ),
-                content: const Text('You have to Login to see content here'),
-                actions: [
-                  RaisedButton(
-                    child: Text("Login"),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Login()),
-                      );
-                    },
-                  ),
-                ],
-              ),
+        ),
       ),
       appBar: AppBar(
         automaticallyImplyLeading: false,

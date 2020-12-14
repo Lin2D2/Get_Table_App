@@ -69,6 +69,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => AbsentsTableApiBloc(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => TimeTableItemsBlock(),
+        ),
       ],
       child: MaterialApp(
         title: _title,

@@ -2,7 +2,6 @@ import 'package:Get_Table_App/blocs/filterTable.dart';
 import 'package:Get_Table_App/blocs/indexMainBloc.dart';
 import 'package:Get_Table_App/blocs/absentsTableApiBloc.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/sites/settings.dart';
 import 'package:Get_Table_App/types/day.dart';
 import 'package:Get_Table_App/widgets/absentsTable.dart';
 import 'package:Get_Table_App/widgets/absentsTableStatefulFuture.dart';
@@ -11,6 +10,8 @@ import 'package:Get_Table_App/widgets/timeTableStatefulFuture.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'login.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -105,7 +106,8 @@ class DynamicList extends State<Home> {
                             context.watch<AbsentsTableApiBloc>().dayToday,
                         today: true),
                     AbsentsTableFuture(
-                      futureObject: context.watch<AbsentsTableApiBloc>().dayToday,
+                      futureObject:
+                          context.watch<AbsentsTableApiBloc>().dayToday,
                       filter: context.watch<UserBloc>().year,
                       title: true,
                     ),
