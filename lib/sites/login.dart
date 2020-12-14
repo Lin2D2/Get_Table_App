@@ -86,21 +86,53 @@ class Login extends StatelessWidget {
                             context.read<TimeTableItemsBlock>().year =
                                 response.year;
                             print(response.year);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text('Success'),
+                              ),
+                            );
                             Navigator.pop(context);
                             break;
                           }
                         case "wrong password":
                           {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text('wrong password'),
+                              ),
+                            );
                             break;
                           }
                         case "need to Sign in":
                           {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text('need to Sign in'),
+                              ),
+                            );
                             break;
                           }
                         case "failed":
                           {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text('Failed'),
+                              ),
+                            );
                             break;
                           }
+                        default:
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Text('Failed'),
+                            ),
+                          );
+                          break;
                       }
                     },
                   )),
