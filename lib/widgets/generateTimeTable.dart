@@ -111,7 +111,11 @@ List<TableRow> generateTimeTable(BuildContext context,
               TableCell(
                 verticalAlignment: TableCellVerticalAlignment.middle,
                 child: Container(
-                  height: 35,
+                  color: context.read<TimeTableItemsBlock>().selectedElement ==
+                          {"day": dayKey, "lesson": doubleLesson}
+                      ? Colors.green
+                      : null,
+                  height: 40,
                   child: edit
                       ? FlatButton(
                           onPressed: () {
@@ -146,7 +150,7 @@ List<TableRow> generateTimeTable(BuildContext context,
             dayRowChildren.add(
               TableCell(
                 child: Container(
-                  height: 35,
+                  height: 40,
                   child: edit
                       ? FlatButton(
                           onPressed: () {
@@ -217,7 +221,7 @@ List<TableRow> generateTimeTable(BuildContext context,
             TableCell(
               verticalAlignment: TableCellVerticalAlignment.middle,
               child: Container(
-                height: 35,
+                height: 40,
                 child: edit
                     ? FlatButton(
                         onPressed: () {

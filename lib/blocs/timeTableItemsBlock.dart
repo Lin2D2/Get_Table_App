@@ -16,9 +16,13 @@ class TimeTableItemsBlock extends ChangeNotifier {
   String get year => _year;
 
   bool get edit => _edit;
+
   Map get copyTimeTable => _copyTimeTable;
+
   List get subjects => _subjects;
+
   List get rooms => _rooms;
+
   List get teacher => _teacher;
 
   set selectedElement(Map value) {
@@ -35,16 +39,23 @@ class TimeTableItemsBlock extends ChangeNotifier {
     _edit = value;
     notifyListeners();
   }
+
   set copyTimeTable(Map value) {
     _copyTimeTable = value;
     notifyListeners();
-  }void subjectsAdd(var value) {
+  }
+
+  void subjectsAdd(var value) {
     _subjects.add(value);
     notifyListeners();
-  }void roomsAdd(var value) {
+  }
+
+  void roomsAdd(var value) {
     _rooms.add(value);
     notifyListeners();
-  }void teacherAdd(var value) {
+  }
+
+  void teacherAdd(var value) {
     _teacher.add(value);
     notifyListeners();
   }
