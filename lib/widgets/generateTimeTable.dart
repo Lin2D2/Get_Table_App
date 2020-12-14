@@ -71,7 +71,9 @@ List<TableRow> generateTimeTable(BuildContext context,
   ];
   if (today == null) {
     List buildLessons = [[], [], [], [], []];
-    Map timeTable = context.watch<UserBloc>().timetable;
+    Map timeTable = edit
+        ? context.watch<TimeTableItemsBlock>().copyTimeTable
+        : context.watch<UserBloc>().timetable;
     for (final doubleLesson in doubleLessons) {
       int dayIndex = 0;
       List<Widget> dayRowChildren = [
@@ -111,7 +113,7 @@ List<TableRow> generateTimeTable(BuildContext context,
               TableCell(
                 verticalAlignment: TableCellVerticalAlignment.middle,
                 child: Container(
-                  color: context.read<TimeTableItemsBlock>().selectedElement ==
+                  color: context.watch<TimeTableItemsBlock>().selectedElement ==
                           {"day": dayKey, "lesson": doubleLesson}
                       ? Colors.green
                       : null,
