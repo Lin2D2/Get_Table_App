@@ -111,7 +111,7 @@ List<TableRow> generateTimeTable(BuildContext context,
               TableCell(
                 verticalAlignment: TableCellVerticalAlignment.middle,
                 child: Container(
-                  height: 40,
+                  height: 35,
                   child: edit
                       ? FlatButton(
                           onPressed: () {
@@ -146,7 +146,7 @@ List<TableRow> generateTimeTable(BuildContext context,
             dayRowChildren.add(
               TableCell(
                 child: Container(
-                  height: 40,
+                  height: 35,
                   child: edit
                       ? FlatButton(
                           onPressed: () {
@@ -217,7 +217,7 @@ List<TableRow> generateTimeTable(BuildContext context,
             TableCell(
               verticalAlignment: TableCellVerticalAlignment.middle,
               child: Container(
-                height: 40,
+                height: 35,
                 child: edit
                     ? FlatButton(
                         onPressed: () {

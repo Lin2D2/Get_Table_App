@@ -30,6 +30,7 @@ class _AbsentsTableFutureState extends State<AbsentsTableFuture> {
                   [titleList[1], titleList[3], titleList[2]];
               if (constraints.maxWidth > 600) {
                 return createCard(
+                  context,
                   createAbsentsTable(
                       snapshot.data.day["header"], snapshot.data.day["content"],
                       year: widget.filter),
@@ -38,6 +39,7 @@ class _AbsentsTableFutureState extends State<AbsentsTableFuture> {
                 );
               } else {
                 return createCard(
+                  context,
                   createAbsentsTable(
                       snapshot.data.day["header"], snapshot.data.day["content"],
                       year: widget.filter, smallScreen: true),
@@ -50,6 +52,7 @@ class _AbsentsTableFutureState extends State<AbsentsTableFuture> {
         } else if (snapshot.hasError) {
           print(snapshot.error);
           return createCard(
+            context,
             Center(
               child: Text(
                 "Sever not reachable",
@@ -60,6 +63,7 @@ class _AbsentsTableFutureState extends State<AbsentsTableFuture> {
           );
         }
         return createCard(
+          context,
           Center(
             child: CircularProgressIndicator(),
           ),

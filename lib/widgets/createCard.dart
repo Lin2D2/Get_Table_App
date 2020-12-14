@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Card createCard(Widget object, {String title, String massage}) {
+Card createCard(BuildContext context, Widget object,
+    {String title, String massage}) {
   // TODO fix message sever side
   if (massage == "Es gibt k") {
     massage = null;
@@ -27,11 +28,14 @@ Card createCard(Widget object, {String title, String massage}) {
                         fontSize: 14,
                         decoration: TextDecoration.underline),
                   ),
-                  Text(
-                    massage,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30.0),
+                    child: Text(
+                      massage,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                   Padding(
@@ -47,11 +51,14 @@ Card createCard(Widget object, {String title, String massage}) {
                         fontSize: 14,
                         decoration: TextDecoration.underline),
                   ),
-                  Text(
-                    massage,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30.0),
+                    child: Text(
+                      massage,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                   Padding(

@@ -45,7 +45,8 @@ Table createAbsentsTable(List header, List content,
           children: rowElements));
     } else if (row[1].toString().contains(year) ||
         (row[1].toString().toString().contains(" ") &&
-            !row[0].toString().toString().contains(" "))) {
+            !row[0].toString().toString().contains(" ")) ||
+        row[1].toString().contains("AG")) {
       !fullMatch
           ? fullMatch = row[1].toString() == year
           : fullMatch = fullMatch;
@@ -112,7 +113,12 @@ Table createAbsentsTable(List header, List content,
           color: Colors.grey[900],
         ),
         children: headerElements);
-    return Table(border: TableBorder.all(), children: [headerRow] + rows, columnWidths: fullMatch ? {1: FlexColumnWidth(2)} : {2: FlexColumnWidth(2)},);
+    return Table(
+      border: TableBorder.all(),
+      children: [headerRow] + rows,
+      columnWidths:
+          fullMatch ? {1: FlexColumnWidth(2)} : {2: FlexColumnWidth(2)},
+    );
   } else {
     return createAbsentsTable(header, content,
         year: year,
