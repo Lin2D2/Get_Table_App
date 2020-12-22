@@ -70,6 +70,9 @@ List<TableRow> generateTimeTable(BuildContext context,
     header,
   ];
   if (today == null) {
+    Color tableColor = Color.fromRGBO(250, 211, 166, 1);
+    Color tableSelectedColor = Color.fromRGBO(175, 147, 116, 1);
+    double rowHeight = 40;
     List buildLessons = [[], [], [], [], []];
     Map timeTable = edit
         ? context.watch<TimeTableItemsBlock>().copyTimeTable
@@ -78,19 +81,23 @@ List<TableRow> generateTimeTable(BuildContext context,
       int dayIndex = 0;
       List<Widget> dayRowChildren = [
         TableCell(
-          child: Column(
-            children: [
-              Text(
-                doubleLesson.split("/")[0],
-                textAlign: TextAlign.center,
-                style: bodyStyle,
-              ),
-              Text(
-                doubleLesson.split("/")[1],
-                textAlign: TextAlign.center,
-                style: bodyStyle,
-              )
-            ],
+          child: Container(
+            height: rowHeight,
+            color: tableColor,
+            child: Column(
+              children: [
+                Text(
+                  doubleLesson.split("/")[0],
+                  textAlign: TextAlign.center,
+                  style: bodyStyle,
+                ),
+                Text(
+                  doubleLesson.split("/")[1],
+                  textAlign: TextAlign.center,
+                  style: bodyStyle,
+                )
+              ],
+            ),
           ),
         )
       ];
@@ -113,11 +120,10 @@ List<TableRow> generateTimeTable(BuildContext context,
               TableCell(
                 verticalAlignment: TableCellVerticalAlignment.middle,
                 child: Container(
-                  color: context.watch<TimeTableItemsBlock>().selectedElement ==
-                          {"day": dayKey, "lesson": doubleLesson}
-                      ? Colors.green
-                      : null,
-                  height: 40,
+                  color: selected(edit, dayKey, doubleLesson, context)
+                      ? tableSelectedColor
+                      : tableColor,
+                  height: rowHeight,
                   child: edit
                       ? FlatButton(
                           onPressed: () {
@@ -152,7 +158,10 @@ List<TableRow> generateTimeTable(BuildContext context,
             dayRowChildren.add(
               TableCell(
                 child: Container(
-                  height: 40,
+                  color: selected(edit, dayKey, doubleLesson, context)
+                      ? tableSelectedColor
+                      : tableColor,
+                  height: rowHeight,
                   child: edit
                       ? FlatButton(
                           onPressed: () {
@@ -223,7 +232,10 @@ List<TableRow> generateTimeTable(BuildContext context,
             TableCell(
               verticalAlignment: TableCellVerticalAlignment.middle,
               child: Container(
-                height: 40,
+                color: selected(edit, dayKey, doubleLesson, context)
+                        ? tableSelectedColor
+                        : tableColor,
+                height: rowHeight,
                 child: edit
                     ? FlatButton(
                         onPressed: () {
@@ -252,9 +264,9 @@ List<TableRow> generateTimeTable(BuildContext context,
       tableItems.add(
         TableRow(
           children: dayRowChildren,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(250, 211, 166, 1),
-          ),
+          // decoration: BoxDecoration(
+          //   color: tableColor,
+          // ),
         ),
       );
     }
@@ -262,7 +274,7 @@ List<TableRow> generateTimeTable(BuildContext context,
     List<Widget> dayRowChildren = [];
     List buildLessons = [];
     Map dayMap = context.watch<UserBloc>().timetable[
-        // -1 because monday is 1 but the index is 0
+// -1 because monday is 1 but the index is 0
         context.watch<UserBloc>().timetable.keys.elementAt(dayOfWeek - 1)];
     for (final doubleLesson in doubleLessons) {
       for (final lessonKey in dayMap.keys) {
@@ -329,4 +341,15 @@ List<TableRow> generateTimeTable(BuildContext context,
     );
   }
   return tableItems;
+}
+
+bool selected(bool edit, String dayKey, String lesson, BuildContext context) {
+  if (edit && context.watch<TimeTableItemsBlock>().selectedElement != null) {
+    return (context.watch<TimeTableItemsBlock>().selectedElement["day"] ==
+            dayKey &&
+        context.watch<TimeTableItemsBlock>().selectedElement["lesson"] ==
+            lesson);
+  } else {
+    return false;
+  }
 }
