@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 
 // TODO add diffrent backgroiund color for chnages
 // TODO maybe it's a better idea to handel removal of a Column after the table is generated and store the table global
-Table createAbsentsTable(List header, List content,
+Widget createAbsentsTable(List header, List content,
     {String year,
     List<Map> courses,
     bool fullMatch = false,
     bool recursive = false,
     bool smallScreen = false}) {
+  if (content == null) {
+    return Center(
+      child: Text(
+        "Keine Vertretung gefunden",
+        style: TextStyle(fontSize: 15, color: Colors.red),
+      ),
+    );
+  }
   List boldList = [0, 1, 2, 3, 4, 5];
   List<TableRow> rows = [];
   List addedIndexes = [];
