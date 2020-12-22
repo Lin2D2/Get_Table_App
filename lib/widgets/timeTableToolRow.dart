@@ -12,7 +12,7 @@ Widget timeTableToolRow(BuildContext context) {
       children: [
         Container(
           height: 25,
-          width: 80,
+          width: 82,
           child: Row(
             children: [
               Text("year:"),
