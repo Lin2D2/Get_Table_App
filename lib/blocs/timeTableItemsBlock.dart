@@ -1,3 +1,6 @@
+import 'package:Get_Table_App/services/apiManagerService.dart';
+import 'package:Get_Table_App/types/subjects.dart';
+import 'package:Get_Table_App/types/teachers.dart';
 import 'package:flutter/material.dart';
 
 class TimeTableItemsBlock extends ChangeNotifier {
@@ -6,10 +9,10 @@ class TimeTableItemsBlock extends ChangeNotifier {
   bool _edit = false;
   String _year = "";
   Map _copyTimeTable;
-  List _subjects = ["---"];
   List _rooms = ["---"];
-  List _teacher = ["?"];
   TextEditingController yearController = TextEditingController();
+  Future<Subjects> _subjects = ApiRoutes.fetchSubjects();
+  Future<Teachers> _teachers = ApiRoutes.fetchTeachers();
 
   Map get selectedElement => _selectedElement;
 
@@ -19,11 +22,11 @@ class TimeTableItemsBlock extends ChangeNotifier {
 
   Map get copyTimeTable => _copyTimeTable;
 
-  List get subjects => _subjects;
+  Future<Subjects> get subjects => _subjects;
 
   List get rooms => _rooms;
 
-  List get teacher => _teacher;
+  Future<Teachers> get teachers => _teachers;
 
   set selectedElement(Map value) {
     _selectedElement = value;
@@ -45,18 +48,18 @@ class TimeTableItemsBlock extends ChangeNotifier {
     notifyListeners();
   }
 
-  void subjectsAdd(var value) {
-    _subjects.add(value);
-    notifyListeners();
-  }
+  // void subjectsAdd(var value) {
+  //   _subjects.add(value);
+  //   notifyListeners();
+  // }
 
   void roomsAdd(var value) {
     _rooms.add(value);
     notifyListeners();
   }
 
-  void teacherAdd(var value) {
-    _teacher.add(value);
-    notifyListeners();
-  }
+// void teacherAdd(var value) {
+//   _teacher.add(value);
+//   notifyListeners();
+// }
 }

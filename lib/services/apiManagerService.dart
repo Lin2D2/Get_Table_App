@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:Get_Table_App/types/day.dart';
 import 'package:Get_Table_App/types/days.dart';
 import 'package:Get_Table_App/types/post.dart';
+import 'package:Get_Table_App/types/subjects.dart';
+import 'package:Get_Table_App/types/teachers.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -59,6 +61,8 @@ class ApiRoutes {
   static const String _tomorrowTodayConst = 'today-tomorrow';
   static const String _timeTablePushConst = "timetable/push";
   static const String _userPushConst = 'login';
+  static const String _teachersConst = 'teachers';
+  static const String _subjectsConst = 'subjects';
   static ApiBaseHelper _helper = ApiBaseHelper();
 
   static Future<Days> fetchDays() async {
@@ -89,5 +93,17 @@ class ApiRoutes {
     final response = await _helper.post(_userPushConst, body);
     print("response from userPostRequest: $response");
     return UserPost.fromJson(response);
+  }
+
+  static Future<Teachers> fetchTeachers() async {
+    final response = await _helper.get(_teachersConst);
+    print("response from fetchTeachers: $response");
+    return Teachers.fromJson(response);
+  }
+
+  static Future<Subjects> fetchSubjects() async {
+    final response = await _helper.get(_subjectsConst);
+    print("response from fetchSubjects: $response");
+    return Subjects.fromJson(response);
   }
 }
