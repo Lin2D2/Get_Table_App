@@ -1,6 +1,7 @@
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 
 Widget timeTableToolRow(BuildContext context) {
@@ -46,30 +47,41 @@ Widget timeTableToolRow(BuildContext context) {
           ),
         ),
         Text("A Woche/B Woche"),
-        RaisedButton(
-          child: Chip(
-            avatar: Icon(context.watch<TimeTableItemsBlock>().edit
-                ? Icons.save
-                : Icons.edit),
-            label: Text(
-                context.watch<TimeTableItemsBlock>().edit ? "Save" : "Edit"),
-            shape: RoundedRectangleBorder(),
+        Container(
+          width: 90,
+          child: RaisedButton(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                  child: Icon(
+                    context.watch<TimeTableItemsBlock>().edit
+                        ? Icons.save
+                        : Icons.edit,
+                    size: 20,
+                  ),
+                ),
+                Text(
+                    context.watch<TimeTableItemsBlock>().edit ? "Save" : "Edit")
+              ],
+            ),
+            onPressed: context.watch<TimeTableItemsBlock>().edit
+                ? () {
+                    // TODO need still to save data
+                    context.read<UserBloc>().timetable =
+                        context.read<TimeTableItemsBlock>().copyTimeTable;
+                    context.read<TimeTableItemsBlock>().edit = false;
+                    context.read<TimeTableItemsBlock>().selectedElement = null;
+                    context.read<UserBloc>().year =
+                        context.read<TimeTableItemsBlock>().year;
+                  }
+                : () {
+                    context.read<TimeTableItemsBlock>().copyTimeTable =
+                        context.read<UserBloc>().timetable;
+                    context.read<TimeTableItemsBlock>().edit = true;
+                  },
           ),
-          onPressed: context.watch<TimeTableItemsBlock>().edit
-              ? () {
-                  // TODO need still to save data
-                  context.read<UserBloc>().timetable =
-                      context.read<TimeTableItemsBlock>().copyTimeTable;
-                  context.read<TimeTableItemsBlock>().edit = false;
-                  context.read<TimeTableItemsBlock>().selectedElement = null;
-                  context.read<UserBloc>().year =
-                      context.read<TimeTableItemsBlock>().year;
-                }
-              : () {
-                  context.read<TimeTableItemsBlock>().copyTimeTable =
-                      context.read<UserBloc>().timetable;
-                  context.read<TimeTableItemsBlock>().edit = true;
-                },
         ),
       ],
     ),

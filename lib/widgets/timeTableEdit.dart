@@ -50,7 +50,7 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                     ),
                   if (_lessonSelected)
                     Container(
-                      width: 85,
+                      width: 80,
                       height: 20,
                       child: RaisedButton(
                         child: Text("back"),
@@ -73,14 +73,14 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                       context
                               .watch<TimeTableItemsBlock>()
                               .selectedElement["day"] +
-                          " lesson: " +
+                          " class: " +
                           context
                               .watch<TimeTableItemsBlock>()
                               .selectedElement["lesson"],
                     ),
                   ),
                   Container(
-                    width: 85,
+                    width: 80,
                     height: 20,
                     child: RaisedButton(
                       child: Text(_lessonSelected && _teacherSelected

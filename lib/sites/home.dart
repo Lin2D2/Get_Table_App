@@ -160,29 +160,35 @@ class DynamicList extends State<Home> {
                                                     .watch<UserBloc>()
                                                     .userTitle ==
                                                 null
-                                            ? RaisedButton(
-                                                child: Text("Login"),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Login()),
-                                                  );
-                                                },
-                                              )
-                                            : RaisedButton(
-                                                child: Chip(
-                                                  avatar: Icon(Icons.edit),
-                                                  label: Text("Create"),
+                                            ? Container(
+                                                width: 70,
+                                                child: RaisedButton(
+                                                  child: Text("Login"),
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Login()),
+                                                    );
+                                                  },
                                                 ),
-                                                onPressed: () {
-                                                  Navigator.pushNamed(
-                                                      context, "/timeTable");
-                                                  context
-                                                      .read<IndexMainBloc>()
-                                                      .set(2);
-                                                },
+                                              )
+                                            : Container(
+                                                width: 70,
+                                                child: RaisedButton(
+                                                  child: Chip(
+                                                    avatar: Icon(Icons.edit),
+                                                    label: Text("Create"),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(
+                                                        context, "/timeTable");
+                                                    context
+                                                        .read<IndexMainBloc>()
+                                                        .set(2);
+                                                  },
+                                                ),
                                               ),
                                       ),
                                       Text("Year:"),

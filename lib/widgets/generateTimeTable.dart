@@ -39,7 +39,7 @@ List<TableRow> generateTimeTable(BuildContext context,
         ? ([
               TableCell(
                 child: Text(
-                  "lesson",
+                  "class",
                   textAlign: TextAlign.center,
                   style: headerStyle,
                 ),
