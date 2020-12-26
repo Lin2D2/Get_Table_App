@@ -96,6 +96,15 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                               context
                                   .read<TimeTableItemsBlock>()
                                   .selectedElement = null;
+                              setState(() {
+                                _roomIndex = 0;
+                                _subjectsIndex = 0;
+                                _teachersIndex = 0;
+                                _weekIndex = 0;
+                                _lessonSelected = false;
+                                _teacherSelected = false;
+                                _weekSelectedAB = true;
+                              });
                             }
                           : () {
                               if (!_lessonSelected) {
