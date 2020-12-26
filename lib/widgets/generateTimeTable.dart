@@ -31,6 +31,15 @@ List<TableRow> generateTimeTable(BuildContext context,
       TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white);
   TextStyle bodyStyle =
       TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black);
+  double _screenWidth = MediaQuery.of(context).size.width;
+  List _weekDays = [];
+  if (_screenWidth < 365) {
+    context.watch<UserBloc>().timetable.keys.toList().forEach((element) {
+      _weekDays.add(element[0] + element[1] + element[2] + ".");
+    });
+  } else {
+    _weekDays = context.watch<UserBloc>().timetable.keys.toList();
+  }
   TableRow header = TableRow(
     decoration: BoxDecoration(
       color: Colors.grey[900],
@@ -39,17 +48,17 @@ List<TableRow> generateTimeTable(BuildContext context,
         ? ([
               TableCell(
                 child: Text(
-                  "class",
+                  _screenWidth < 385 ? "class" : "lesson",
                   textAlign: TextAlign.center,
                   style: headerStyle,
                 ),
               )
             ] +
             List.generate(
-              context.watch<UserBloc>().timetable.keys.length,
+              _weekDays.length,
               (index) => TableCell(
                 child: Text(
-                  context.watch<UserBloc>().timetable.keys.elementAt(index),
+                  _weekDays.elementAt(index),
                   textAlign: TextAlign.center,
                   style: headerStyle,
                 ),
@@ -233,8 +242,8 @@ List<TableRow> generateTimeTable(BuildContext context,
               verticalAlignment: TableCellVerticalAlignment.middle,
               child: Container(
                 color: selected(edit, dayKey, doubleLesson, context)
-                        ? tableSelectedColor
-                        : tableColor,
+                    ? tableSelectedColor
+                    : tableColor,
                 height: rowHeight,
                 child: edit
                     ? FlatButton(

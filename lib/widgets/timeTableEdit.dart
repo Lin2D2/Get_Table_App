@@ -73,7 +73,9 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                       context
                               .watch<TimeTableItemsBlock>()
                               .selectedElement["day"] +
-                          " class: " +
+                          (MediaQuery.of(context).size.width < 365
+                              ? " class: "
+                              : " lesson") +
                           context
                               .watch<TimeTableItemsBlock>()
                               .selectedElement["lesson"],
