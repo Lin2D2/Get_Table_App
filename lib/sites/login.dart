@@ -62,30 +62,28 @@ class Login extends StatelessWidget {
                       switch (response.state) {
                         case "success":
                           {
-                            context.read<UserBloc>().username = context
-                                .read<UserBloc>()
+                            UserBloc _userBloc = context.read<UserBloc>();
+                            _userBloc.username = _userBloc
                                 .usernameController
                                 .text;
-                            context.read<UserBloc>().password = context
-                                .read<UserBloc>()
+                            _userBloc.password = _userBloc
                                 .passwordController
                                 .text;
-                            context.read<UserBloc>().userTitle = context
-                                .read<UserBloc>()
+                            _userBloc.userTitle = _userBloc
                                 .usernameController
                                 .text;
                             if (response.timetable != null) {
-                              context.read<UserBloc>().timetable =
+                              _userBloc.timetable =
                                   response.timetable;
                             }
-                            context.read<UserBloc>().year = response.year;
+                            _userBloc.year = response.year;
                             context
                                 .read<TimeTableItemsBlock>()
                                 .yearController
                                 .text = response.year;
                             context.read<TimeTableItemsBlock>().year =
                                 response.year;
-                            print(response.year);
+                            _userBloc.loggedIn = true;
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: Colors.green,

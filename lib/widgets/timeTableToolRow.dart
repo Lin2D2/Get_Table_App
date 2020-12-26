@@ -1,5 +1,6 @@
 import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
 import 'package:Get_Table_App/blocs/userBloc.dart';
+import 'package:Get_Table_App/services/timetableService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
@@ -67,14 +68,28 @@ Widget timeTableToolRow(BuildContext context) {
               ],
             ),
             onPressed: context.watch<TimeTableItemsBlock>().edit
-                ? () {
-                    // TODO need still to save data
+                ? () async {
                     context.read<UserBloc>().timetable =
                         context.read<TimeTableItemsBlock>().copyTimeTable;
                     context.read<TimeTableItemsBlock>().edit = false;
                     context.read<TimeTableItemsBlock>().selectedElement = null;
                     context.read<UserBloc>().year =
                         context.read<TimeTableItemsBlock>().year;
+                    if (await TimeTableService.saveTimeTable(context)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.green,
+                          content: Text('Success'),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text('failed'),
+                        ),
+                      );
+                    }
                   }
                 : () {
                     context.read<TimeTableItemsBlock>().copyTimeTable =

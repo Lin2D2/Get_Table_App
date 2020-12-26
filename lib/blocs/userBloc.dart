@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class UserBloc extends ChangeNotifier {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  bool _loggedIn = false;
   String _userTitle;
   String _username;
   String _password;
@@ -14,6 +15,8 @@ class UserBloc extends ChangeNotifier {
     "thursday": {},
     "friday": {},
   };
+
+  bool get loggedIn => _loggedIn;
 
   String get username => _username;
 
@@ -28,6 +31,11 @@ class UserBloc extends ChangeNotifier {
   TextEditingController get passwordController => _passwordController;
 
   String get userTitle => _userTitle;
+
+  set loggedIn(bool val) {
+    _loggedIn = val;
+    notifyListeners();
+  }
 
   set userTitle(String val) {
     _userTitle = val;
