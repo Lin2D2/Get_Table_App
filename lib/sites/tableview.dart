@@ -1,10 +1,10 @@
-import 'package:Get_Table_App/blocs/indexTableViewBloc.dart';
-import 'package:Get_Table_App/blocs/absentsTableApiBloc.dart';
-import 'package:Get_Table_App/widgets/absentsTableStatefulFuture.dart';
-import 'package:Get_Table_App/widgets/tableViewItem.dart';
+import 'package:get_table_app/blocs/indexTableViewBloc.dart';
+import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
+import 'package:get_table_app/widgets/absentsTableStatefulFuture.dart';
+import 'package:get_table_app/widgets/tableViewItem.dart';
 import 'package:flutter/material.dart';
-import 'package:Get_Table_App/types/days.dart';
-import 'package:Get_Table_App/types/day.dart';
+import 'package:get_table_app/types/days.dart';
+import 'package:get_table_app/types/day.dart';
 import 'package:provider/provider.dart';
 
 class TableView extends StatefulWidget {

@@ -1,6 +1,6 @@
-import 'package:Get_Table_App/services/apiManagerService.dart';
-import 'package:Get_Table_App/types/subjects.dart';
-import 'package:Get_Table_App/types/teachers.dart';
+import 'package:get_table_app/services/apiManagerService.dart';
+import 'package:get_table_app/types/subjects.dart';
+import 'package:get_table_app/types/teachers.dart';
 import 'package:flutter/material.dart';
 
 class TimeTableItemsBlock extends ChangeNotifier {

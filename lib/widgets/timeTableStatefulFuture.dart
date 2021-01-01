@@ -1,5 +1,5 @@
-import 'package:Get_Table_App/services/dayOfWeek.dart';
-import 'package:Get_Table_App/types/day.dart';
+import 'package:get_table_app/services/dayOfWeek.dart';
+import 'package:get_table_app/types/day.dart';
 import 'package:flutter/material.dart';
 
 import 'createCard.dart';

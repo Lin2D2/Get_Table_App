@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:Get_Table_App/types/day.dart';
-import 'package:Get_Table_App/types/days.dart';
-import 'package:Get_Table_App/types/post.dart';
-import 'package:Get_Table_App/types/subjects.dart';
-import 'package:Get_Table_App/types/teachers.dart';
+import 'package:get_table_app/types/day.dart';
+import 'package:get_table_app/types/days.dart';
+import 'package:get_table_app/types/post.dart';
+import 'package:get_table_app/types/subjects.dart';
+import 'package:get_table_app/types/teachers.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';

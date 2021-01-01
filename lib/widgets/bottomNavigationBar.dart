@@ -1,4 +1,4 @@
-import 'package:Get_Table_App/blocs/indexMainBloc.dart';
+import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

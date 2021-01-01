@@ -1,7 +1,7 @@
-import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
-import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/services/apiManagerService.dart';
-import 'package:Get_Table_App/types/post.dart';
+import 'package:get_table_app/blocs/timeTableItemsBlock.dart';
+import 'package:get_table_app/blocs/userBloc.dart';
+import 'package:get_table_app/services/apiManagerService.dart';
+import 'package:get_table_app/types/post.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

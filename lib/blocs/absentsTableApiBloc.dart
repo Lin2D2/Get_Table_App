@@ -1,7 +1,7 @@
-import 'package:Get_Table_App/services/apiManagerService.dart';
+import 'package:get_table_app/services/apiManagerService.dart';
 import 'package:flutter/material.dart';
-import 'package:Get_Table_App/types/day.dart';
-import 'package:Get_Table_App/types/days.dart';
+import 'package:get_table_app/types/day.dart';
+import 'package:get_table_app/types/days.dart';
 
 class AbsentsTableApiBloc extends ChangeNotifier{
   Future<Days> _days = ApiRoutes.fetchDays();

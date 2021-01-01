@@ -1,7 +1,7 @@
-import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
-import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/types/subjects.dart';
-import 'package:Get_Table_App/types/teachers.dart';
+import 'package:get_table_app/blocs/timeTableItemsBlock.dart';
+import 'package:get_table_app/blocs/userBloc.dart';
+import 'package:get_table_app/types/subjects.dart';
+import 'package:get_table_app/types/teachers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,8 +1,8 @@
-import 'package:Get_Table_App/blocs/filterTable.dart';
-import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/sites/settings.dart';
-import 'package:Get_Table_App/widgets/bottomNavigationBar.dart';
-import 'package:Get_Table_App/widgets/sideNavigationRail.dart';
+import 'package:get_table_app/blocs/filterTable.dart';
+import 'package:get_table_app/blocs/userBloc.dart';
+import 'package:get_table_app/sites/settings.dart';
+import 'package:get_table_app/widgets/bottomNavigationBar.dart';
+import 'package:get_table_app/widgets/sideNavigationRail.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:workmanager/workmanager.dart';

@@ -1,8 +1,8 @@
-import 'package:Get_Table_App/blocs/userBloc.dart';
-import 'package:Get_Table_App/blocs/timeTableItemsBlock.dart';
-import 'package:Get_Table_App/widgets/generateTimeTable.dart';
-import 'package:Get_Table_App/widgets/timeTableEdit.dart';
-import 'package:Get_Table_App/widgets/timeTableToolRow.dart';
+import 'package:get_table_app/blocs/userBloc.dart';
+import 'package:get_table_app/blocs/timeTableItemsBlock.dart';
+import 'package:get_table_app/widgets/generateTimeTable.dart';
+import 'package:get_table_app/widgets/timeTableEdit.dart';
+import 'package:get_table_app/widgets/timeTableToolRow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
