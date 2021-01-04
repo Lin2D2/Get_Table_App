@@ -5,7 +5,6 @@ import 'package:get_table_app/widgets/bottomNavigationBar.dart';
 import 'package:get_table_app/widgets/sideNavigationRail.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:workmanager/workmanager.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/indexTableViewBloc.dart';
 import 'blocs/absentsTableApiBloc.dart';
@@ -16,40 +15,7 @@ import 'sites/timetable.dart';
 import 'package:swipedetector/swipedetector.dart';
 import 'package:provider/provider.dart';
 
-void callbackDispatcher() {
-  Workmanager.executeTask((task, inputData) {
-    var backgroundTask = "BackgroundFetch";
-    switch (task) {
-      case Workmanager.iOSBackgroundTask:
-        print("IOS called background task: $backgroundTask");
-        break;
-      case "BackgroundFetch":
-        print("Android called background task: $backgroundTask");
-        break;
-    }
-    return Future.value(true);
-  });
-}
-
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // Workmanager.initialize(
-  //   callbackDispatcher,
-  //   isInDebugMode: true,
-  // );
-  // Workmanager.cancelByTag("BackgroundFetch");
-  // Workmanager.registerPeriodicTask(
-  //   "BackgroundFetch",
-  //   "BackgroundFetch",
-  //   tag: "BackgroundFetch",
-  //   frequency: Duration(minutes: 15),
-  //   initialDelay: Duration(seconds: 0),
-  //   constraints: Constraints(
-  //     networkType: NetworkType.connected,
-  //     // requiresBatteryNotLow: true,
-  //   ),
-  //   inputData: {"dummy": false},
-  // );
   runApp(MyApp());
 }
 

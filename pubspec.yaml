@@ -28,7 +28,6 @@ dependencies:
   provider: ^4.3.2+2
   page_transition: ^1.1.7+2
   settings_ui: ^0.4.0
-  workmanager: ^0.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
