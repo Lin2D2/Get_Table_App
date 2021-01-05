@@ -12,6 +12,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
   List _rooms = ["---"];
   TextEditingController yearController = TextEditingController();
   Future<Subjects> _subjects = ApiRoutes.fetchSubjects();
+  List _filteredTeachers = [];
   Future<Teachers> _teachers = ApiRoutes.fetchTeachers();
 
   Map get selectedElement => _selectedElement;
@@ -23,6 +24,8 @@ class TimeTableItemsBlock extends ChangeNotifier {
   Map get copyTimeTable => _copyTimeTable;
 
   Future<Subjects> get subjects => _subjects;
+
+  List get filteredTeachers => _filteredTeachers;
 
   List get rooms => _rooms;
 
@@ -45,6 +48,11 @@ class TimeTableItemsBlock extends ChangeNotifier {
 
   set copyTimeTable(Map value) {
     _copyTimeTable = value;
+    notifyListeners();
+  }
+
+  set filteredTeachers(List value) {
+    _filteredTeachers = value;
     notifyListeners();
   }
 
