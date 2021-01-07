@@ -1,19 +1,22 @@
+import 'dart:convert';
 import 'package:get_table_app/services/apiManagerService.dart';
 import 'package:get_table_app/types/subjects.dart';
 import 'package:get_table_app/types/teachers.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TimeTableItemsBlock extends ChangeNotifier {
   // for example {"day": "monday", "lesson": "1/2", "week": "not implemented"}
+  bool isSet = false;
   Map _selectedElement;
   bool _edit = false;
   String _year = "";
   Map _copyTimeTable;
   List _rooms = ["---"];
   TextEditingController yearController = TextEditingController();
-  Future<Subjects> _subjects = ApiRoutes.fetchSubjects();
+  Future<Subjects> _subjects;
   List _filteredTeachers = [];
-  Future<Teachers> _teachers = ApiRoutes.fetchTeachers();
+  Future<Teachers> _teachers;
 
   Map get selectedElement => _selectedElement;
 
@@ -70,4 +73,16 @@ class TimeTableItemsBlock extends ChangeNotifier {
 //   _teacher.add(value);
 //   notifyListeners();
 // }
+
+  void refresh() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _subjects = Future(() {
+      // TODO check that the value is valid befor return
+      return Subjects.fromJson(jsonDecode(prefs.getString("SubjectsRaw")));
+    });
+    _teachers = Future(() {
+      return Teachers.fromJson(jsonDecode(prefs.getString("TeachersRaw")));
+    });
+    notifyListeners();
+  }
 }

@@ -106,4 +106,28 @@ class ApiRoutes {
     print("response from fetchSubjects: $response");
     return Subjects.fromJson(response);
   }
+
+  static Future fetchDaysRaw() async {
+    final response = await _helper.get(_daysConst);
+    print("response from fetchDays: $response");
+    return response;
+  }
+
+  static Future fetchTomorrowTodayRaw(String day) async {
+    final response = await _helper.get("$_tomorrowTodayConst/$day");
+    print("response from fetchDay: $response");
+    return response;
+  }
+
+  static Future fetchTeachersRaw() async {
+    final response = await _helper.get(_teachersConst);
+    print("response from fetchTeachers: $response");
+    return response;
+  }
+
+  static Future fetchSubjectsRaw() async {
+    final response = await _helper.get(_subjectsConst);
+    print("response from fetchSubjects: $response");
+    return response;
+  }
 }
