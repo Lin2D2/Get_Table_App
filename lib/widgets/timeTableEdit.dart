@@ -116,10 +116,19 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                               String subject = subjects.subjectsLong
                                   .elementAt(_subjectsIndex);
                               List filteredTeachers = [];
+                              filteredTeachers
+                                  .add(teachers.teachers.elementAt(0));
                               for (final teacher in teachers.teachers) {
                                 if (teacher["subjects"].length > 0) {
                                   if (teacher["subjects"].contains(subject)) {
                                     filteredTeachers.add(teacher);
+                                  } else if (subject == "Religion") {
+                                    if (teacher["subjects"]
+                                            .contains("kath. Religion") ||
+                                        teacher["subjects"]
+                                            .contains("ev. Religion")) {
+                                      filteredTeachers.add(teacher);
+                                    }
                                   }
                                 }
                               }
