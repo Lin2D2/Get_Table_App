@@ -13,7 +13,8 @@ class TimeTableService {
           "username": _userBloc.username,
           "password": _userBloc.password
         },
-        "timetable": _userBloc.timetable, "year": _userBloc.year,
+        "timetable": _userBloc.timetable,
+        "year": _userBloc.year,
       });
       switch (responeState) {
         case "success":

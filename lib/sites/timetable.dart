@@ -22,7 +22,7 @@ class DynamicList extends State<TimeTable> {
         child: Column(
           children: context.watch<UserBloc>().userTitle != null
               ? [
-                  timeTableToolRow(context),
+                  TimeTableToolRow(),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Table(
@@ -66,7 +66,7 @@ class DynamicList extends State<TimeTable> {
                       ),
                     ],
                   ),
-                  timeTableToolRow(context),
+                  TimeTableToolRow(),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Table(
