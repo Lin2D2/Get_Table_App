@@ -227,58 +227,44 @@ class TimeTableRoute extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
-            return MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => TimeTableItemsBlock(),
-                ),
-              ],
-              child: Scaffold(
-                body: swipeDetector
-                    ? SwipeDetector(
-                        onSwipeLeft: () {
-                          context.read<IndexMainBloc>().increment();
-                          Navigator.pushNamed(context, '/settings');
-                        },
-                        onSwipeRight: () {
-                          context.read<IndexMainBloc>().decrement();
-                          Navigator.pushNamed(context, '/tableView');
-                        },
-                        child: TimeTable(),
-                      )
-                    : TimeTable(),
-                bottomNavigationBar: bottomNavigationBar(context),
-              ),
+            return Scaffold(
+              body: swipeDetector
+                  ? SwipeDetector(
+                      onSwipeLeft: () {
+                        context.read<IndexMainBloc>().increment();
+                        Navigator.pushNamed(context, '/settings');
+                      },
+                      onSwipeRight: () {
+                        context.read<IndexMainBloc>().decrement();
+                        Navigator.pushNamed(context, '/tableView');
+                      },
+                      child: TimeTable(),
+                    )
+                  : TimeTable(),
+              bottomNavigationBar: bottomNavigationBar(context),
             );
           } else {
-            return MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => TimeTableItemsBlock(),
-                ),
-              ],
-              child: Scaffold(
-                body: Row(
-                  children: [
-                    sideNavigationRail(context),
-                    VerticalDivider(thickness: 1, width: 1),
-                    Expanded(
-                      child: swipeDetector
-                          ? SwipeDetector(
-                              onSwipeLeft: () {
-                                context.read<IndexMainBloc>().increment();
-                                Navigator.pushNamed(context, '/settings');
-                              },
-                              onSwipeRight: () {
-                                context.read<IndexMainBloc>().decrement();
-                                Navigator.pushNamed(context, '/tableView');
-                              },
-                              child: TimeTable(),
-                            )
-                          : TimeTable(),
-                    ),
-                  ],
-                ),
+            return Scaffold(
+              body: Row(
+                children: [
+                  sideNavigationRail(context),
+                  VerticalDivider(thickness: 1, width: 1),
+                  Expanded(
+                    child: swipeDetector
+                        ? SwipeDetector(
+                            onSwipeLeft: () {
+                              context.read<IndexMainBloc>().increment();
+                              Navigator.pushNamed(context, '/settings');
+                            },
+                            onSwipeRight: () {
+                              context.read<IndexMainBloc>().decrement();
+                              Navigator.pushNamed(context, '/tableView');
+                            },
+                            child: TimeTable(),
+                          )
+                        : TimeTable(),
+                  ),
+                ],
               ),
             );
           }
