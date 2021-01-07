@@ -52,9 +52,10 @@ Widget createAbsentsTable(List header, List content,
           ),
           children: rowElements));
     } else if (row[1].toString().contains(year) ||
-        (row[1].toString().toString().contains(" ") &&
-            !row[0].toString().toString().contains(" ")) ||
+        (row[1].toString().contains(" ") && !row[0].toString().contains(" ")) ||
         row[1].toString().contains("AG")) {
+      // TODO check if this still works if because year is now 5 to 13 and not:
+      // NOTE 12. Jg. or 13. Jg. or 5a or 10FL
       !fullMatch
           ? fullMatch = row[1].toString() == year
           : fullMatch = fullMatch;
