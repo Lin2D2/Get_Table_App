@@ -99,184 +99,189 @@ class DynamicList extends State<Home> {
             print("refresh");
             //context.watch<TimeTableApiBloc>.refresh();
           },
-          child: ListView(
-            children: context.watch<UserBloc>().userTitle != null
-                ? [
-                    TimeTableFuture(
-                        futureObject:
-                            context.watch<AbsentsTableApiBloc>().dayToday,
-                        today: true),
-                    AbsentsTableFuture(
-                      futureObject:
-                          context.watch<AbsentsTableApiBloc>().dayToday,
-                      filter: context.watch<UserBloc>().year,
-                      title: true,
-                    ),
-                    TimeTableFuture(
-                        futureObject:
-                            context.watch<AbsentsTableApiBloc>().dayTomorrow,
-                        today: false),
-                    AbsentsTableFuture(
-                      futureObject:
-                          context.watch<AbsentsTableApiBloc>().dayTomorrow,
-                      filter: context.watch<UserBloc>().year,
-                      title: true,
-                    ),
-                  ]
-                : [
-                    Card(
-                      color: Colors.white,
-                      elevation: 5.0,
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          if (constraints.maxWidth < 600) {
-                            return MaterialBanner(
-                              forceActionsBelow: true,
-                              leading: Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              ),
-                              content: Text(context
-                                          .watch<UserBloc>()
-                                          .userTitle ==
-                                      null
-                                  ? 'You have to Login to see Personalised content, '
-                                      'but you can filter the table'
-                                  : 'You have to Create an TimeTable to see Personalised content'),
-                              actions: [
-                                SizedBox(
-                                  width: context.watch<UserBloc>().userTitle ==
-                                          null
-                                      ? 190
-                                      : 225,
-                                  height: 50,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: context
-                                                    .watch<UserBloc>()
-                                                    .userTitle ==
-                                                null
-                                            ? Container(
-                                                width: 70,
-                                                child: RaisedButton(
-                                                  child: Text("Login"),
-                                                  onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              Login()),
-                                                    );
-                                                  },
-                                                ),
-                                              )
-                                            : Container(
-                                                width: 70,
-                                                child: RaisedButton(
-                                                  child: Chip(
-                                                    avatar: Icon(Icons.edit),
-                                                    label: Text("Create"),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.pushNamed(
-                                                        context, "/timeTable");
-                                                    context
-                                                        .read<IndexMainBloc>()
-                                                        .set(2);
-                                                  },
-                                                ),
-                                              ),
-                                      ),
-                                      Text("Year:"),
-                                      Padding(
-                                        padding: EdgeInsets.all(5),
-                                        child: Container(
-                                          width: 40,
-                                          child: TextField(
-                                            textAlignVertical:
-                                                TextAlignVertical.center,
-                                            controller: _filterController,
-                                            onChanged: (value) {
-                                              context
-                                                  .read<FilterTable>()
-                                                  .filterValue = value;
-                                            },
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            );
-                          } else {
-                            return MaterialBanner(
-                              leading: Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              ),
-                              content: Text(
-                                  'You have to Login to see Personalised content, '
-                                  'but you can filter the table'),
-                              actions: [
-                                SizedBox(
-                                  width: 190,
-                                  height: 50,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: RaisedButton(
-                                          child: Text("Login"),
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Login()),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      Text("Year:"),
-                                      Padding(
-                                        padding: EdgeInsets.all(5),
-                                        child: Container(
-                                          width: 40,
-                                          child: TextField(
-                                            textAlignVertical:
-                                                TextAlignVertical.center,
-                                            controller: _filterController,
-                                            onChanged: (value) {
-                                              context
-                                                  .read<FilterTable>()
-                                                  .filterValue = value;
-                                            },
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
-                        },
+          child: ListView(children: [
+            if (!context.watch<UserBloc>().loggedIn)
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  if (constraints.maxWidth < 600) {
+                    return MaterialBanner(
+                      forceActionsBelow: true,
+                      leading: Icon(
+                        Icons.error,
+                        color: Colors.red,
                       ),
-                    ),
-                    DayTable(),
-                  ],
-          ),
+                      content: Text(context.watch<UserBloc>().userTitle == null
+                          ? 'You have to Login to see Personalised content, '
+                              'but you can filter the table'
+                          : 'You have to Create an TimeTable to see Personalised content'),
+                      actions: [
+                        SizedBox(
+                          width: context.watch<UserBloc>().userTitle == null
+                              ? 190
+                              : 225,
+                          height: 50,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child:
+                                    context.watch<UserBloc>().userTitle == null
+                                        ? Container(
+                                            width: 70,
+                                            child: RaisedButton(
+                                              child: Text("Login"),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Login()),
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        : Container(
+                                            width: 70,
+                                            child: RaisedButton(
+                                              child: Chip(
+                                                avatar: Icon(Icons.edit),
+                                                label: Text("Create"),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                    context, "/timeTable");
+                                                context
+                                                    .read<IndexMainBloc>()
+                                                    .set(2);
+                                              },
+                                            ),
+                                          ),
+                              ),
+                              Text("Year:"),
+                              Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Container(
+                                  width: 40,
+                                  child: TextField(
+                                    textAlignVertical: TextAlignVertical.center,
+                                    controller: _filterController,
+                                    onChanged: (value) {
+                                      context.read<FilterTable>().filterValue =
+                                          value;
+                                    },
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return MaterialBanner(
+                      leading: Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      ),
+                      content: Text(context.watch<UserBloc>().userTitle == null
+                          ? 'You have to Login to see Personalised content, '
+                              'but you can filter the table'
+                          : 'You have to Create an TimeTable to see Personalised content'),
+                      actions: [
+                        SizedBox(
+                          width: 190,
+                          height: 50,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child:
+                                    context.watch<UserBloc>().userTitle == null
+                                        ? Container(
+                                            width: 70,
+                                            child: RaisedButton(
+                                              child: Text("Login"),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Login()),
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        : Container(
+                                            width: 70,
+                                            child: RaisedButton(
+                                              child: Chip(
+                                                avatar: Icon(Icons.edit),
+                                                label: Text("Create"),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                    context, "/timeTable");
+                                                context
+                                                    .read<IndexMainBloc>()
+                                                    .set(2);
+                                              },
+                                            ),
+                                          ),
+                              ),
+                              Text("Year:"),
+                              Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Container(
+                                  width: 40,
+                                  child: TextField(
+                                    textAlignVertical: TextAlignVertical.center,
+                                    controller: _filterController,
+                                    onChanged: (value) {
+                                      context.read<FilterTable>().filterValue =
+                                          value;
+                                    },
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                },
+              ),
+            if (!context.watch<UserBloc>().loggedIn) DayTable(),
+            if (context.watch<UserBloc>().loggedIn &&
+                context.watch<UserBloc>().timeTableSet)
+              TimeTableFuture(
+                  futureObject: context.watch<AbsentsTableApiBloc>().dayToday,
+                  today: true),
+            if (context.watch<UserBloc>().loggedIn)
+              AbsentsTableFuture(
+                futureObject: context.watch<AbsentsTableApiBloc>().dayToday,
+                filter: context.watch<UserBloc>().year,
+                title: true,
+              ),
+            if (context.watch<UserBloc>().loggedIn &&
+                context.watch<UserBloc>().timeTableSet)
+              TimeTableFuture(
+                  futureObject:
+                      context.watch<AbsentsTableApiBloc>().dayTomorrow,
+                  today: false),
+            if (context.watch<UserBloc>().loggedIn)
+              AbsentsTableFuture(
+                futureObject: context.watch<AbsentsTableApiBloc>().dayTomorrow,
+                filter: context.watch<UserBloc>().year,
+                title: true,
+              ),
+          ]),
         ),
       ),
     );

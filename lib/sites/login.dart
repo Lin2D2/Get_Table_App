@@ -63,18 +63,15 @@ class Login extends StatelessWidget {
                         case "success":
                           {
                             UserBloc _userBloc = context.read<UserBloc>();
-                            _userBloc.username = _userBloc
-                                .usernameController
-                                .text;
-                            _userBloc.password = _userBloc
-                                .passwordController
-                                .text;
-                            _userBloc.userTitle = _userBloc
-                                .usernameController
-                                .text;
+                            _userBloc.username =
+                                _userBloc.usernameController.text;
+                            _userBloc.password =
+                                _userBloc.passwordController.text;
+                            _userBloc.userTitle =
+                                _userBloc.usernameController.text;
                             if (response.timetable != null) {
-                              _userBloc.timetable =
-                                  response.timetable;
+                              _userBloc.timetable = response.timetable;
+                              _userBloc.timeTableSet = true;
                             }
                             _userBloc.year = response.year;
                             context
@@ -84,13 +81,14 @@ class Login extends StatelessWidget {
                             context.read<TimeTableItemsBlock>().year =
                                 response.year;
                             _userBloc.loggedIn = true;
+                            Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
+                                key: UniqueKey(),
                                 backgroundColor: Colors.green,
                                 content: Text('Success'),
                               ),
                             );
-                            Navigator.pop(context);
                             break;
                           }
                         case "wrong password":

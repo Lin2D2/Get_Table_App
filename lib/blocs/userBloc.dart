@@ -4,6 +4,7 @@ class UserBloc extends ChangeNotifier {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _loggedIn = false;
+  bool _timeTableSet = false;
   String _userTitle;
   String _username;
   String _password;
@@ -17,6 +18,8 @@ class UserBloc extends ChangeNotifier {
   };
 
   bool get loggedIn => _loggedIn;
+
+  bool get timeTableSet => _timeTableSet;
 
   String get username => _username;
 
@@ -34,6 +37,11 @@ class UserBloc extends ChangeNotifier {
 
   set loggedIn(bool val) {
     _loggedIn = val;
+    notifyListeners();
+  }
+
+  set timeTableSet(bool val) {
+    _timeTableSet = val;
     notifyListeners();
   }
 
