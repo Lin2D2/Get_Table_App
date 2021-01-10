@@ -65,25 +65,9 @@ class _TableViewState extends State<TableView> {
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      context.read<IndexTableViewBloc>().index = 2;
+                      context.read<IndexTableViewBloc>().index = 1;
                     }),
                 actions: [
-                  ConstrainedBox(
-                    constraints:
-                        BoxConstraints.tight(Size(58, double.infinity)),
-                    child: FlatButton(
-                      child: Text(
-                        "next",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () {
-                        context.read<IndexTableViewBloc>().index = 1;
-                      },
-                    ),
-                  ),
                   ConstrainedBox(
                     constraints:
                         BoxConstraints.tight(Size(50, double.infinity)),
@@ -104,177 +88,15 @@ class _TableViewState extends State<TableView> {
               },
               child: ListView(
                 children: [
-                  Center(
-                    child: FutureBuilder<Day>(
-                      future: context.watch<AbsentsTableApiBloc>().dayToday,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data.day["title"] != null) {
-                            List _titleSplit =
-                                snapshot.data.day["title"].split(" ");
-                            return Text(
-                              _titleSplit[1] +
-                                  " " +
-                                  _titleSplit[3] +
-                                  " " +
-                                  _titleSplit[2],
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            );
-                          } else {
-                            return Text(
-                              "Holidays",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            );
-                          }
-                        } else if (snapshot.hasError) {
-                          return Text(
-                            "Sever not reachable",
-                            style: TextStyle(color: Colors.red),
-                          );
-                        } else {
-                          // By default, show a loading spinner.
-                          return Center(
-                            child: Text(
-                              'TableView',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          );
-                        }
-                      },
-                    ),
+                  AbsentsTableFuture(
+                    futureObject: context.watch<AbsentsTableApiBloc>().dayToday,
+                    title: true,
                   ),
                   AbsentsTableFuture(
-                      futureObject:
-                          context.watch<AbsentsTableApiBloc>().dayToday),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          body: NestedScrollView(
-            headerSliverBuilder: (sliverContext, innerBoxScrolled) => [
-              SliverAppBar(
-                elevation: 10,
-                forceElevated: true,
-                automaticallyImplyLeading: false,
-                backgroundColor: Theme.of(context).primaryColor,
-                stretch: true,
-                toolbarHeight: 44,
-                collapsedHeight: 45,
-                expandedHeight: 100,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "TableView",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(181, 36, 30, 1),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0)),
-                    ),
+                    futureObject:
+                        context.watch<AbsentsTableApiBloc>().dayTomorrow,
+                    title: true,
                   ),
-                  centerTitle: true,
-                ),
-                leading: IconButton(
-                    icon: Icon(
-                      Icons.view_module,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      context.read<IndexTableViewBloc>().index = 2;
-                    }),
-                actions: [
-                  ConstrainedBox(
-                    constraints:
-                        BoxConstraints.tight(Size(65, double.infinity)),
-                    child: FlatButton(
-                      child: Text(
-                        "today",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () {
-                        context.read<IndexTableViewBloc>().index = 0;
-                      },
-                    ),
-                  ),
-                  ConstrainedBox(
-                    constraints:
-                        BoxConstraints.tight(Size(50, double.infinity)),
-                    child: FlatButton(
-                      child: Icon(
-                        Icons.refresh,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
-              ),
-            ],
-            body: RefreshIndicator(
-              onRefresh: () async {
-                print("refresh");
-              },
-              child: ListView(
-                children: [
-                  Center(
-                    child: FutureBuilder<Day>(
-                      future: context.watch<AbsentsTableApiBloc>().dayTomorrow,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data.day["title"] != null) {
-                            List _titleSplit =
-                                snapshot.data.day["title"].split(" ");
-                            return Text(
-                              _titleSplit[1] +
-                                  " " +
-                                  _titleSplit[3] +
-                                  " " +
-                                  _titleSplit[2],
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            );
-                          } else {
-                            return Text(
-                              "Weekend or Holidays",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            );
-                          }
-                        } else if (snapshot.hasError) {
-                          return Text(
-                            "Sever not reachable",
-                            style: TextStyle(color: Colors.red),
-                          );
-                        }
-
-                        // By default, show a loading spinner.
-                        return CircularProgressIndicator();
-                      },
-                    ),
-                  ),
-                  AbsentsTableFuture(
-                      futureObject:
-                          context.watch<AbsentsTableApiBloc>().dayTomorrow),
                 ],
               ),
             ),
