@@ -67,6 +67,21 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: _title,
+        themeMode: ThemeMode.system,
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: Colors.red,
+          accentColor: Colors.black,
+          backgroundColor: Colors.white,
+          bottomAppBarColor: Colors.grey[900],
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.red,
+          accentColor: Colors.amber[700],
+          backgroundColor: Colors.grey[850],
+          bottomAppBarColor: Colors.grey[900],
+        ),
         initialRoute: '/home',
         onGenerateRoute: (settings) {
           switch (settings.name) {

@@ -7,7 +7,6 @@ Card createCard(BuildContext context, Widget object,
     massage = null;
   }
   return Card(
-    color: Colors.white,
     elevation: 5.0,
     child: Column(
       children: massage != null
@@ -24,16 +23,13 @@ Card createCard(BuildContext context, Widget object,
                   Text(
                     "Nachrichten zum Tag:",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        decoration: TextDecoration.underline),
+                        fontSize: 14, decoration: TextDecoration.underline),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.0),
                     child: Text(
                       massage,
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 12,
                       ),
                     ),
@@ -47,16 +43,13 @@ Card createCard(BuildContext context, Widget object,
                   Text(
                     "Nachrichten zum Tag:",
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        decoration: TextDecoration.underline),
+                        fontSize: 14, decoration: TextDecoration.underline),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.0),
                     child: Text(
                       massage,
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 12,
                       ),
                     ),

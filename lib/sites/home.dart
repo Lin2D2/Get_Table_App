@@ -23,13 +23,14 @@ class DynamicList extends State<Home> {
   Widget build(BuildContext context) {
     TextEditingController _filterController = TextEditingController();
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: NestedScrollView(
         headerSliverBuilder: (sliverContext, innerBoxScrolled) => [
           SliverAppBar(
             elevation: 10,
             forceElevated: true,
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).primaryColor,
             stretch: true,
             toolbarHeight: 1,
             collapsedHeight: 40,
@@ -330,7 +331,7 @@ class _DayState extends State<DayTable> {
         }
         return Center(
             child: createCard(
-              context,
+          context,
           CircularProgressIndicator(),
           title: "Overview Today",
         ));
