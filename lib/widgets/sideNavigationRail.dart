@@ -29,6 +29,7 @@ Widget sideNavigationRail(BuildContext context) {
         }
     }
     if (oldIndex != index) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       Navigator.pushNamed(context, route);
     }
     context.read<IndexMainBloc>().set(index);
