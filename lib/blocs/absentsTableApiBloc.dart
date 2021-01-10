@@ -15,6 +15,7 @@ class AbsentsTableApiBloc extends ChangeNotifier {
   Future<Day> get dayTomorrow => _dayTomorrow;
 
   void refresh() async {
+    // TODO only refreshes from disk not from sever!
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _days = Future(() {
       // TODO check that the value is valid befor return

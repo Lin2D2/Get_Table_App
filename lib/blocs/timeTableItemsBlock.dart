@@ -75,6 +75,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
 // }
 
   void refresh() async {
+    // TODO only refreshes from disk not from sever!
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _subjects = Future(() {
       // TODO check that the value is valid befor return
