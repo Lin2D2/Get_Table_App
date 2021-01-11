@@ -56,81 +56,76 @@ class DynamicList extends State<TimeTable> {
             ),
           ),
         ],
-        body: RefreshIndicator(
-          onRefresh: () async {
-            print("refresh");
-          },
-          child: SingleChildScrollView(
-            child: Column(
-              children: context.watch<UserBloc>().userTitle != null
-                  ? [
-                      TimeTableToolRow(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Table(
-                          border: TableBorder.all(),
-                          children: generateTimeTable(context,
-                              edit: context.watch<TimeTableItemsBlock>().edit),
-                          columnWidths: {
-                            0: FlexColumnWidth(2),
-                            1: FlexColumnWidth(4),
-                            2: FlexColumnWidth(4),
-                            3: FlexColumnWidth(4),
-                            4: FlexColumnWidth(4),
-                            5: FlexColumnWidth(4),
+        body: SingleChildScrollView(
+          child: Column(
+            children: context.watch<UserBloc>().userTitle != null
+                ? [
+                    TimeTableToolRow(),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Table(
+                        border: TableBorder.all(),
+                        children: generateTimeTable(context,
+                            edit: context.watch<TimeTableItemsBlock>().edit),
+                        columnWidths: {
+                          0: FlexColumnWidth(2),
+                          1: FlexColumnWidth(4),
+                          2: FlexColumnWidth(4),
+                          3: FlexColumnWidth(4),
+                          4: FlexColumnWidth(4),
+                          5: FlexColumnWidth(4),
+                        },
+                      ),
+                    ),
+                    Divider(),
+                    context.watch<TimeTableItemsBlock>().edit
+                        ? TimeTableEdit()
+                        : Container(),
+                  ]
+                : [
+                    MaterialBanner(
+                      leading: Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      ),
+                      content:
+                          const Text('You have to Login to see content here'),
+                      actions: [
+                        RaisedButton(
+                          child: Text("Login"),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Login(),
+                              ),
+                            );
                           },
                         ),
+                      ],
+                    ),
+                    TimeTableToolRow(),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Table(
+                        border: TableBorder.all(),
+                        children: generateTimeTable(context,
+                            edit: context.watch<TimeTableItemsBlock>().edit),
+                        columnWidths: {
+                          0: FlexColumnWidth(2),
+                          1: FlexColumnWidth(4),
+                          2: FlexColumnWidth(4),
+                          3: FlexColumnWidth(4),
+                          4: FlexColumnWidth(4),
+                          5: FlexColumnWidth(4),
+                        },
                       ),
-                      Divider(),
-                      context.watch<TimeTableItemsBlock>().edit
-                          ? TimeTableEdit()
-                          : Container(),
-                    ]
-                  : [
-                      MaterialBanner(
-                        leading: Icon(
-                          Icons.error,
-                          color: Colors.red,
-                        ),
-                        content:
-                            const Text('You have to Login to see content here'),
-                        actions: [
-                          RaisedButton(
-                            child: Text("Login"),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Login(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      TimeTableToolRow(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Table(
-                          border: TableBorder.all(),
-                          children: generateTimeTable(context,
-                              edit: context.watch<TimeTableItemsBlock>().edit),
-                          columnWidths: {
-                            0: FlexColumnWidth(2),
-                            1: FlexColumnWidth(4),
-                            2: FlexColumnWidth(4),
-                            3: FlexColumnWidth(4),
-                            4: FlexColumnWidth(4),
-                            5: FlexColumnWidth(4),
-                          },
-                        ),
-                      ),
-                      Divider(),
-                      context.watch<TimeTableItemsBlock>().edit
-                          ? TimeTableEdit()
-                          : Container(),
-                    ],
-            ),
+                    ),
+                    Divider(),
+                    context.watch<TimeTableItemsBlock>().edit
+                        ? TimeTableEdit()
+                        : Container(),
+                  ],
           ),
         ),
       ),
