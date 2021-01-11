@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   platform: ^2.2.1
+  get_storage: ^1.4.0
   shared_preferences: ^0.5.12+4
   swipedetector: ^1.2.0
   http: ^0.12.2
