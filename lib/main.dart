@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:io';
 import 'package:get_table_app/blocs/filterTable.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:get_table_app/services/apiManagerService.dart';
@@ -7,7 +7,7 @@ import 'package:get_table_app/widgets/bottomNavigationBar.dart';
 import 'package:get_table_app/widgets/sideNavigationRail.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 import 'blocs/indexMainBloc.dart';
 import 'blocs/indexTableViewBloc.dart';
 import 'blocs/absentsTableApiBloc.dart';
@@ -22,26 +22,46 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 bool swipeDetector;
 
+Future<void> setStorage() async {
+  // TODO do this in an separate thread or on the system
+  // TODO only set if get returns no error
+  try {
+    if (!kIsWeb) {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        await GetStorage.init("Get_Table_App");
+        final box = GetStorage("Get_Table_App");
+        box.write('SubjectsRaw', await ApiRoutes.fetchSubjectsRaw());
+        box.write('TeachersRaw', await ApiRoutes.fetchTeachersRaw());
+        box.write('DaysRaw', await ApiRoutes.fetchDaysRaw());
+        box.write('TodayRaw', await ApiRoutes.fetchTomorrowTodayRaw("today"));
+        box.write(
+            'TomorrowRaw', await ApiRoutes.fetchTomorrowTodayRaw("tomorrow"));
+      }
+    } else {
+      await GetStorage.init("Get_Table_App");
+      final box = GetStorage("Get_Table_App");
+      box.write('SubjectsRaw', await ApiRoutes.fetchSubjectsRaw());
+      box.write('TeachersRaw', await ApiRoutes.fetchTeachersRaw());
+      box.write('DaysRaw', await ApiRoutes.fetchDaysRaw());
+      box.write('TodayRaw', await ApiRoutes.fetchTomorrowTodayRaw("today"));
+      box.write(
+          'TomorrowRaw', await ApiRoutes.fetchTomorrowTodayRaw("tomorrow"));
+    }
+  } on SocketException catch (_) {
+    print('No Internet');
+  }
+}
+
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     swipeDetector = false;
   } else {
     LocalPlatform platform = LocalPlatform();
     swipeDetector = platform.isAndroid || platform.isIOS;
   }
-  // TODO do this in an separate thread or on the system
-  // start async function or thread
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString(
-      'SubjectsRaw', jsonEncode(await ApiRoutes.fetchSubjectsRaw()));
-  await prefs.setString(
-      'TeachersRaw', jsonEncode(await ApiRoutes.fetchTeachersRaw()));
-  await prefs.setString('DaysRaw', jsonEncode(await ApiRoutes.fetchDaysRaw()));
-  await prefs.setString(
-      'TodayRaw', jsonEncode(await ApiRoutes.fetchTomorrowTodayRaw("today")));
-  await prefs.setString('TomorrowRaw',
-      jsonEncode(await ApiRoutes.fetchTomorrowTodayRaw("tomorrow")));
-  // end
+  await setStorage();
   runApp(MyApp());
 }
 
@@ -127,7 +147,7 @@ class HomeRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!context.watch<AbsentsTableApiBloc>().isSet) {
-      context.watch<AbsentsTableApiBloc>().refresh();
+      context.watch<AbsentsTableApiBloc>().initalSet();
       context.watch<AbsentsTableApiBloc>().isSet = true;
     }
     return SafeArea(
@@ -191,7 +211,7 @@ class TableViewRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!context.watch<AbsentsTableApiBloc>().isSet) {
-      context.watch<AbsentsTableApiBloc>().refresh();
+      context.watch<AbsentsTableApiBloc>().initalSet();
       context.watch<AbsentsTableApiBloc>().isSet = true;
     }
     return SafeArea(
@@ -263,7 +283,7 @@ class TimeTableRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!context.watch<TimeTableItemsBlock>().isSet) {
-      context.watch<TimeTableItemsBlock>().refresh();
+      context.watch<TimeTableItemsBlock>().initalSet();
       context.watch<TimeTableItemsBlock>().isSet = true;
     }
     return SafeArea(

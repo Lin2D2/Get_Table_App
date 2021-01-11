@@ -1,9 +1,7 @@
-import 'dart:convert';
-import 'package:get_table_app/services/apiManagerService.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:get_table_app/types/subjects.dart';
 import 'package:get_table_app/types/teachers.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TimeTableItemsBlock extends ChangeNotifier {
   // for example {"day": "monday", "lesson": "1/2", "week": "not implemented"}
@@ -74,16 +72,26 @@ class TimeTableItemsBlock extends ChangeNotifier {
 //   notifyListeners();
 // }
 
-  void refresh() async {
+  void initalSet() {
     // TODO only refreshes from disk not from sever!
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final box = GetStorage("Get_Table_App");
     _subjects = Future(() {
       // TODO check that the value is valid befor return
-      return Subjects.fromJson(jsonDecode(prefs.getString("SubjectsRaw")));
+      return Subjects.fromJson(box.read("SubjectsRaw"));
     });
     _teachers = Future(() {
-      return Teachers.fromJson(jsonDecode(prefs.getString("TeachersRaw")));
+      return Teachers.fromJson(box.read("TeachersRaw"));
     });
-    notifyListeners();
+    box.listenKey('SubjectsRaw', (value) {
+      _subjects = Future(() {
+        // TODO check that the value is valid befor return
+        return Subjects.fromJson(box.read("SubjectsRaw"));
+      });
+    });
+    box.listenKey('TeachersRaw', (value) {
+      _teachers = Future(() {
+        return Teachers.fromJson(box.read("TeachersRaw"));
+      });
+    });
   }
 }
