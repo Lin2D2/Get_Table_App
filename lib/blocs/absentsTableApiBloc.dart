@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:get_table_app/services/apiManagerService.dart';
 import 'package:get_table_app/types/day.dart';
 import 'package:get_table_app/types/days.dart';
 
@@ -15,7 +16,6 @@ class AbsentsTableApiBloc extends ChangeNotifier {
   Future<Day> get dayTomorrow => _dayTomorrow;
 
   void initalSet() {
-    // TODO only refreshes from disk not from sever!
     // TODO check that the value is valid befor return
     final box = GetStorage("Get_Table_App");
     _days = Future(() {
@@ -42,5 +42,12 @@ class AbsentsTableApiBloc extends ChangeNotifier {
         return Day.fromJson(box.read("TomorrowRaw"));
       });
     });
+  }
+
+  void refresh() async {
+    final box = GetStorage("Get_Table_App");
+    box.write('DaysRaw', await ApiRoutes.fetchDaysRaw());
+    box.write('TodayRaw', await ApiRoutes.fetchTomorrowTodayRaw("today"));
+    box.write('TomorrowRaw', await ApiRoutes.fetchTomorrowTodayRaw("tomorrow"));
   }
 }

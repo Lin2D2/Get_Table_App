@@ -1,4 +1,5 @@
 import 'package:get_storage/get_storage.dart';
+import 'package:get_table_app/services/apiManagerService.dart';
 import 'package:get_table_app/types/subjects.dart';
 import 'package:get_table_app/types/teachers.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,6 @@ class TimeTableItemsBlock extends ChangeNotifier {
 // }
 
   void initalSet() {
-    // TODO only refreshes from disk not from sever!
     final box = GetStorage("Get_Table_App");
     _subjects = Future(() {
       // TODO check that the value is valid befor return
@@ -93,5 +93,11 @@ class TimeTableItemsBlock extends ChangeNotifier {
         return Teachers.fromJson(box.read("TeachersRaw"));
       });
     });
+  }
+
+  void refresh() async {
+    final box = GetStorage("Get_Table_App");
+    box.write('SubjectsRaw', await ApiRoutes.fetchSubjectsRaw());
+    box.write('TeachersRaw', await ApiRoutes.fetchTeachersRaw());
   }
 }

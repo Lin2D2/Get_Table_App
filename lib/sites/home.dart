@@ -97,7 +97,7 @@ class DynamicList extends State<Home> {
         body: RefreshIndicator(
           onRefresh: () async {
             print("refresh");
-            //context.watch<TimeTableApiBloc>.refresh();
+            context.read<AbsentsTableApiBloc>().refresh();
           },
           child: ListView(children: [
             if (!context.watch<UserBloc>().loggedIn)

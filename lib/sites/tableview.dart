@@ -85,6 +85,7 @@ class _TableViewState extends State<TableView> {
             body: RefreshIndicator(
               onRefresh: () async {
                 print("refresh");
+                context.read<AbsentsTableApiBloc>().refresh();
               },
               child: ListView(
                 children: [
