@@ -13,11 +13,14 @@ class TimeTableToolRow extends StatefulWidget {
 
 class _TimeTableToolRowState extends State<TimeTableToolRow> {
   List<String> _years = ["5", "6", "7", "8", "9", "10", "11", "12", "13"];
+  String dropdownValue;
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = context.watch<UserBloc>().year != null
-        ? context.watch<UserBloc>().year
-        : "5";
+    if (dropdownValue == null) {
+      dropdownValue = Provider.of<UserBloc>(context, listen: false).year != null
+          ? Provider.of<UserBloc>(context, listen: false).year
+          : "5";
+    }
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Row(
@@ -60,9 +63,7 @@ class _TimeTableToolRowState extends State<TimeTableToolRow> {
                             }).toList();
                           },
                         )
-                      : Text(context.watch<UserBloc>().year != null
-                          ? context.watch<UserBloc>().year
-                          : ""),
+                      : Text(dropdownValue),
                 )
               ],
             ),
