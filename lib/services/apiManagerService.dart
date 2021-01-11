@@ -20,8 +20,7 @@ class ApiBaseHelper {
       final response = await http.get(_baseUrl + url);
       responseJson = _returnResponse(response);
     } on SocketException {
-      print('No net');
-      throw Exception('No Internet connection');
+      throw Exception('failed to reach Sever');
     }
     print('api get recieved!');
     return responseJson;
@@ -39,8 +38,7 @@ class ApiBaseHelper {
           });
       responseJson = _returnResponse(response);
     } on SocketException {
-      print('No net');
-      throw Exception('No Internet connection');
+      throw Exception('failed to reach Sever');
     }
     print('api Post done!');
     return responseJson;
