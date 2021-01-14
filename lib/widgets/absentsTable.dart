@@ -122,12 +122,21 @@ Widget createAbsentsTable(List header, List content,
           color: Colors.grey[900],
         ),
         children: headerElements);
-    return Table(
-      border: TableBorder.all(),
-      children: [headerRow] + rows,
-      columnWidths:
-          fullMatch ? {1: FlexColumnWidth(2)} : {2: FlexColumnWidth(2)},
-    );
+    if (rows.length > 0) {
+      return Table(
+        border: TableBorder.all(),
+        children: [headerRow] + rows,
+        columnWidths:
+            fullMatch ? {1: FlexColumnWidth(2)} : {2: FlexColumnWidth(2)},
+      );
+    } else {
+      return Center(
+        child: Text(
+          "Keine Vertretung für den Jahrgang " + year.toString() + " gefunden",
+          style: TextStyle(fontSize: 15),
+        ),
+      );
+    }
   } else {
     return createAbsentsTable(header, content,
         year: year,
