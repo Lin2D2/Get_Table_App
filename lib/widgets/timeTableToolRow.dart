@@ -63,7 +63,9 @@ class _TimeTableToolRowState extends State<TimeTableToolRow> {
                             }).toList();
                           },
                         )
-                      : Text(dropdownValue),
+                      : Text(context.watch<UserBloc>().year != null
+                          ? context.watch<UserBloc>().year
+                          : "5"),
                 )
               ],
             ),
@@ -116,6 +118,9 @@ class _TimeTableToolRowState extends State<TimeTableToolRow> {
                   : () {
                       context.read<TimeTableItemsBlock>().copyTimeTable =
                           context.read<UserBloc>().timetable;
+                      if (context.read<UserBloc>().year != null) {
+                        dropdownValue = context.read<UserBloc>().year;
+                      }
                       context.read<TimeTableItemsBlock>().edit = true;
                     },
             ),
