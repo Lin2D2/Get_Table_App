@@ -94,6 +94,8 @@ class DynamicList extends State<TimeTable> {
                         RaisedButton(
                           child: Text("Login"),
                           onPressed: () {
+                            ScaffoldMessenger.of(context)
+                                .removeCurrentSnackBar();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
