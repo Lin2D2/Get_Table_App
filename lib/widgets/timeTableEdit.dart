@@ -258,18 +258,18 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                                           .subjectsShort
                                           .elementAt(selectedIndex);
                                     } else {
-                                      day[lesson].addAll({
-                                        "subject": _subject.subjectsShort
-                                            .elementAt(selectedIndex)
-                                      });
+                                      day[lesson].putIfAbsent(
+                                          "subject",
+                                          () => _subject.subjectsShort
+                                              .elementAt(selectedIndex));
                                     }
                                   } else {
-                                    day.addAll({
-                                      lesson: {
-                                        "subject": _subject.subjectsShort
-                                            .elementAt(selectedIndex)
-                                      }
-                                    });
+                                    day.putIfAbsent(
+                                        lesson,
+                                        () => {
+                                              "subject": _subject.subjectsShort
+                                                  .elementAt(selectedIndex)
+                                            });
                                   }
                                   print(itemsBlock.copyTimeTable);
                                   if (_lessonSelected) {
