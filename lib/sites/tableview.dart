@@ -4,7 +4,6 @@ import 'package:get_table_app/widgets/absentsTableStatefulFuture.dart';
 import 'package:get_table_app/widgets/tableViewItem.dart';
 import 'package:flutter/material.dart';
 import 'package:get_table_app/types/days.dart';
-import 'package:get_table_app/types/day.dart';
 import 'package:provider/provider.dart';
 
 class TableView extends StatefulWidget {

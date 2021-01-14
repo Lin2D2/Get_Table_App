@@ -5,7 +5,6 @@ import 'package:get_table_app/types/day.dart';
 import 'package:get_table_app/types/days.dart';
 
 class AbsentsTableApiBloc extends ChangeNotifier {
-  GetStorage _box = GetStorage();
   bool isSet = false;
   Future<Days> _days;
   Future<Day> _dayToday;
