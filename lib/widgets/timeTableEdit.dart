@@ -4,6 +4,7 @@ import 'package:get_table_app/types/subjects.dart';
 import 'package:get_table_app/types/teachers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_table_app/widgets/timeTableEditSelectElement.dart';
 import 'package:provider/provider.dart';
 
 class TimeTableEdit extends StatefulWidget {
@@ -13,6 +14,9 @@ class TimeTableEdit extends StatefulWidget {
 
 class _TimeTableEditState extends State<TimeTableEdit> {
   // TODO screen with smaller 375 brakes the Layout
+  bool _doubleLesson = true;
+  List<bool> _toggleButtonBoolList = [false, true];
+
   bool _lessonSelected = false;
   bool _teacherSelected = false;
   bool _weekSelectedAB = true;
@@ -21,11 +25,19 @@ class _TimeTableEditState extends State<TimeTableEdit> {
   int _teachersIndex = 0;
   int _roomIndex = 0;
 
+  bool _lessonSelected2nd = false;
+  bool _teacherSelected2nd = false;
+  bool _weekSelectedAB2nd = true;
+  int _weekIndex2nd = 0;
+  int _subjectsIndex2nd = 0;
+  int _teachersIndex2nd = 0;
+  int _roomIndex2nd = 0;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
-      height: 200,
+      height: _doubleLesson ? 200 : 416,
       width: width,
       child: Column(
         children: <Widget>[
@@ -44,13 +56,31 @@ class _TimeTableEditState extends State<TimeTableEdit> {
               children: [
                 if (!_lessonSelected)
                   Container(
-                    width: 85,
-                    height: 20,
+                    width: 99,
+                    height: 36,
+                    child: ToggleButtons(
+                      children: <Widget>[
+                        Text("1"),
+                        Text("1/2"),
+                      ],
+                      onPressed: (int index) {
+                        setState(() {
+                          if (index == 0) {
+                            _doubleLesson = false;
+                            _toggleButtonBoolList = [true, false];
+                          } else {
+                            _doubleLesson = true;
+                            _toggleButtonBoolList = [false, true];
+                          }
+                        });
+                      },
+                      isSelected: _toggleButtonBoolList,
+                    ),
                   ),
                 if (_lessonSelected)
                   Container(
-                    width: 80,
-                    height: 20,
+                    width: 99,
+                    height: 36,
                     child: RaisedButton(
                       child: Text("back"),
                       onPressed: () {
@@ -67,22 +97,31 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                     ),
                   ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-                    context
-                            .watch<TimeTableItemsBlock>()
-                            .selectedElement["day"] +
-                        (MediaQuery.of(context).size.width < 365
-                            ? " class: "
-                            : " lesson") +
+                    (MediaQuery.of(context).size.width < 365
+                            ? context
+                                    .watch<TimeTableItemsBlock>()
+                                    .selectedElement["day"][0] +
+                                context
+                                    .watch<TimeTableItemsBlock>()
+                                    .selectedElement["day"][1] +
+                                context
+                                    .watch<TimeTableItemsBlock>()
+                                    .selectedElement["day"][2] +
+                                ". class: "
+                            : context
+                                    .watch<TimeTableItemsBlock>()
+                                    .selectedElement["day"] +
+                                " lesson: ") +
                         context
                             .watch<TimeTableItemsBlock>()
                             .selectedElement["lesson"],
                   ),
                 ),
                 Container(
-                  width: 80,
-                  height: 20,
+                  width: 99,
+                  height: 36,
                   child: RaisedButton(
                     child: Text(_lessonSelected && _teacherSelected
                         ? "finish"
@@ -151,285 +190,61 @@ class _TimeTableEditState extends State<TimeTableEdit> {
           if (context.watch<TimeTableItemsBlock>().selectedElement != null)
             Divider(),
           if (context.watch<TimeTableItemsBlock>().selectedElement != null)
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            SelectElement(
+              lessonSelected: _lessonSelected,
+              teacherSelected: _teacherSelected,
+              weekSelectedAB: _weekSelectedAB,
+              weekIndex: _weekIndex,
+              subjectsIndex: _subjectsIndex,
+              teachersIndex: _teachersIndex,
+              roomIndex: _roomIndex,
+            ),
+          if (context.watch<TimeTableItemsBlock>().selectedElement != null &&
+              !_doubleLesson)
+            Container(
+              child: Column(
                 children: [
-                  if (!_lessonSelected)
-                    Column(
-                      children: [
-                        Container(
-                          width: 80,
-                          height: 20,
-                          child: Center(
-                            child: Text("week"),
-                          ),
-                        ),
-                        Container(
-                          width: 80,
-                          height: 128,
-                          child: CupertinoPicker.builder(
-                            scrollController: FixedExtentScrollController(
-                                initialItem: _weekIndex),
-                            useMagnifier: true,
-                            childCount: 3,
-                            itemBuilder: (context, index) {
-                              switch (index) {
-                                case 0:
-                                  return Text("A/B");
-                                case 1:
-                                  return Text("A");
-                                case 2:
-                                  return Text("B");
-                                default:
-                                  return Text("");
-                                  break;
-                              }
-                            },
-                            itemExtent: 30,
-                            onSelectedItemChanged: (selectedIndex) {
-                              switch (selectedIndex) {
-                                case 0:
-                                  print("A/B");
-                                  break;
-                                case 1:
-                                  print("A");
-                                  break;
-                                case 2:
-                                  print("B");
-                                  break;
-                                default:
-                                  print(selectedIndex);
-                                  break;
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  // TODO Problem: CupertinoPicker only updates on scroll
-                  Column(
+                  Divider(),
+                  Row(
                     children: [
                       Container(
-                        width: 90,
-                        height: 20,
-                        child: Center(
-                          child: Text("subject"),
+                        width: 99,
+                        height: 36,
+                        child: ToggleButtons(
+                          children: <Widget>[
+                            Text("2"),
+                            Text("1/2"),
+                          ],
+                          onPressed: (int index) {
+                            setState(() {
+                              if (index == 0) {
+                                _doubleLesson = false;
+                                _toggleButtonBoolList = [true, false];
+                              } else {
+                                _doubleLesson = true;
+                                _toggleButtonBoolList = [false, true];
+                              }
+                            });
+                          },
+                          isSelected: _toggleButtonBoolList,
                         ),
-                      ),
-                      FutureBuilder(
-                        future: context.watch<TimeTableItemsBlock>().subjects,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Container(
-                              width: _lessonSelected ? 90 : 200,
-                              height: 128,
-                              child: CupertinoPicker.builder(
-                                scrollController: FixedExtentScrollController(
-                                    initialItem: _subjectsIndex),
-                                useMagnifier: true,
-                                childCount: _lessonSelected
-                                    ? snapshot.data.subjectsShort.length
-                                    : snapshot.data.subjectsLong.length,
-                                itemBuilder: (context, index) {
-                                  return Center(
-                                    child: Text(_lessonSelected
-                                        ? snapshot.data.subjectsShort
-                                            .elementAt(index)
-                                        : snapshot.data.subjectsLong
-                                            .elementAt(index)),
-                                  );
-                                },
-                                itemExtent: 30,
-                                onSelectedItemChanged: (selectedIndex) async {
-                                  setState(() {
-                                    _subjectsIndex = selectedIndex;
-                                  });
-                                  TimeTableItemsBlock itemsBlock =
-                                      context.read<TimeTableItemsBlock>();
-                                  Map day = itemsBlock.copyTimeTable[
-                                      itemsBlock.selectedElement["day"]];
-                                  String lesson =
-                                      itemsBlock.selectedElement["lesson"];
-                                  Subjects _subject = await itemsBlock.subjects;
-                                  if (day.containsKey(lesson)) {
-                                    if (day[lesson].containsKey("subject")) {
-                                      day[lesson]["subject"] = _subject
-                                          .subjectsShort
-                                          .elementAt(selectedIndex);
-                                    } else {
-                                      day[lesson].putIfAbsent(
-                                          "subject",
-                                          () => _subject.subjectsShort
-                                              .elementAt(selectedIndex));
-                                    }
-                                  } else {
-                                    day.putIfAbsent(
-                                        lesson,
-                                        () => {
-                                              "subject": _subject.subjectsShort
-                                                  .elementAt(selectedIndex)
-                                            });
-                                  }
-                                  print(itemsBlock.copyTimeTable);
-                                  if (_lessonSelected) {
-                                    // TODO dosent set rerenders maybe just lock the subjects scroll when in teacher selection
-                                    setState(() {
-                                      _teachersIndex = 0;
-                                    });
-                                    Teachers teachers = await context
-                                        .read<TimeTableItemsBlock>()
-                                        .teachers;
-                                    Subjects subjects = await context
-                                        .read<TimeTableItemsBlock>()
-                                        .subjects;
-                                    String subject = subjects.subjectsLong
-                                        .elementAt(_subjectsIndex);
-                                    List filteredTeachers = [];
-                                    for (final teacher in teachers.teachers) {
-                                      if (teacher["subjects"].length > 0) {
-                                        if (teacher["subjects"]
-                                            .contains(subject)) {
-                                          filteredTeachers.add(teacher);
-                                        }
-                                      }
-                                    }
-                                    context
-                                        .read<TimeTableItemsBlock>()
-                                        .filteredTeachers = filteredTeachers;
-                                  }
-                                },
-                              ),
-                            );
-                          } else {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                        },
                       ),
                     ],
                   ),
-                  if (_lessonSelected)
-                    Column(
-                      children: [
-                        Container(
-                          width: 90,
-                          height: 20,
-                          child: Center(
-                            child: Text("teacher"),
-                          ),
-                        ),
-                        Container(
-                          width: _teacherSelected ? 90 : 200,
-                          height: 128,
-                          child: CupertinoPicker.builder(
-                            scrollController: FixedExtentScrollController(
-                                initialItem: _teachersIndex),
-                            useMagnifier: true,
-                            childCount: context
-                                .watch<TimeTableItemsBlock>()
-                                .filteredTeachers
-                                .length,
-                            itemBuilder: (context, index) {
-                              return Center(
-                                child: Text(_teacherSelected
-                                    ? context
-                                        .read<TimeTableItemsBlock>()
-                                        .filteredTeachers
-                                        .elementAt(index)["name"]["short"]
-                                    : context
-                                        .read<TimeTableItemsBlock>()
-                                        .filteredTeachers
-                                        .elementAt(index)["name"]["long"]),
-                              );
-                            },
-                            itemExtent: 30,
-                            onSelectedItemChanged: (selectedIndex) async {
-                              setState(() {
-                                _teachersIndex = selectedIndex;
-                              });
-                              TimeTableItemsBlock itemsBlock =
-                                  context.read<TimeTableItemsBlock>();
-                              Map day = itemsBlock.copyTimeTable[
-                                  itemsBlock.selectedElement["day"]];
-                              String lesson =
-                                  itemsBlock.selectedElement["lesson"];
-                              Teachers _teachers = await itemsBlock.teachers;
-                              if (day.containsKey(lesson)) {
-                                if (day[lesson].containsKey("teacher")) {
-                                  day[lesson]["teacher"] = _teachers.teachers
-                                          .elementAt(selectedIndex)["name"]
-                                      ["short"];
-                                } else {
-                                  day[lesson].addAll({
-                                    "teacher": _teachers.teachers
-                                            .elementAt(selectedIndex)["name"]
-                                        ["short"]
-                                  });
-                                }
-                              } else {
-                                day.addAll({
-                                  lesson: {
-                                    "teacher": _teachers.teachers
-                                            .elementAt(selectedIndex)["name"]
-                                        ["short"]
-                                  }
-                                });
-                              }
-                              print(itemsBlock.copyTimeTable);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  if (_teacherSelected)
-                    Column(
-                      children: [
-                        Container(
-                          width: 90,
-                          height: 20,
-                          child: Center(
-                            child: Text("room"),
-                          ),
-                        ),
-                        Container(
-                          width: 90,
-                          height: 128,
-                          child: CupertinoPicker.builder(
-                            scrollController: FixedExtentScrollController(
-                                initialItem: _roomIndex),
-                            useMagnifier: true,
-                            childCount: context
-                                .watch<TimeTableItemsBlock>()
-                                .rooms
-                                .length,
-                            itemBuilder: (context, index) {
-                              return Center(
-                                child: Text(context
-                                    .read<TimeTableItemsBlock>()
-                                    .rooms
-                                    .elementAt(index)),
-                              );
-                            },
-                            itemExtent: 30,
-                            onSelectedItemChanged: (selectedIndex) {
-                              setState(() {
-                                _roomIndex = selectedIndex;
-                              });
-                              TimeTableItemsBlock itemsBlock =
-                                  context.read<TimeTableItemsBlock>();
-                              Map day = itemsBlock.copyTimeTable[
-                                  itemsBlock.selectedElement["day"]];
-                              String lesson =
-                                  itemsBlock.selectedElement["lesson"];
-
-                              print(itemsBlock.copyTimeTable);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                  Divider(),
                 ],
               ),
+            ),
+          if (context.watch<TimeTableItemsBlock>().selectedElement != null &&
+              !_doubleLesson)
+            SelectElement(
+              lessonSelected: _lessonSelected2nd,
+              teacherSelected: _teacherSelected2nd,
+              weekSelectedAB: _weekSelectedAB2nd,
+              weekIndex: _weekIndex2nd,
+              subjectsIndex: _subjectsIndex2nd,
+              teachersIndex: _teachersIndex2nd,
+              roomIndex: _roomIndex2nd,
             ),
         ],
       ),
