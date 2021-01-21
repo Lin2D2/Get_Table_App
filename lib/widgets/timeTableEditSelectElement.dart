@@ -126,11 +126,17 @@ class _SelectElementState extends State<SelectElement> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      index ==
-                                              context
-                                                  .read<
-                                                      TimeTableScrollerIndexes>()
-                                                  .subjectsIndex
+                                      (widget.firstOrSecound
+                                              ? index ==
+                                                  context
+                                                      .read<
+                                                          TimeTableScrollerIndexes>()
+                                                      .subjectsIndex
+                                              : index ==
+                                                  context
+                                                      .read<
+                                                          TimeTableScrollerIndexes>()
+                                                      .subjectsIndex2nd)
                                           ? Container(
                                               width: 30,
                                               child: Icon(Icons.lock),
@@ -195,20 +201,32 @@ class _SelectElementState extends State<SelectElement> {
                                   .watch<TimeTableScrollerIndexes>()
                                   .teachersIndex2nd),
                       useMagnifier: true,
-                      childCount: context
-                          .watch<TimeTableItemsBlock>()
-                          .filteredTeachers
-                          .length,
+                      childCount: widget.firstOrSecound
+                          ? context
+                              .watch<TimeTableItemsBlock>()
+                              .filteredTeachers
+                              .length
+                          : context
+                              .watch<TimeTableItemsBlock>()
+                              .filteredTeachers2nd
+                              .length,
                       itemBuilder: (context, index) {
                         return widget.teacherSelected
                             ? Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  index ==
-                                          context
-                                              .read<TimeTableScrollerIndexes>()
-                                              .teachersIndex
+                                  (widget.firstOrSecound
+                                          ? index ==
+                                              context
+                                                  .read<
+                                                      TimeTableScrollerIndexes>()
+                                                  .teachersIndex
+                                          : index ==
+                                              context
+                                                  .read<
+                                                      TimeTableScrollerIndexes>()
+                                                  .teachersIndex2nd)
                                       ? Container(
                                           width: 30,
                                           child: Icon(Icons.lock),
@@ -218,18 +236,33 @@ class _SelectElementState extends State<SelectElement> {
                                         ),
                                   Container(
                                     width: 50,
-                                    child: Text(context
-                                        .read<TimeTableItemsBlock>()
-                                        .filteredTeachers
-                                        .elementAt(index)["name"]["short"]),
+                                    child: Text(
+                                      widget.firstOrSecound
+                                          ? context
+                                              .read<TimeTableItemsBlock>()
+                                              .filteredTeachers
+                                              .elementAt(index)["name"]["short"]
+                                          : context
+                                                  .read<TimeTableItemsBlock>()
+                                                  .filteredTeachers2nd
+                                                  .elementAt(index)["name"]
+                                              ["short"],
+                                    ),
                                   ),
                                 ],
                               )
                             : Center(
-                                child: Text(context
-                                    .read<TimeTableItemsBlock>()
-                                    .filteredTeachers
-                                    .elementAt(index)["name"]["long"]),
+                                child: Text(
+                                  widget.firstOrSecound
+                                      ? context
+                                          .read<TimeTableItemsBlock>()
+                                          .filteredTeachers
+                                          .elementAt(index)["name"]["long"]
+                                      : context
+                                          .read<TimeTableItemsBlock>()
+                                          .filteredTeachers2nd
+                                          .elementAt(index)["name"]["long"],
+                                ),
                               );
                       },
                       itemExtent: 30,
@@ -243,31 +276,6 @@ class _SelectElementState extends State<SelectElement> {
                                   .read<TimeTableScrollerIndexes>()
                                   .teachersIndex2nd = selectedIndex;
                         });
-                        TimeTableItemsBlock itemsBlock =
-                            context.read<TimeTableItemsBlock>();
-                        Map day = itemsBlock
-                            .copyTimeTable[itemsBlock.selectedElement["day"]];
-                        String lesson = itemsBlock.selectedElement["lesson"];
-                        Teachers _teachers = await itemsBlock.teachers;
-                        if (day.containsKey(lesson)) {
-                          if (day[lesson].containsKey("teacher")) {
-                            day[lesson]["teacher"] = _teachers.teachers
-                                .elementAt(selectedIndex)["name"]["short"];
-                          } else {
-                            day[lesson].addAll({
-                              "teacher": _teachers.teachers
-                                  .elementAt(selectedIndex)["name"]["short"]
-                            });
-                          }
-                        } else {
-                          day.addAll({
-                            lesson: {
-                              "teacher": _teachers.teachers
-                                  .elementAt(selectedIndex)["name"]["short"]
-                            }
-                          });
-                        }
-                        print(itemsBlock.copyTimeTable);
                       },
                     ),
                   ),

@@ -80,10 +80,12 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                         if (_teacherSelected) {
                           setState(() {
                             _teacherSelected = false;
+                            _teacherSelected2nd = false;
                           });
                         } else {
                           setState(() {
                             _lessonSelected = false;
+                            _lessonSelected2nd = false;
                           });
                         }
                       },
@@ -131,18 +133,25 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                               TimeTableScrollerIndexes indexes =
                                   context.read<TimeTableScrollerIndexes>();
                               indexes.roomIndex = 0;
+                              indexes.roomIndex2nd = 0;
                               indexes.subjectsIndex = 0;
+                              indexes.subjectsIndex2nd = 0;
                               indexes.teachersIndex = 0;
+                              indexes.teachersIndex2nd = 0;
                               indexes.weekIndex = 0;
+                              indexes.weekIndex2nd = 0;
                               _lessonSelected = false;
+                              _lessonSelected2nd = false;
                               _teacherSelected = false;
+                              _teacherSelected2nd = false;
                               _weekSelectedAB = true;
+                              _weekSelectedAB2nd = true;
                             });
                           }
                         : () async {
+                            TimeTableScrollerIndexes indexes =
+                                context.read<TimeTableScrollerIndexes>();
                             if (!_lessonSelected) {
-                              TimeTableScrollerIndexes indexes =
-                                  context.read<TimeTableScrollerIndexes>();
                               TimeTableItemsBlock itemsBlock =
                                   context.read<TimeTableItemsBlock>();
                               Map day = itemsBlock.copyTimeTable[
@@ -150,47 +159,83 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                               String lesson =
                                   itemsBlock.selectedElement["lesson"];
                               Subjects _subject = await itemsBlock.subjects;
-                              if (day.containsKey(lesson)) {
-                                if (day[lesson].containsKey("subject")) {
-                                  day[lesson]["subject"] = _subject
-                                      .subjectsShort
-                                      .elementAt(indexes.subjectsIndex);
+                              if (_doubleLesson) {
+                                if (day.containsKey(lesson)) {
+                                  if (day[lesson].containsKey("subject")) {
+                                    day[lesson]["subject"] = _subject
+                                        .subjectsShort
+                                        .elementAt(indexes.subjectsIndex);
+                                  } else {
+                                    day[lesson].putIfAbsent(
+                                        "subject",
+                                        () => _subject.subjectsShort
+                                            .elementAt(indexes.subjectsIndex));
+                                  }
                                 } else {
-                                  day[lesson].putIfAbsent(
-                                      "subject",
-                                      () => _subject.subjectsShort
-                                          .elementAt(indexes.subjectsIndex));
+                                  day.putIfAbsent(
+                                      lesson,
+                                      () => {
+                                            "subject": _subject.subjectsShort
+                                                .elementAt(
+                                                    indexes.subjectsIndex)
+                                          });
+                                }
+                                if (day.containsKey(lesson[0])) {
+                                  day.remove(lesson[0]);
+                                }
+                                if (day
+                                    .containsKey(lesson[lesson.length - 1])) {
+                                  day.remove(lesson[lesson.length - 1]);
                                 }
                               } else {
-                                day.putIfAbsent(
-                                    lesson,
-                                    () => {
-                                          "subject": _subject.subjectsShort
-                                              .elementAt(indexes.subjectsIndex)
-                                        });
+                                if (day.containsKey(lesson[0])) {
+                                  if (day[lesson[0]].containsKey("subject")) {
+                                    day[lesson[0]]["subject"] = _subject
+                                        .subjectsShort
+                                        .elementAt(indexes.subjectsIndex);
+                                  } else {
+                                    day[lesson[0]].putIfAbsent(
+                                        "subject",
+                                        () => _subject.subjectsShort
+                                            .elementAt(indexes.subjectsIndex));
+                                  }
+                                } else {
+                                  day.putIfAbsent(
+                                      lesson[0],
+                                      () => {
+                                            "subject": _subject.subjectsShort
+                                                .elementAt(
+                                                    indexes.subjectsIndex)
+                                          });
+                                }
+                                // TODO doesn't work with 10 lesson because its two char
+                                if (day
+                                    .containsKey(lesson[lesson.length - 1])) {
+                                  if (day[lesson[lesson.length - 1]]
+                                      .containsKey("subject")) {
+                                    day[lesson[lesson.length - 1]]["subject"] =
+                                        _subject.subjectsShort.elementAt(
+                                            indexes.subjectsIndex2nd);
+                                  } else {
+                                    day[lesson[lesson.length - 1]].putIfAbsent(
+                                        "subject",
+                                        () => _subject.subjectsShort.elementAt(
+                                            indexes.subjectsIndex2nd));
+                                  }
+                                } else {
+                                  day.putIfAbsent(
+                                      lesson[lesson.length - 1],
+                                      () => {
+                                            "subject": _subject.subjectsShort
+                                                .elementAt(
+                                                    indexes.subjectsIndex2nd)
+                                          });
+                                }
+                                if (day.containsKey(lesson)) {
+                                  day.remove(lesson);
+                                }
                               }
                               print(itemsBlock.copyTimeTable);
-                              if (_lessonSelected) {
-                                Teachers teachers = await context
-                                    .read<TimeTableItemsBlock>()
-                                    .teachers;
-                                Subjects subjects = await context
-                                    .read<TimeTableItemsBlock>()
-                                    .subjects;
-                                String subject = subjects.subjectsLong
-                                    .elementAt(indexes.subjectsIndex);
-                                List filteredTeachers = [];
-                                for (final teacher in teachers.teachers) {
-                                  if (teacher["subjects"].length > 0) {
-                                    if (teacher["subjects"].contains(subject)) {
-                                      filteredTeachers.add(teacher);
-                                    }
-                                  }
-                                }
-                                context
-                                    .read<TimeTableItemsBlock>()
-                                    .filteredTeachers = filteredTeachers;
-                              }
 
                               Teachers teachers = await context
                                   .read<TimeTableItemsBlock>()
@@ -198,35 +243,141 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                               Subjects subjects = await context
                                   .read<TimeTableItemsBlock>()
                                   .subjects;
-                              String subject = subjects.subjectsLong
-                                  .elementAt(indexes.subjectsIndex);
-                              List filteredTeachers = [];
-                              filteredTeachers
-                                  .add(teachers.teachers.elementAt(0));
-                              for (final teacher in teachers.teachers) {
-                                if (teacher["subjects"].length > 0) {
-                                  if (teacher["subjects"].contains(subject)) {
-                                    filteredTeachers.add(teacher);
-                                  } else if (subject == "Religion") {
-                                    if (teacher["subjects"]
-                                            .contains("kath. Religion") ||
-                                        teacher["subjects"]
-                                            .contains("ev. Religion")) {
+                              // TODO filter for both lesson 1 and 2
+                              // NOTE need filteredTeachers2nd
+                              if (_doubleLesson) {
+                                String subject = subjects.subjectsLong
+                                    .elementAt(indexes.subjectsIndex);
+                                List filteredTeachers = [];
+                                filteredTeachers
+                                    .add(teachers.teachers.elementAt(0));
+                                for (final teacher in teachers.teachers) {
+                                  if (teacher["subjects"].length > 0) {
+                                    if (teacher["subjects"].contains(subject)) {
                                       filteredTeachers.add(teacher);
+                                    } else if (subject == "Religion") {
+                                      if (teacher["subjects"]
+                                              .contains("kath. Religion") ||
+                                          teacher["subjects"]
+                                              .contains("ev. Religion")) {
+                                        filteredTeachers.add(teacher);
+                                      }
                                     }
                                   }
                                 }
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .filteredTeachers = filteredTeachers;
+                              } else {
+                                String subject = subjects.subjectsLong
+                                    .elementAt(indexes.subjectsIndex);
+                                String subject2nd = subjects.subjectsLong
+                                    .elementAt(indexes.subjectsIndex2nd);
+                                List filteredTeachers = [];
+                                filteredTeachers
+                                    .add(teachers.teachers.elementAt(0));
+                                List filteredTeachers2nd = [];
+                                filteredTeachers2nd
+                                    .add(teachers.teachers.elementAt(0));
+                                for (final teacher in teachers.teachers) {
+                                  if (teacher["subjects"].length > 0) {
+                                    if (teacher["subjects"].contains(subject)) {
+                                      filteredTeachers.add(teacher);
+                                    } else if (subject == "Religion") {
+                                      if (teacher["subjects"]
+                                              .contains("kath. Religion") ||
+                                          teacher["subjects"]
+                                              .contains("ev. Religion")) {
+                                        filteredTeachers.add(teacher);
+                                      }
+                                    }
+                                    if (teacher["subjects"]
+                                        .contains(subject2nd)) {
+                                      filteredTeachers2nd.add(teacher);
+                                    } else if (subject2nd == "Religion") {
+                                      if (teacher["subjects"]
+                                              .contains("kath. Religion") ||
+                                          teacher["subjects"]
+                                              .contains("ev. Religion")) {
+                                        filteredTeachers2nd.add(teacher);
+                                      }
+                                    }
+                                  }
+                                }
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .filteredTeachers = filteredTeachers;
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .filteredTeachers2nd = filteredTeachers2nd;
                               }
-                              context
-                                  .read<TimeTableItemsBlock>()
-                                  .filteredTeachers = filteredTeachers;
                               setState(() {
                                 indexes.teachersIndex = 0;
                                 _lessonSelected = true;
+                                _lessonSelected2nd = true;
                               });
                             } else {
+                              // start
+                              TimeTableItemsBlock itemsBlock =
+                                  context.read<TimeTableItemsBlock>();
+                              Map day = itemsBlock.copyTimeTable[
+                                  itemsBlock.selectedElement["day"]];
+                              String lesson =
+                                  itemsBlock.selectedElement["lesson"];
+                              List _teachers = itemsBlock.filteredTeachers;
+                              if (_doubleLesson) {
+                                if (day.containsKey(lesson)) {
+                                  if (day[lesson].containsKey("teacher")) {
+                                    day[lesson]["teacher"] =
+                                        _teachers.elementAt(
+                                                indexes.teachersIndex)["name"]
+                                            ["short"];
+                                  } else {
+                                    day[lesson].putIfAbsent(
+                                        "teacher",
+                                        () => _teachers.elementAt(
+                                                indexes.teachersIndex)["name"]
+                                            ["short"]);
+                                  }
+                                }
+                              } else {
+                                if (day.containsKey(lesson[0])) {
+                                  if (day[lesson[0]].containsKey("teacher")) {
+                                    day[lesson[0]]["teacher"] =
+                                        _teachers.elementAt(
+                                                indexes.teachersIndex)["name"]
+                                            ["short"];
+                                  } else {
+                                    day[lesson[0]].putIfAbsent(
+                                        "teacher",
+                                        () => _teachers.elementAt(
+                                                indexes.teachersIndex)["name"]
+                                            ["short"]);
+                                  }
+                                }
+                                // TODO doesn't work with 10 lesson because its two char
+                                if (day
+                                    .containsKey(lesson[lesson.length - 1])) {
+                                  if (day[lesson[lesson.length - 1]]
+                                      .containsKey("teacher")) {
+                                    day[lesson[lesson.length - 1]]["teacher"] =
+                                        _teachers.elementAt(
+                                                indexes.teachersIndex)["name"]
+                                            ["short"];
+                                  } else {
+                                    day[lesson[lesson.length - 1]].putIfAbsent(
+                                        "teacher",
+                                        () => _teachers.elementAt(
+                                                indexes.teachersIndex)["name"]
+                                            ["short"]);
+                                  }
+                                }
+                              }
+                              print(itemsBlock.copyTimeTable);
+                              // end
                               setState(() {
                                 _teacherSelected = true;
+                                _teacherSelected2nd = true;
                               });
                             }
                           },

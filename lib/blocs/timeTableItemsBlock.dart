@@ -15,6 +15,7 @@ class TimeTableItemsBlock extends ChangeNotifier {
   TextEditingController yearController = TextEditingController();
   Future<Subjects> _subjects;
   List _filteredTeachers = [];
+  List _filteredTeachers2nd = [];
   Future<Teachers> _teachers;
 
   Map get selectedElement => _selectedElement;
@@ -28,6 +29,8 @@ class TimeTableItemsBlock extends ChangeNotifier {
   Future<Subjects> get subjects => _subjects;
 
   List get filteredTeachers => _filteredTeachers;
+
+  List get filteredTeachers2nd => _filteredTeachers2nd;
 
   List get rooms => _rooms;
 
@@ -55,6 +58,11 @@ class TimeTableItemsBlock extends ChangeNotifier {
 
   set filteredTeachers(List value) {
     _filteredTeachers = value;
+    notifyListeners();
+  }
+
+  set filteredTeachers2nd(List value) {
+    _filteredTeachers2nd = value;
     notifyListeners();
   }
 
