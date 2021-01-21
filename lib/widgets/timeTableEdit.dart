@@ -188,43 +188,42 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                                   day.remove(lesson[lesson.length - 1]);
                                 }
                               } else {
-                                if (day.containsKey(lesson[0])) {
-                                  if (day[lesson[0]].containsKey("subject")) {
-                                    day[lesson[0]]["subject"] = _subject
-                                        .subjectsShort
-                                        .elementAt(indexes.subjectsIndex);
+                                if (day.containsKey(lesson.split("/").first)) {
+                                  if (day[lesson.split("/").first]
+                                      .containsKey("subject")) {
+                                    day[lesson.split("/").first]["subject"] =
+                                        _subject.subjectsShort
+                                            .elementAt(indexes.subjectsIndex);
                                   } else {
-                                    day[lesson[0]].putIfAbsent(
+                                    day[lesson.split("/").first].putIfAbsent(
                                         "subject",
                                         () => _subject.subjectsShort
                                             .elementAt(indexes.subjectsIndex));
                                   }
                                 } else {
                                   day.putIfAbsent(
-                                      lesson[0],
+                                      lesson.split("/").first,
                                       () => {
                                             "subject": _subject.subjectsShort
                                                 .elementAt(
                                                     indexes.subjectsIndex)
                                           });
                                 }
-                                // TODO doesn't work with 10 lesson because its two char
-                                if (day
-                                    .containsKey(lesson[lesson.length - 1])) {
-                                  if (day[lesson[lesson.length - 1]]
+                                if (day.containsKey(lesson.split("/").last)) {
+                                  if (day[lesson.split("/").last]
                                       .containsKey("subject")) {
-                                    day[lesson[lesson.length - 1]]["subject"] =
+                                    day[lesson.split("/").last]["subject"] =
                                         _subject.subjectsShort.elementAt(
                                             indexes.subjectsIndex2nd);
                                   } else {
-                                    day[lesson[lesson.length - 1]].putIfAbsent(
+                                    day[lesson.split("/").last].putIfAbsent(
                                         "subject",
                                         () => _subject.subjectsShort.elementAt(
                                             indexes.subjectsIndex2nd));
                                   }
                                 } else {
                                   day.putIfAbsent(
-                                      lesson[lesson.length - 1],
+                                      lesson.split("/").last,
                                       () => {
                                             "subject": _subject.subjectsShort
                                                 .elementAt(
@@ -243,8 +242,6 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                               Subjects subjects = await context
                                   .read<TimeTableItemsBlock>()
                                   .subjects;
-                              // TODO filter for both lesson 1 and 2
-                              // NOTE need filteredTeachers2nd
                               if (_doubleLesson) {
                                 String subject = subjects.subjectsLong
                                     .elementAt(indexes.subjectsIndex);
@@ -341,31 +338,30 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                                   }
                                 }
                               } else {
-                                if (day.containsKey(lesson[0])) {
-                                  if (day[lesson[0]].containsKey("teacher")) {
-                                    day[lesson[0]]["teacher"] =
+                                if (day.containsKey(lesson.split("/").first)) {
+                                  if (day[lesson.split("/").first]
+                                      .containsKey("teacher")) {
+                                    day[lesson.split("/").first]["teacher"] =
                                         _teachers.elementAt(
                                                 indexes.teachersIndex)["name"]
                                             ["short"];
                                   } else {
-                                    day[lesson[0]].putIfAbsent(
+                                    day[lesson.split("/").first].putIfAbsent(
                                         "teacher",
                                         () => _teachers.elementAt(
                                                 indexes.teachersIndex)["name"]
                                             ["short"]);
                                   }
                                 }
-                                // TODO doesn't work with 10 lesson because its two char
-                                if (day
-                                    .containsKey(lesson[lesson.length - 1])) {
-                                  if (day[lesson[lesson.length - 1]]
+                                if (day.containsKey(lesson.split("/").last)) {
+                                  if (day[lesson.split("/").last]
                                       .containsKey("teacher")) {
-                                    day[lesson[lesson.length - 1]]["teacher"] =
+                                    day[lesson.split("/").last]["teacher"] =
                                         _teachers.elementAt(
                                                 indexes.teachersIndex)["name"]
                                             ["short"];
                                   } else {
-                                    day[lesson[lesson.length - 1]].putIfAbsent(
+                                    day[lesson.split("/").last].putIfAbsent(
                                         "teacher",
                                         () => _teachers.elementAt(
                                                 indexes.teachersIndex)["name"]
