@@ -105,38 +105,62 @@ class _SelectElementState extends State<SelectElement> {
                     return Container(
                       width: widget.lessonSelected ? 90 : 200,
                       height: 128,
-                      child: CupertinoPicker.builder(
-                        scrollController: FixedExtentScrollController(
-                            initialItem: widget.firstOrSecound
-                                ? context
-                                    .watch<TimeTableScrollerIndexes>()
-                                    .subjectsIndex
-                                : context
-                                    .watch<TimeTableScrollerIndexes>()
-                                    .subjectsIndex2nd),
-                        useMagnifier: true,
-                        childCount: widget.lessonSelected
-                            ? snapshot.data.subjectsShort.length
-                            : snapshot.data.subjectsLong.length,
-                        itemBuilder: (context, index) {
-                          return Center(
-                            child: Text(widget.lessonSelected
-                                ? snapshot.data.subjectsShort.elementAt(index)
-                                : snapshot.data.subjectsLong.elementAt(index)),
-                          );
-                        },
-                        itemExtent: 30,
-                        onSelectedItemChanged: (selectedIndex) {
-                          setState(() {
-                            widget.firstOrSecound
-                                ? context
-                                    .read<TimeTableScrollerIndexes>()
-                                    .subjectsIndex = selectedIndex
-                                : context
-                                    .read<TimeTableScrollerIndexes>()
-                                    .subjectsIndex2nd = selectedIndex;
-                          });
-                        },
+                      child: AbsorbPointer(
+                        absorbing: widget.lessonSelected,
+                        child: CupertinoPicker.builder(
+                          scrollController: FixedExtentScrollController(
+                              initialItem: widget.firstOrSecound
+                                  ? context
+                                      .watch<TimeTableScrollerIndexes>()
+                                      .subjectsIndex
+                                  : context
+                                      .watch<TimeTableScrollerIndexes>()
+                                      .subjectsIndex2nd),
+                          useMagnifier: true,
+                          childCount: widget.lessonSelected
+                              ? snapshot.data.subjectsShort.length
+                              : snapshot.data.subjectsLong.length,
+                          itemBuilder: (context, index) {
+                            return widget.lessonSelected
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      index ==
+                                              context
+                                                  .read<
+                                                      TimeTableScrollerIndexes>()
+                                                  .subjectsIndex
+                                          ? Container(
+                                              width: 30,
+                                              child: Icon(Icons.lock),
+                                            )
+                                          : Container(
+                                              width: 30,
+                                            ),
+                                      Container(
+                                        width: 50,
+                                        child: Text(snapshot.data.subjectsShort
+                                            .elementAt(index)),
+                                      )
+                                    ],
+                                  )
+                                : Text(snapshot.data.subjectsLong
+                                    .elementAt(index));
+                          },
+                          itemExtent: 30,
+                          onSelectedItemChanged: (selectedIndex) {
+                            setState(() {
+                              widget.firstOrSecound
+                                  ? context
+                                      .read<TimeTableScrollerIndexes>()
+                                      .subjectsIndex = selectedIndex
+                                  : context
+                                      .read<TimeTableScrollerIndexes>()
+                                      .subjectsIndex2nd = selectedIndex;
+                            });
+                          },
+                        ),
                       ),
                     );
                   } else {
@@ -159,70 +183,93 @@ class _SelectElementState extends State<SelectElement> {
                 Container(
                   width: widget.teacherSelected ? 90 : 200,
                   height: 128,
-                  child: CupertinoPicker.builder(
-                    scrollController: FixedExtentScrollController(
-                        initialItem: widget.firstOrSecound
-                            ? context
-                                .watch<TimeTableScrollerIndexes>()
-                                .teachersIndex
-                            : context
-                                .watch<TimeTableScrollerIndexes>()
-                                .teachersIndex2nd),
-                    useMagnifier: true,
-                    childCount: context
-                        .watch<TimeTableItemsBlock>()
-                        .filteredTeachers
-                        .length,
-                    itemBuilder: (context, index) {
-                      return Center(
-                        child: Text(widget.teacherSelected
-                            ? context
-                                .read<TimeTableItemsBlock>()
-                                .filteredTeachers
-                                .elementAt(index)["name"]["short"]
-                            : context
-                                .read<TimeTableItemsBlock>()
-                                .filteredTeachers
-                                .elementAt(index)["name"]["long"]),
-                      );
-                    },
-                    itemExtent: 30,
-                    onSelectedItemChanged: (selectedIndex) async {
-                      setState(() {
-                        widget.firstOrSecound
-                            ? context
-                                .read<TimeTableScrollerIndexes>()
-                                .teachersIndex = selectedIndex
-                            : context
-                                .read<TimeTableScrollerIndexes>()
-                                .teachersIndex2nd = selectedIndex;
-                      });
-                      TimeTableItemsBlock itemsBlock =
-                          context.read<TimeTableItemsBlock>();
-                      Map day = itemsBlock
-                          .copyTimeTable[itemsBlock.selectedElement["day"]];
-                      String lesson = itemsBlock.selectedElement["lesson"];
-                      Teachers _teachers = await itemsBlock.teachers;
-                      if (day.containsKey(lesson)) {
-                        if (day[lesson].containsKey("teacher")) {
-                          day[lesson]["teacher"] = _teachers.teachers
-                              .elementAt(selectedIndex)["name"]["short"];
+                  child: AbsorbPointer(
+                    absorbing: widget.teacherSelected,
+                    child: CupertinoPicker.builder(
+                      scrollController: FixedExtentScrollController(
+                          initialItem: widget.firstOrSecound
+                              ? context
+                                  .watch<TimeTableScrollerIndexes>()
+                                  .teachersIndex
+                              : context
+                                  .watch<TimeTableScrollerIndexes>()
+                                  .teachersIndex2nd),
+                      useMagnifier: true,
+                      childCount: context
+                          .watch<TimeTableItemsBlock>()
+                          .filteredTeachers
+                          .length,
+                      itemBuilder: (context, index) {
+                        return widget.teacherSelected
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  index ==
+                                          context
+                                              .read<TimeTableScrollerIndexes>()
+                                              .teachersIndex
+                                      ? Container(
+                                          width: 30,
+                                          child: Icon(Icons.lock),
+                                        )
+                                      : Container(
+                                          width: 30,
+                                        ),
+                                  Container(
+                                    width: 50,
+                                    child: Text(context
+                                        .read<TimeTableItemsBlock>()
+                                        .filteredTeachers
+                                        .elementAt(index)["name"]["short"]),
+                                  ),
+                                ],
+                              )
+                            : Center(
+                                child: Text(context
+                                    .read<TimeTableItemsBlock>()
+                                    .filteredTeachers
+                                    .elementAt(index)["name"]["long"]),
+                              );
+                      },
+                      itemExtent: 30,
+                      onSelectedItemChanged: (selectedIndex) async {
+                        setState(() {
+                          widget.firstOrSecound
+                              ? context
+                                  .read<TimeTableScrollerIndexes>()
+                                  .teachersIndex = selectedIndex
+                              : context
+                                  .read<TimeTableScrollerIndexes>()
+                                  .teachersIndex2nd = selectedIndex;
+                        });
+                        TimeTableItemsBlock itemsBlock =
+                            context.read<TimeTableItemsBlock>();
+                        Map day = itemsBlock
+                            .copyTimeTable[itemsBlock.selectedElement["day"]];
+                        String lesson = itemsBlock.selectedElement["lesson"];
+                        Teachers _teachers = await itemsBlock.teachers;
+                        if (day.containsKey(lesson)) {
+                          if (day[lesson].containsKey("teacher")) {
+                            day[lesson]["teacher"] = _teachers.teachers
+                                .elementAt(selectedIndex)["name"]["short"];
+                          } else {
+                            day[lesson].addAll({
+                              "teacher": _teachers.teachers
+                                  .elementAt(selectedIndex)["name"]["short"]
+                            });
+                          }
                         } else {
-                          day[lesson].addAll({
-                            "teacher": _teachers.teachers
-                                .elementAt(selectedIndex)["name"]["short"]
+                          day.addAll({
+                            lesson: {
+                              "teacher": _teachers.teachers
+                                  .elementAt(selectedIndex)["name"]["short"]
+                            }
                           });
                         }
-                      } else {
-                        day.addAll({
-                          lesson: {
-                            "teacher": _teachers.teachers
-                                .elementAt(selectedIndex)["name"]["short"]
-                          }
-                        });
-                      }
-                      print(itemsBlock.copyTimeTable);
-                    },
+                        print(itemsBlock.copyTimeTable);
+                      },
+                    ),
                   ),
                 ),
               ],
