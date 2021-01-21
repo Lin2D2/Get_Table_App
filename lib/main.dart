@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:get_table_app/blocs/filterTable.dart';
+import 'package:get_table_app/blocs/timeTableScrollerIndexes.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:get_table_app/services/apiManagerService.dart';
 import 'package:get_table_app/sites/settings.dart';
@@ -83,6 +84,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => TimeTableItemsBlock(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TimeTableScrollerIndexes(),
         ),
       ],
       child: MaterialApp(

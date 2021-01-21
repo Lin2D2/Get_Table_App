@@ -1,4 +1,5 @@
 import 'package:get_table_app/blocs/timeTableItemsBlock.dart';
+import 'package:get_table_app/blocs/timeTableScrollerIndexes.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:get_table_app/types/subjects.dart';
 import 'package:get_table_app/types/teachers.dart';
@@ -20,18 +21,10 @@ class _TimeTableEditState extends State<TimeTableEdit> {
   bool _lessonSelected = false;
   bool _teacherSelected = false;
   bool _weekSelectedAB = true;
-  int _weekIndex = 0;
-  int _subjectsIndex = 0;
-  int _teachersIndex = 0;
-  int _roomIndex = 0;
 
   bool _lessonSelected2nd = false;
   bool _teacherSelected2nd = false;
   bool _weekSelectedAB2nd = true;
-  int _weekIndex2nd = 0;
-  int _subjectsIndex2nd = 0;
-  int _teachersIndex2nd = 0;
-  int _roomIndex2nd = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -135,10 +128,12 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                                 .read<TimeTableItemsBlock>()
                                 .selectedElement = null;
                             setState(() {
-                              _roomIndex = 0;
-                              _subjectsIndex = 0;
-                              _teachersIndex = 0;
-                              _weekIndex = 0;
+                              TimeTableScrollerIndexes indexes =
+                                  context.read<TimeTableScrollerIndexes>();
+                              indexes.roomIndex = 0;
+                              indexes.subjectsIndex = 0;
+                              indexes.teachersIndex = 0;
+                              indexes.weekIndex = 0;
                               _lessonSelected = false;
                               _teacherSelected = false;
                               _weekSelectedAB = true;
@@ -146,6 +141,57 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                           }
                         : () async {
                             if (!_lessonSelected) {
+                              TimeTableScrollerIndexes indexes =
+                                  context.read<TimeTableScrollerIndexes>();
+                              TimeTableItemsBlock itemsBlock =
+                                  context.read<TimeTableItemsBlock>();
+                              Map day = itemsBlock.copyTimeTable[
+                                  itemsBlock.selectedElement["day"]];
+                              String lesson =
+                                  itemsBlock.selectedElement["lesson"];
+                              Subjects _subject = await itemsBlock.subjects;
+                              if (day.containsKey(lesson)) {
+                                if (day[lesson].containsKey("subject")) {
+                                  day[lesson]["subject"] = _subject
+                                      .subjectsShort
+                                      .elementAt(indexes.subjectsIndex);
+                                } else {
+                                  day[lesson].putIfAbsent(
+                                      "subject",
+                                      () => _subject.subjectsShort
+                                          .elementAt(indexes.subjectsIndex));
+                                }
+                              } else {
+                                day.putIfAbsent(
+                                    lesson,
+                                    () => {
+                                          "subject": _subject.subjectsShort
+                                              .elementAt(indexes.subjectsIndex)
+                                        });
+                              }
+                              print(itemsBlock.copyTimeTable);
+                              if (_lessonSelected) {
+                                Teachers teachers = await context
+                                    .read<TimeTableItemsBlock>()
+                                    .teachers;
+                                Subjects subjects = await context
+                                    .read<TimeTableItemsBlock>()
+                                    .subjects;
+                                String subject = subjects.subjectsLong
+                                    .elementAt(indexes.subjectsIndex);
+                                List filteredTeachers = [];
+                                for (final teacher in teachers.teachers) {
+                                  if (teacher["subjects"].length > 0) {
+                                    if (teacher["subjects"].contains(subject)) {
+                                      filteredTeachers.add(teacher);
+                                    }
+                                  }
+                                }
+                                context
+                                    .read<TimeTableItemsBlock>()
+                                    .filteredTeachers = filteredTeachers;
+                              }
+
                               Teachers teachers = await context
                                   .read<TimeTableItemsBlock>()
                                   .teachers;
@@ -153,7 +199,7 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                                   .read<TimeTableItemsBlock>()
                                   .subjects;
                               String subject = subjects.subjectsLong
-                                  .elementAt(_subjectsIndex);
+                                  .elementAt(indexes.subjectsIndex);
                               List filteredTeachers = [];
                               filteredTeachers
                                   .add(teachers.teachers.elementAt(0));
@@ -175,6 +221,7 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                                   .read<TimeTableItemsBlock>()
                                   .filteredTeachers = filteredTeachers;
                               setState(() {
+                                indexes.teachersIndex = 0;
                                 _lessonSelected = true;
                               });
                             } else {
@@ -191,13 +238,11 @@ class _TimeTableEditState extends State<TimeTableEdit> {
             Divider(),
           if (context.watch<TimeTableItemsBlock>().selectedElement != null)
             SelectElement(
+              // TODO insteaed use Provider else it dosent work, when value is set in SelectElement and then used here
               lessonSelected: _lessonSelected,
               teacherSelected: _teacherSelected,
               weekSelectedAB: _weekSelectedAB,
-              weekIndex: _weekIndex,
-              subjectsIndex: _subjectsIndex,
-              teachersIndex: _teachersIndex,
-              roomIndex: _roomIndex,
+              firstOrSecound: true,
             ),
           if (context.watch<TimeTableItemsBlock>().selectedElement != null &&
               !_doubleLesson)
@@ -238,13 +283,11 @@ class _TimeTableEditState extends State<TimeTableEdit> {
           if (context.watch<TimeTableItemsBlock>().selectedElement != null &&
               !_doubleLesson)
             SelectElement(
+              // TODO insteaed use Provider else it dosent work, when value is set in SelectElement and then used here
               lessonSelected: _lessonSelected2nd,
               teacherSelected: _teacherSelected2nd,
               weekSelectedAB: _weekSelectedAB2nd,
-              weekIndex: _weekIndex2nd,
-              subjectsIndex: _subjectsIndex2nd,
-              teachersIndex: _teachersIndex2nd,
-              roomIndex: _roomIndex2nd,
+              firstOrSecound: false,
             ),
         ],
       ),
