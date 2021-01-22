@@ -83,23 +83,29 @@ class TimeTableItemsBlock extends ChangeNotifier {
 
   void initalSet() {
     final box = GetStorage("Get_Table_App");
-    _subjects = Future(() {
-      // TODO check that the value is valid befor return
-      return Subjects.fromJson(box.read("SubjectsRaw"));
-    });
-    _teachers = Future(() {
-      return Teachers.fromJson(box.read("TeachersRaw"));
-    });
+    var subjectsRaw = box.read("SubjectsRaw");
+    if (subjectsRaw != null) {
+      _subjects = Future(() {
+        return Subjects.fromJson(subjectsRaw);
+      });
+    }
+    var teachersRaw = box.read("TeachersRaw");
+    if (teachersRaw != null) {
+      _teachers = Future(() {
+        return Teachers.fromJson(teachersRaw);
+      });
+    }
     box.listenKey('SubjectsRaw', (value) {
       _subjects = Future(() {
-        // TODO check that the value is valid befor return
         return Subjects.fromJson(box.read("SubjectsRaw"));
       });
+      notifyListeners();
     });
     box.listenKey('TeachersRaw', (value) {
       _teachers = Future(() {
         return Teachers.fromJson(box.read("TeachersRaw"));
       });
+      notifyListeners();
     });
   }
 
