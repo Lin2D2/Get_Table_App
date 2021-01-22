@@ -385,7 +385,6 @@ class _TimeTableEditState extends State<TimeTableEdit> {
             Divider(),
           if (context.watch<TimeTableItemsBlock>().selectedElement != null)
             SelectElement(
-              // TODO insteaed use Provider else it dosent work, when value is set in SelectElement and then used here
               lessonSelected: _lessonSelected,
               teacherSelected: _teacherSelected,
               weekSelectedAB: _weekSelectedAB,
@@ -430,7 +429,6 @@ class _TimeTableEditState extends State<TimeTableEdit> {
           if (context.watch<TimeTableItemsBlock>().selectedElement != null &&
               !_doubleLesson)
             SelectElement(
-              // TODO insteaed use Provider else it dosent work, when value is set in SelectElement and then used here
               lessonSelected: _lessonSelected2nd,
               teacherSelected: _teacherSelected2nd,
               weekSelectedAB: _weekSelectedAB2nd,

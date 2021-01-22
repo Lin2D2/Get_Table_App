@@ -17,7 +17,6 @@ class AbsentsTableApiBloc extends ChangeNotifier {
   Future<Day> get dayTomorrow => _dayTomorrow;
 
   void initalSet() {
-    // TODO check that the value is valid befor return
     final box = GetStorage("Get_Table_App");
     var daysRaw = box.read("DaysRaw");
     if (daysRaw != null) {

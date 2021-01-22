@@ -87,7 +87,6 @@ class _SelectElementState extends State<SelectElement> {
                 ),
               ],
             ),
-          // TODO Problem: CupertinoPicker only updates on scroll
           Column(
             children: [
               Container(
