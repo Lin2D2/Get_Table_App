@@ -1,6 +1,5 @@
 import 'package:get_table_app/blocs/timeTableItemsBlock.dart';
 import 'package:get_table_app/blocs/timeTableScrollerIndexes.dart';
-import 'package:get_table_app/types/teachers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -328,10 +327,6 @@ class _SelectElementState extends State<SelectElement> {
                       });
                       TimeTableItemsBlock itemsBlock =
                           context.read<TimeTableItemsBlock>();
-                      Map day = itemsBlock
-                          .copyTimeTable[itemsBlock.selectedElement["day"]];
-                      String lesson = itemsBlock.selectedElement["lesson"];
-
                       print(itemsBlock.copyTimeTable);
                     },
                   ),

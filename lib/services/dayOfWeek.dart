@@ -28,5 +28,7 @@ int getdayOfWeek({bool today, String weekDay}) {
   } else if (weekDay != null) {
     return weekDays[
         weekDay.toLowerCase().replaceAll(" ", "").replaceAll(",", "")];
+  } else {
+    return 0;
   }
 }
