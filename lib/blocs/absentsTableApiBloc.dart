@@ -11,35 +11,49 @@ class AbsentsTableApiBloc extends ChangeNotifier {
   Future<Day> _dayTomorrow;
 
   Future<Days> get days => _days;
+
   Future<Day> get dayToday => _dayToday;
+
   Future<Day> get dayTomorrow => _dayTomorrow;
 
   void initalSet() {
     // TODO check that the value is valid befor return
     final box = GetStorage("Get_Table_App");
-    _days = Future(() {
-      return Days.fromJson(box.read("DaysRaw"));
-    });
-    _dayToday = Future(() {
-      return Day.fromJson(box.read("TodayRaw"));
-    });
-    _dayTomorrow = Future(() {
-      return Day.fromJson(box.read("TomorrowRaw"));
-    });
+    var daysRaw = box.read("DaysRaw");
+    if (daysRaw != null) {
+      _days = Future(() {
+        return Days.fromJson(daysRaw);
+      });
+    }
+    var todayRaw = box.read("TodayRaw");
+    if (todayRaw != null) {
+      _dayToday = Future(() {
+        return Day.fromJson(todayRaw);
+      });
+    }
+    var tomorrowRaw = box.read("TomorrowRaw");
+    if (tomorrowRaw != null) {
+      _dayTomorrow = Future(() {
+        return Day.fromJson(tomorrowRaw);
+      });
+    }
     box.listenKey('DaysRaw', (value) {
       _days = Future(() {
         return Days.fromJson(box.read("DaysRaw"));
       });
+      notifyListeners();
     });
     box.listenKey('TodayRaw', (value) {
       _dayToday = Future(() {
         return Day.fromJson(box.read("TodayRaw"));
       });
+      notifyListeners();
     });
     box.listenKey('TomorrowRaw', (value) {
       _dayTomorrow = Future(() {
         return Day.fromJson(box.read("TomorrowRaw"));
       });
+      notifyListeners();
     });
   }
 

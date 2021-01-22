@@ -52,9 +52,10 @@ Future<void> setStorage() async {
   } on SocketException catch (_) {
     print('No Internet');
   }
+
 }
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     swipeDetector = false;
@@ -62,7 +63,11 @@ void main() async {
     LocalPlatform platform = LocalPlatform();
     swipeDetector = platform.isAndroid || platform.isIOS;
   }
-  await setStorage();
+  try {
+    setStorage();
+  } catch(e) {
+    print(e);
+  }
   runApp(MyApp());
 }
 
