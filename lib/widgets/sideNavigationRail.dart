@@ -36,6 +36,7 @@ Widget sideNavigationRail(BuildContext context) {
   }
 
   return NavigationRail(
+    minWidth: 80,
     selectedIndex: context.read<IndexMainBloc>().index,
     onDestinationSelected: _onItemTapped,
     labelType: NavigationRailLabelType.all,
