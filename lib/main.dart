@@ -1,25 +1,21 @@
+import 'dart:html';
 import 'dart:io';
-import 'package:get_table_app/blocs/filterTable.dart';
-import 'package:get_table_app/blocs/timeTableScrollerIndexes.dart';
-import 'package:get_table_app/blocs/userBloc.dart';
-import 'package:get_table_app/services/apiManagerService.dart';
-import 'package:get_table_app/sites/settings.dart';
-import 'package:get_table_app/widgets/bottomNavigationBar.dart';
-import 'package:get_table_app/widgets/sideNavigationRail.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:get_storage/get_storage.dart';
-import 'blocs/indexMainBloc.dart';
-import 'blocs/indexTableViewBloc.dart';
-import 'blocs/absentsTableApiBloc.dart';
-import 'blocs/timeTableItemsBlock.dart';
-import 'sites/home.dart';
-import 'sites/tableview.dart';
-import 'sites/timetable.dart';
-import 'package:swipedetector/swipedetector.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
 import 'package:platform/platform.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:page_transition/page_transition.dart';
+import 'package:get_storage/get_storage.dart';
+import 'blocs/timeTableScrollerIndexes.dart';
+import 'blocs/userBloc.dart';
+import 'blocs/indexMainBloc.dart';
+import 'blocs/absentsTableApiBloc.dart';
+import 'blocs/timeTableItemsBlock.dart';
+import 'services/apiManagerService.dart';
+import 'routes/home.dart';
+import 'routes/tableView.dart';
+import 'routes/timeTable.dart';
+import 'routes/settings.dart';
 
 bool swipeDetector;
 
@@ -52,7 +48,6 @@ Future<void> setStorage() async {
   } on SocketException catch (_) {
     print('No Internet');
   }
-
 }
 
 void main() {
@@ -65,7 +60,7 @@ void main() {
   }
   try {
     setStorage();
-  } catch(e) {
+  } catch (e) {
     print(e);
   }
   runApp(MyApp());
@@ -116,28 +111,28 @@ class MyApp extends StatelessWidget {
           switch (settings.name) {
             case '/home':
               return PageTransition(
-                child: HomeRoute(),
+                child: HomeRoute(swipeDetector),
                 type: PageTransitionType.fade,
                 settings: settings,
               );
               break;
             case '/tableView':
               return PageTransition(
-                child: TableViewRoute(),
+                child: TableViewRoute(swipeDetector),
                 type: PageTransitionType.fade,
                 settings: settings,
               );
               break;
             case '/timeTable':
               return PageTransition(
-                child: TimeTableRoute(),
+                child: TimeTableRoute(swipeDetector),
                 type: PageTransitionType.fade,
                 settings: settings,
               );
               break;
             case '/settings':
               return PageTransition(
-                child: SettingsRoute(),
+                child: SettingsRoute(swipeDetector),
                 type: PageTransitionType.fade,
                 settings: settings,
               );
@@ -147,246 +142,6 @@ class MyApp extends StatelessWidget {
           }
         },
         debugShowCheckedModeBanner: false,
-      ),
-    );
-  }
-}
-
-class HomeRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    if (!context.watch<AbsentsTableApiBloc>().isSet) {
-      context.watch<AbsentsTableApiBloc>().initalSet();
-      context.watch<AbsentsTableApiBloc>().isSet = true;
-    }
-    return SafeArea(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 600) {
-            return MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => FilterTable(),
-                ),
-              ],
-              child: Scaffold(
-                body: swipeDetector
-                    ? SwipeDetector(
-                        onSwipeLeft: () {
-                          Navigator.pushNamed(context, '/tableView');
-                          context.read<IndexMainBloc>().increment();
-                        },
-                        child: Home(),
-                      )
-                    : Home(),
-                bottomNavigationBar: bottomNavigationBar(context),
-              ),
-            );
-          } else {
-            return MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => FilterTable(),
-                ),
-              ],
-              child: Scaffold(
-                body: Row(
-                  children: [
-                    sideNavigationRail(context),
-                    VerticalDivider(thickness: 1, width: 1),
-                    Expanded(
-                      child: swipeDetector
-                          ? SwipeDetector(
-                              onSwipeLeft: () {
-                                Navigator.pushNamed(context, '/tableView');
-                                context.read<IndexMainBloc>().increment();
-                              },
-                              child: Home(),
-                            )
-                          : Home(),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-        },
-      ),
-    );
-  }
-}
-
-class TableViewRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    if (!context.watch<AbsentsTableApiBloc>().isSet) {
-      context.watch<AbsentsTableApiBloc>().initalSet();
-      context.watch<AbsentsTableApiBloc>().isSet = true;
-    }
-    return SafeArea(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 600) {
-            return MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => IndexTableViewBloc(),
-                ),
-              ],
-              child: Scaffold(
-                body: swipeDetector
-                    ? SwipeDetector(
-                        onSwipeLeft: () {
-                          context.read<IndexMainBloc>().increment();
-                          Navigator.pushNamed(context, '/timeTable');
-                        },
-                        onSwipeRight: () {
-                          context.read<IndexMainBloc>().decrement();
-                          Navigator.pushNamed(context, '/home');
-                        },
-                        child: TableView(),
-                      )
-                    : TableView(),
-                bottomNavigationBar: bottomNavigationBar(context),
-              ),
-            );
-          } else {
-            return MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) => IndexTableViewBloc(),
-                ),
-              ],
-              child: Scaffold(
-                body: Row(
-                  children: [
-                    sideNavigationRail(context),
-                    VerticalDivider(thickness: 1, width: 1),
-                    Expanded(
-                      child: swipeDetector
-                          ? SwipeDetector(
-                              onSwipeLeft: () {
-                                context.read<IndexMainBloc>().increment();
-                                Navigator.pushNamed(context, '/timeTable');
-                              },
-                              onSwipeRight: () {
-                                context.read<IndexMainBloc>().decrement();
-                                Navigator.pushNamed(context, '/home');
-                              },
-                              child: TableView(),
-                            )
-                          : TableView(),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-        },
-      ),
-    );
-  }
-}
-
-class TimeTableRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    if (!context.watch<TimeTableItemsBlock>().isSet) {
-      context.watch<TimeTableItemsBlock>().initalSet();
-      context.watch<TimeTableItemsBlock>().isSet = true;
-    }
-    return SafeArea(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 600) {
-            return Scaffold(
-              body: swipeDetector
-                  ? SwipeDetector(
-                      onSwipeLeft: () {
-                        context.read<IndexMainBloc>().increment();
-                        Navigator.pushNamed(context, '/settings');
-                      },
-                      onSwipeRight: () {
-                        context.read<IndexMainBloc>().decrement();
-                        Navigator.pushNamed(context, '/tableView');
-                      },
-                      child: TimeTable(),
-                    )
-                  : TimeTable(),
-              bottomNavigationBar: bottomNavigationBar(context),
-            );
-          } else {
-            return Scaffold(
-              body: Row(
-                children: [
-                  sideNavigationRail(context),
-                  VerticalDivider(thickness: 1, width: 1),
-                  Expanded(
-                    child: swipeDetector
-                        ? SwipeDetector(
-                            onSwipeLeft: () {
-                              context.read<IndexMainBloc>().increment();
-                              Navigator.pushNamed(context, '/settings');
-                            },
-                            onSwipeRight: () {
-                              context.read<IndexMainBloc>().decrement();
-                              Navigator.pushNamed(context, '/tableView');
-                            },
-                            child: TimeTable(),
-                          )
-                        : TimeTable(),
-                  ),
-                ],
-              ),
-            );
-          }
-        },
-      ),
-    );
-  }
-}
-
-class SettingsRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 600) {
-            return Scaffold(
-              body: swipeDetector
-                  ? SwipeDetector(
-                      onSwipeRight: () {
-                        context.read<IndexMainBloc>().decrement();
-                        Navigator.pushNamed(context, '/timeTable');
-                      },
-                      child: Settings(),
-                    )
-                  : Settings(),
-              bottomNavigationBar: bottomNavigationBar(context),
-            );
-          } else {
-            return Scaffold(
-              body: Row(
-                children: [
-                  sideNavigationRail(context),
-                  VerticalDivider(thickness: 1, width: 1),
-                  Expanded(
-                    child: swipeDetector
-                        ? SwipeDetector(
-                            onSwipeRight: () {
-                              context.read<IndexMainBloc>().decrement();
-                              Navigator.pushNamed(context, '/timeTable');
-                            },
-                            child: Settings(),
-                          )
-                        : Settings(),
-                  ),
-                ],
-              ),
-            );
-          }
-        },
       ),
     );
   }
