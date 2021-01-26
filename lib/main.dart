@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -26,7 +25,7 @@ Future<void> setStorage() async {
     if (!kIsWeb) {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        await GetStorage.init("Get_Table_App");
+        await GetStorage.init();
         final box = GetStorage("Get_Table_App");
         box.write('SubjectsRaw', await ApiRoutes.fetchSubjectsRaw());
         box.write('TeachersRaw', await ApiRoutes.fetchTeachersRaw());
@@ -36,7 +35,7 @@ Future<void> setStorage() async {
             'TomorrowRaw', await ApiRoutes.fetchTomorrowTodayRaw("tomorrow"));
       }
     } else {
-      await GetStorage.init("Get_Table_App");
+      await GetStorage.init();
       final box = GetStorage("Get_Table_App");
       box.write('SubjectsRaw', await ApiRoutes.fetchSubjectsRaw());
       box.write('TeachersRaw', await ApiRoutes.fetchTeachersRaw());
