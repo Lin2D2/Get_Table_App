@@ -9,9 +9,9 @@ import 'dart:convert';
 import 'dart:async';
 
 class ApiBaseHelper {
-  static const String _baseUrl = "http://" +
+  static const String _baseUrl = "https://" +
       "central-homelab.freedynamicdns.net"+
-      ":5000/api/";
+      "/api/";
 
   Future<dynamic> get(String url) async {
     print('Api Get, api/$url');
