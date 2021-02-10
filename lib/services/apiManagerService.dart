@@ -56,7 +56,6 @@ class ApiBaseHelper {
 class ApiRoutes {
   static const String _daysConst = 'days';
   static const String _dayConst = 'day';
-  static const String _tomorrowTodayConst = 'today-tomorrow';
   static const String _timeTablePushConst = "timetable/push";
   static const String _userPushConst = 'login';
   static const String _teachersConst = 'teachers';
@@ -76,7 +75,7 @@ class ApiRoutes {
   }
 
   static Future<Day> fetchTomorrowToday(String day) async {
-    final response = await _helper.get("$_tomorrowTodayConst/$day");
+    final response = await _helper.get("$_dayConst/$day");
     print("response from fetchDay: $response");
     return Day.fromJson(response);
   }
@@ -112,7 +111,7 @@ class ApiRoutes {
   }
 
   static Future fetchTomorrowTodayRaw(String day) async {
-    final response = await _helper.get("$_tomorrowTodayConst/$day");
+    final response = await _helper.get("$_dayConst/$day");
     print("response from fetchDay: $response");
     return response;
   }
