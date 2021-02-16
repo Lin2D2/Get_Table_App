@@ -58,6 +58,7 @@ class ApiRoutes {
   static const String _dayConst = 'day';
   static const String _timeTablePushConst = "timetable/push";
   static const String _userPushConst = 'login';
+  static const String _iservUserPushConst = 'iserv-login';
   static const String _teachersConst = 'teachers';
   static const String _subjectsConst = 'subjects';
   static ApiBaseHelper _helper = ApiBaseHelper();
@@ -88,6 +89,12 @@ class ApiRoutes {
 
   static Future<UserPost> userPostRequest(Map body) async {
     final response = await _helper.post(_userPushConst, body);
+    print("response from userPostRequest: $response");
+    return UserPost.fromJson(response);
+  }
+
+  static Future<UserPost> iservUserPostRequest(Map body) async {
+    final response = await _helper.post(_iservUserPushConst, body);
     print("response from userPostRequest: $response");
     return UserPost.fromJson(response);
   }
