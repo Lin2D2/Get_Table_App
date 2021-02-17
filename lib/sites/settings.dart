@@ -1,3 +1,4 @@
+import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,10 @@ import 'package:settings_ui/settings_ui.dart';
 import 'login.dart';
 
 class Settings extends StatefulWidget {
+  final GlobalKey<SwipeDrawerState> drawerKey;
+
+  const Settings({Key key, this.drawerKey}) : super(key: key);
+
   @override
   State createState() => SettingsState();
 }
@@ -28,6 +33,13 @@ class SettingsState extends State<Settings> {
             toolbarHeight: 44,
             collapsedHeight: 45,
             expandedHeight: 100,
+            leading: widget.drawerKey != null
+                ? InkWell(
+                    onTap: () {
+                      widget.drawerKey.currentState.openOrClose();
+                    },
+                    child: Icon(Icons.menu))
+                : null,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 child: Row(

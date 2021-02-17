@@ -1,43 +1,54 @@
+import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-Widget sideNavigationRail(BuildContext context) {
+Widget sideNavigationRail(BuildContext context,
+    {GlobalKey<SwipeDrawerState> drawerKey}) {
   void _onItemTapped(int index) {
     int oldIndex = context.read<IndexMainBloc>().index;
-    String route;
-    switch (index) {
-      case 0:
-        {
-          route = "/home";
-          break;
-        }
-      case 1:
-        {
-          route = "/tableView";
-          break;
-        }
-      case 2:
-        {
-          route = "/timeTable";
-          break;
-        }
-      case 3:
-        {
-          route = "/settings";
-          break;
-        }
-    }
-    if (oldIndex != index) {
+    if (oldIndex != index || index == 0) {
+      String route;
+      switch (index) {
+        case 0:
+          {
+            drawerKey.currentState.openOrClose();
+            break;
+          }
+        case 1:
+          {
+            route = "/home";
+            break;
+          }
+        case 2:
+          {
+            route = "/tableView";
+            break;
+          }
+        case 3:
+          {
+            route = "/timeTable";
+            break;
+          }
+        case 4:
+          {
+            route = "/settings";
+            break;
+          }
+      }
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      Navigator.pushNamed(context, route);
+      if (route != null) {
+        drawerKey.currentState.closeDrawer();
+        // TODO wait until animation is complete
+        Navigator.pushNamed(context, route);
+      }
+      context.read<IndexMainBloc>().set(index);
     }
-    context.read<IndexMainBloc>().set(index);
   }
 
   return NavigationRail(
     minWidth: 80,
-    selectedIndex: context.read<IndexMainBloc>().index,
+    selectedIndex: context.watch<IndexMainBloc>().index,
     onDestinationSelected: _onItemTapped,
     labelType: NavigationRailLabelType.all,
     backgroundColor: Colors.grey[900],
@@ -47,6 +58,11 @@ Widget sideNavigationRail(BuildContext context) {
     selectedLabelTextStyle: TextStyle(color: Colors.amber[800], fontSize: 13),
     selectedIconTheme: IconThemeData(color: Colors.amber[800]),
     destinations: [
+      if (drawerKey != null)
+        NavigationRailDestination(
+          icon: Icon(Icons.menu),
+          label: Text('Menu'),
+        ),
       NavigationRailDestination(
         icon: Icon(Icons.home),
         label: Text('Home'),

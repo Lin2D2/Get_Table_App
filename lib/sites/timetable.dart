@@ -1,3 +1,4 @@
+import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:get_table_app/blocs/timeTableItemsBlock.dart';
 import 'package:get_table_app/widgets/generateTimeTable.dart';
@@ -10,6 +11,10 @@ import 'package:provider/provider.dart';
 import 'login.dart';
 
 class TimeTable extends StatefulWidget {
+  final GlobalKey<SwipeDrawerState> drawerKey;
+
+  TimeTable({Key key, this.drawerKey}) : super(key: key);
+
   @override
   State createState() => new DynamicList();
 }
@@ -30,6 +35,13 @@ class DynamicList extends State<TimeTable> {
             toolbarHeight: 44,
             collapsedHeight: 45,
             expandedHeight: 100,
+            leading: widget.drawerKey != null
+                ? InkWell(
+                    onTap: () {
+                      widget.drawerKey.currentState.openOrClose();
+                    },
+                    child: Icon(Icons.menu))
+                : null,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 child: Row(

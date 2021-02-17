@@ -1,3 +1,4 @@
+import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:get_table_app/blocs/filterTable.dart';
 import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
@@ -14,6 +15,10 @@ import 'package:provider/provider.dart';
 import 'login.dart';
 
 class Home extends StatefulWidget {
+  final GlobalKey<SwipeDrawerState> drawerKey;
+
+  Home({Key key, this.drawerKey}) : super(key: key);
+
   @override
   State createState() => new DynamicList();
 }
@@ -32,9 +37,16 @@ class DynamicList extends State<Home> {
             automaticallyImplyLeading: false,
             backgroundColor: Theme.of(context).primaryColor,
             stretch: true,
-            toolbarHeight: 1,
-            collapsedHeight: 40,
+            toolbarHeight: 44,
+            collapsedHeight: 45,
             expandedHeight: 100,
+            leading: widget.drawerKey != null
+                ? InkWell(
+                    onTap: () {
+                      widget.drawerKey.currentState.openOrClose();
+                    },
+                    child: Icon(Icons.menu))
+                : null,
             flexibleSpace: FlexibleSpaceBar(
               // title: const Text(
               //   'Dashboard',

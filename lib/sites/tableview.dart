@@ -1,3 +1,4 @@
+import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:get_table_app/blocs/indexTableViewBloc.dart';
 import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
 import 'package:get_table_app/widgets/absentsTableStatefulFuture.dart';
@@ -7,7 +8,9 @@ import 'package:get_table_app/types/days.dart';
 import 'package:provider/provider.dart';
 
 class TableView extends StatefulWidget {
-  TableView({Key key}) : super(key: key);
+  final GlobalKey<SwipeDrawerState> drawerKey;
+
+  TableView({Key key, this.drawerKey}) : super(key: key);
 
   @override
   _TableViewState createState() => new _TableViewState();
@@ -58,15 +61,22 @@ class _TableViewState extends State<TableView> {
                   ),
                   centerTitle: true,
                 ),
-                leading: IconButton(
-                    icon: Icon(
-                      Icons.view_module,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      context.read<IndexTableViewBloc>().index = 1;
-                    }),
+                leading: widget.drawerKey != null
+                    ? InkWell(
+                        onTap: () {
+                          widget.drawerKey.currentState.openOrClose();
+                        },
+                        child: Icon(Icons.menu))
+                    : null,
                 actions: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.view_module,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        context.read<IndexTableViewBloc>().index = 1;
+                      }),
                   ConstrainedBox(
                     constraints:
                         BoxConstraints.tight(Size(50, double.infinity)),

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get_table_app/blocs/filterTable.dart';
 import 'package:get_table_app/blocs/indexMainBloc.dart';
-import 'package:get_table_app/widgets/bottomNavigationBar.dart';
-import 'package:get_table_app/widgets/sideNavigationRail.dart';
+import 'package:get_table_app/widgets/swipeDrawers.dart';
 import 'package:provider/provider.dart';
 import 'package:swipedetector/swipedetector.dart';
+import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
 import 'package:get_table_app/sites/home.dart' as home;
 
 class HomeRoute extends StatelessWidget {
   final swipeDetector;
+  final GlobalKey<SwipeDrawerState> drawerKey = GlobalKey<SwipeDrawerState>();
 
   HomeRoute(this.swipeDetector);
 
@@ -29,17 +30,21 @@ class HomeRoute extends StatelessWidget {
                   create: (_) => FilterTable(),
                 ),
               ],
-              child: Scaffold(
-                body: swipeDetector
-                    ? SwipeDetector(
-                        onSwipeLeft: () {
-                          Navigator.pushNamed(context, '/tableView');
-                          context.read<IndexMainBloc>().increment();
-                        },
-                        child: home.Home(),
-                      )
-                    : home.Home(),
-                bottomNavigationBar: bottomNavigationBar(context),
+              child: SwipeDrawerBottomBar(
+                drawerKey: drawerKey,
+                child: home.Home(
+                  drawerKey: drawerKey,
+                ),
+                swipeDetector: swipeDetector,
+                swipeDetectorWidget: SwipeDetector(
+                  onSwipeLeft: () {
+                    Navigator.pushNamed(context, '/tableView');
+                    context.read<IndexMainBloc>().increment();
+                  },
+                  child: home.Home(
+                    drawerKey: drawerKey,
+                  ),
+                ),
               ),
             );
           } else {
@@ -49,25 +54,17 @@ class HomeRoute extends StatelessWidget {
                   create: (_) => FilterTable(),
                 ),
               ],
-              child: Scaffold(
-                body: Row(
-                  children: [
-                    sideNavigationRail(context),
-                    VerticalDivider(thickness: 1, width: 1),
-                    Expanded(
-                      child: swipeDetector
-                          ? SwipeDetector(
-                              onSwipeLeft: () {
-                                Navigator.pushNamed(context, '/tableView');
-                                context.read<IndexMainBloc>().increment();
-                              },
-                              child: home.Home(),
-                            )
-                          : home.Home(),
-                    ),
-                  ],
-                ),
-              ),
+              child: SwipeDrawerSideRail(
+                  drawerKey: drawerKey,
+                  child: home.Home(),
+                  swipeDetector: swipeDetector,
+                  swipeDetectorWidget: SwipeDetector(
+                    onSwipeLeft: () {
+                      Navigator.pushNamed(context, '/tableView');
+                      context.read<IndexMainBloc>().increment();
+                    },
+                    child: home.Home(),
+                  )),
             );
           }
         },
