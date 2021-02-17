@@ -22,7 +22,7 @@ class SettingsRoute extends StatelessWidget {
           if (constraints.maxWidth < 600) {
             return SwipeDrawerBottomBar(
               drawerKey: drawerKey,
-              child: settings.Settings(),
+              child: settings.Settings(drawerKey: drawerKey),
               swipeDetector: swipeDetector,
               swipeDetectorWidget: SwipeDetector(
                 onSwipeRight: () {
