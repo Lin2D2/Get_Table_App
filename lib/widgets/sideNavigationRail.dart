@@ -9,6 +9,7 @@ Widget sideNavigationRail(BuildContext context,
     int oldIndex = context.read<IndexMainBloc>().index;
     if (oldIndex != index || index == 0) {
       String route;
+      bool drawerWasOpen = drawerKey.currentState.isOpened();
       switch (index) {
         case 0:
           {
@@ -42,7 +43,14 @@ Widget sideNavigationRail(BuildContext context,
         // TODO wait until animation is complete
         Navigator.pushNamed(context, route);
       }
-      context.read<IndexMainBloc>().set(index);
+      if (drawerWasOpen && route == null) {
+        context.read<IndexMainBloc>().set(context.read<IndexMainBloc>().previousIndex);
+      } else {
+        if (route == null) {
+          context.read<IndexMainBloc>().previousIndex = context.read<IndexMainBloc>().index;
+        }
+        context.read<IndexMainBloc>().set(index);
+      }
     }
   }
 

@@ -19,6 +19,8 @@ class HomeRoute extends StatelessWidget {
     if (!context.watch<AbsentsTableApiBloc>().isSet) {
       context.watch<AbsentsTableApiBloc>().initalSet();
       context.watch<AbsentsTableApiBloc>().isSet = true;
+      // TODO find better solution
+      context.watch<IndexMainBloc>().index = MediaQuery.of(context).size.width < 600 ? 0 : 1;
     }
     return SafeArea(
       child: LayoutBuilder(
