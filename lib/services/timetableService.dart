@@ -11,7 +11,7 @@ class TimeTableService {
       String responeState = await ApiRoutes.timeTablePostRequest({
         "login": {
           "username": _userBloc.username,
-          "password": _userBloc.password
+          "password": _userBloc.password != null ? _userBloc.password : null,
         },
         "timetable": _userBloc.timetable,
         "year": _userBloc.year,

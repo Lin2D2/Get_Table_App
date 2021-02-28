@@ -185,6 +185,59 @@ class Login extends StatelessWidget {
                                 UserPost response =
                                     await ApiRoutes.iservUserPostRequest(
                                         loginMap);
+                                switch (response.state) {
+                                  case "success":
+                                    {
+                                      UserBloc _userBloc =
+                                          context.read<UserBloc>();
+                                      _userBloc.username =
+                                          _userBloc.usernameController.text;
+                                      _userBloc.userTitle =
+                                          _userBloc.usernameController.text;
+                                      if (response.timetable != null) {
+                                        _userBloc.timetable =
+                                            response.timetable;
+                                        _userBloc.timeTableSet = true;
+                                      }
+                                      _userBloc.year = response.year;
+                                      context
+                                          .read<TimeTableItemsBlock>()
+                                          .yearController
+                                          .text = response.year;
+                                      context.read<TimeTableItemsBlock>().year =
+                                          response.year;
+                                      _userBloc.loggedIn = true;
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          key: UniqueKey(),
+                                          backgroundColor: Colors.green,
+                                          content: Text('Success'),
+                                        ),
+                                      );
+                                      break;
+                                    }
+                                  case "need to Sign in":
+                                    {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text('need to Sign in'),
+                                        ),
+                                      );
+                                      break;
+                                    }
+                                  default:
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Colors.red,
+                                        content: Text('Failed'),
+                                      ),
+                                    );
+                                    break;
+                                }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

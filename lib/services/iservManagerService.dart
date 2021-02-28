@@ -1,7 +1,5 @@
 import 'dart:io';
-import 'package:get_table_app/sites/settings.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:async';
 
 class IServBaseHelper {
@@ -21,7 +19,7 @@ class IServBaseHelper {
   }
 
   Future<http.Response> post(String url, Map body) async {
-    print('Api Post, api/$url');
+    print('Api Post, iserv/$url');
     http.Response response;
     try {
       response = await http.post(
@@ -46,11 +44,15 @@ class IServRoutes {
       "_password": password,
     });
     print("response from userPostRequest: $response");
-    print(response.statusCode);  // 302 is actually the correct response?!?!
-    List cookies = response.headers["set-cookie"].split(",");
-    for (final cookie in cookies) {
-      print(cookie);
+    print(response.statusCode);  // NOTE 302 is actually the correct response?!?! it means that the login has worked, a 200 here means login failed
+    if (response.statusCode == 200) {
+      return false;
+    } else if (response.statusCode == 302) {
+      List cookies = response.headers["set-cookie"].split(",");
+      for (final cookie in cookies) {
+        print(cookie);
+      }
+      return true;
     }
-    return false;
   }
 }
