@@ -1,6 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:get_table_app/routes/calender.dart';
+import 'package:get_table_app/routes/email.dart';
+import 'package:get_table_app/routes/files.dart';
+import 'package:get_table_app/routes/tasks.dart';
+import 'package:get_table_app/routes/videoconference.dart';
 import 'package:provider/provider.dart';
 import 'package:platform/platform.dart';
 import 'package:page_transition/page_transition.dart';
@@ -132,6 +137,41 @@ class MyApp extends StatelessWidget {
             case '/settings':
               return PageTransition(
                 child: SettingsRoute(swipeDetector),
+                type: PageTransitionType.fade,
+                settings: settings,
+              );
+              break;
+            case '/email':
+              return PageTransition(
+                child: EmailRoute(),
+                type: PageTransitionType.fade,
+                settings: settings,
+              );
+              break;
+            case '/files':
+              return PageTransition(
+                child: FilesRoute(),
+                type: PageTransitionType.fade,
+                settings: settings,
+              );
+              break;
+            case '/calender':
+              return PageTransition(
+                child: CalenderRoute(),
+                type: PageTransitionType.fade,
+                settings: settings,
+              );
+              break;
+            case '/tasks':
+              return PageTransition(
+                child: TasksRoute(),
+                type: PageTransitionType.fade,
+                settings: settings,
+              );
+              break;
+            case '/videoconference':
+              return PageTransition(
+                child: VideoconferenceRoute(),
                 type: PageTransitionType.fade,
                 settings: settings,
               );

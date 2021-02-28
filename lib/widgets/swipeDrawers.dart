@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:get_table_app/sites/login.dart';
 import 'package:get_table_app/widgets/bottomNavigationBar.dart';
@@ -30,7 +31,7 @@ class SwipeDrawerBottomBar extends StatelessWidget {
         bodyBackgroundPeekSize: 0,
         bodySize: MediaQuery.of(context).size.width / 5 * 2,
         backgroundColor: Theme.of(context).backgroundColor,
-        drawer: buildDrawer(context),
+        drawer: buildDrawer(context, drawerKey),
         child: Scaffold(
           body: swipeDetector ? swipeDetectorWidget : child,
           bottomNavigationBar: bottomNavigationBar(context),
@@ -63,7 +64,7 @@ class SwipeDrawerSideRail extends StatelessWidget {
         bodyBackgroundPeekSize: 40,
         bodySize: MediaQuery.of(context).size.width / 5 * 3,
         backgroundColor: Theme.of(context).backgroundColor,
-        drawer: buildDrawer(context),
+        drawer: buildDrawer(context, drawerKey),
         child: Scaffold(
           body: Row(
             children: [
@@ -80,7 +81,7 @@ class SwipeDrawerSideRail extends StatelessWidget {
   }
 }
 
-Widget buildDrawer(BuildContext context) {
+Widget buildDrawer(BuildContext context, GlobalKey<SwipeDrawerState> drawerKey) {
   return Container(
     child: SingleChildScrollView(
       child: Column(
@@ -131,56 +132,101 @@ Widget buildDrawer(BuildContext context) {
           ListTile(
             title: Text('Home'),
             leading: Icon(Icons.home),
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              drawerKey.currentState.closeDrawer();
+              Navigator.pushNamed(context, "/home");
+              context.read<IndexMainBloc>().set(1);  // TODO index changes
+            },
           ),
           Divider(),
           ListTile(
             title: Text('TableView'),
             leading: Icon(Icons.table_chart),
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              drawerKey.currentState.closeDrawer();
+              Navigator.pushNamed(context, "/tableView");
+              context.read<IndexMainBloc>().set(2);  // TODO index changes
+            },
           ),
           Divider(),
           ListTile(
             title: Text('TimeTable'),
             leading: Icon(Icons.view_quilt),
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              drawerKey.currentState.closeDrawer();
+              Navigator.pushNamed(context, "/timeTable");
+              context.read<IndexMainBloc>().set(3);  // TODO index changes
+            },
           ),
           Divider(),
           ListTile(
             title: Text('E-Mail'),
             leading: Icon(Icons.mail),
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              drawerKey.currentState.closeDrawer();
+              Navigator.pushNamed(context, "/email");
+              context.read<IndexMainBloc>().set(0);  // TODO index changes
+            },
           ),
           Divider(),
           ListTile(
             title: Text('Files'),
             leading: Icon(Icons.folder),
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              drawerKey.currentState.closeDrawer();
+              Navigator.pushNamed(context, "/files");
+              context.read<IndexMainBloc>().set(0);  // TODO index changes
+            },
           ),
           Divider(),
           ListTile(
             title: Text('Calender'),
             leading: Icon(Icons.calendar_today),
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              drawerKey.currentState.closeDrawer();
+              Navigator.pushNamed(context, "/calender");
+              context.read<IndexMainBloc>().set(0);  // TODO index changes
+            },
           ),
           Divider(),
           ListTile(
             title: Text('Tasks'),
             leading: Icon(Icons.assignment),
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              drawerKey.currentState.closeDrawer();
+              Navigator.pushNamed(context, "/tasks");
+              context.read<IndexMainBloc>().set(0);  // TODO index changes
+            },
           ),
           Divider(),
           ListTile(
             title: Text('Videoconference'),
             leading: Icon(Icons.video_call),
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              drawerKey.currentState.closeDrawer();
+              Navigator.pushNamed(context, "/videoconference");
+              context.read<IndexMainBloc>().set(0);  // TODO index changes
+            },
           ),
           Divider(),
           ListTile(
             // TODO put it somewhere else
             title: Text('Settings'),
             leading: Icon(Icons.build),
-            onTap: () {},
+            onTap: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              drawerKey.currentState.closeDrawer();
+              Navigator.pushNamed(context, "/settings");
+              context.read<IndexMainBloc>().set(4);  // TODO index changes
+            },
           ),
           Divider(),
         ],
