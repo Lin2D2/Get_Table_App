@@ -1,8 +1,8 @@
 import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:get_table_app/sites/about.dart';
 import 'package:provider/provider.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 import 'login.dart';
 
@@ -70,50 +70,50 @@ class SettingsState extends State<Settings> {
           onRefresh: () async {
             print("refresh");
           },
-          child: SettingsList(
-            backgroundColor: Theme.of(context).backgroundColor,
-            sections: [
-              SettingsSection(
-                title: 'Account',
-                tiles: [
-                  SettingsTile(
-                    title: context.watch<UserBloc>().userTitle != null
+          child: ListView(
+            children: [
+              SettingsSection(title: "Account", tiles: [
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: context.watch<UserBloc>().userTitle != null
+                        ? Colors.blue.shade800
+                        : Colors.red,
+                    child: Text(context.watch<UserBloc>().userTitle != null
+                        ? context.watch<UserBloc>().userTitle[0].toUpperCase()
+                        : "G"),
+                  ),
+                  title: Text(
+                    context.watch<UserBloc>().userTitle != null
                         ? context.watch<UserBloc>().userTitle
                         : "Gast",
-                    trailing: RaisedButton(
-                      child: Text(context.watch<UserBloc>().userTitle != null
-                          ? "Logout"
-                          : "Login"),
-                      onPressed: context.watch<UserBloc>().userTitle != null
-                          ? () {
-                              // TODO Logout
-                            }
-                          : () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Login()),
-                              );
-                            },
-                    ),
-                    leading: CircleAvatar(
-                      backgroundColor:
-                          context.watch<UserBloc>().userTitle != null
-                              ? Colors.blue.shade800
-                              : Colors.red,
-                      child: Text(context.watch<UserBloc>().userTitle != null
-                          ? context.watch<UserBloc>().userTitle[0].toUpperCase()
-                          : "G"),
-                    ),
-                    onTap: () {
-                      // TODO Edit User
-                    },
                   ),
-                ],
-              ),
+                  trailing: ElevatedButton(
+                    child: Text(context.watch<UserBloc>().userTitle != null
+                        ? "Logout"
+                        : "Login"),
+                    onPressed: context.watch<UserBloc>().userTitle != null
+                        ? () {
+                            // TODO Logout
+                          }
+                        : () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
+                            );
+                          },
+                  ),
+                  onTap: () {
+                    // TODO Edit User
+                  },
+                ),
+              ]),
+              SettingsSection(title: "Theme", tiles: []),
               SettingsSection(
-                title: 'Common',
-                tiles: [],
+                title: "About",
+                tiles: [
+                  AboutSection(),
+                ],
+                height: 492,
               ),
             ],
           ),
@@ -121,4 +121,48 @@ class SettingsState extends State<Settings> {
       ),
     );
   }
+}
+
+class SettingsSection extends StatelessWidget {
+  final String title;
+  final List<Widget> tiles;
+  final double height;
+
+  SettingsSection({@required this.title, @required this.tiles, this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height != null ? height : 44 + (50 * tiles.length).toDouble(),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Divider(),
+              ] +
+              tiles,
+        ),
+      ),
+    );
+  }
+}
+
+Widget SettingsTile({@required String title, Widget leading, Widget trailing}) {
+  return Container(
+    height: 50,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [leading, Text(title), trailing],
+    ),
+  );
 }

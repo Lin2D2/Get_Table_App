@@ -10,7 +10,7 @@ class IServBaseHelper {
     print('Api Get, iserv/$url');
     http.Response response;
     try {
-      response = await http.get(_iservUrl + url);
+      response = await http.get(Uri.dataFromString(_iservUrl + url));
     } on SocketException {
       throw Exception('failed to reach Sever');
     }
@@ -22,10 +22,8 @@ class IServBaseHelper {
     print('Api Post, iserv/$url');
     http.Response response;
     try {
-      response = await http.post(
-        _iservUrl + url,
-        body: body
-      );
+      response =
+          await http.post(Uri.dataFromString(_iservUrl + url), body: body);
     } on SocketException {
       throw Exception('failed to reach Sever');
     }
@@ -37,6 +35,7 @@ class IServBaseHelper {
 class IServRoutes {
   static const String _iservUserCheckAuthorisedConst = 'app/login';
   static IServBaseHelper _helper = IServBaseHelper();
+
   static Future<bool> iservUserCheckAuthorised(
       String username, String password) async {
     final response = await _helper.post(_iservUserCheckAuthorisedConst, {
@@ -44,7 +43,8 @@ class IServRoutes {
       "_password": password,
     });
     print("response from userPostRequest: $response");
-    print(response.statusCode);  // NOTE 302 is actually the correct response?!?! it means that the login has worked, a 200 here means login failed
+    print(response
+        .statusCode); // NOTE 302 is actually the correct response?!?! it means that the login has worked, a 200 here means login failed
     if (response.statusCode == 200) {
       return false;
     } else if (response.statusCode == 302) {

@@ -9,15 +9,14 @@ import 'dart:convert';
 import 'dart:async';
 
 class ApiBaseHelper {
-  static const String _baseUrl = "https://" +
-      "central-homelab.freedynamicdns.net"+
-      "/api/";
+  static const String _baseUrl =
+      "https://" + "central-homelab.freedynamicdns.net" + "/api/";
 
   Future<dynamic> get(String url) async {
     print('Api Get, api/$url');
     var responseJson;
     try {
-      final response = await http.get(_baseUrl + url);
+      final response = await http.get(Uri.dataFromString(_baseUrl + url));
       responseJson = _returnResponse(response);
     } on SocketException {
       throw Exception('failed to reach Sever');
@@ -30,7 +29,7 @@ class ApiBaseHelper {
     print('Api Post, api/$url');
     var responseJson;
     try {
-      final response = await http.post(_baseUrl + url,
+      final response = await http.post(Uri.dataFromString(_baseUrl + url),
           body: json.encode(body),
           headers: <String, String>{
             'Content-Type': 'application/json',

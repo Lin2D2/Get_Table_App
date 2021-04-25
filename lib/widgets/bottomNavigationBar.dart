@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 Widget bottomNavigationBar(BuildContext context) {
   void _onItemTapped(int index) {
-    int oldIndex = context.read<IndexMainBloc>().index;
+    int oldIndex = context.read<IndexMainBloc>().index - 1;
     String route;
     switch (index) {
       case 0:
@@ -32,12 +32,12 @@ Widget bottomNavigationBar(BuildContext context) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       Navigator.pushNamed(context, route);
     }
-    context.read<IndexMainBloc>().set(index);
+    context.read<IndexMainBloc>().set(index + 1);
   }
 
   return BottomNavigationBar(
     type: BottomNavigationBarType.fixed,
-    currentIndex: context.watch<IndexMainBloc>().index,
+    currentIndex: context.watch<IndexMainBloc>().index - 1,
     backgroundColor: Colors.grey[900],
     fixedColor: Colors.amber[800],
     unselectedItemColor: Colors.white,
