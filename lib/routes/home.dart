@@ -3,7 +3,6 @@ import 'package:get_table_app/blocs/filterTable.dart';
 import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/widgets/swipeDrawers.dart';
 import 'package:provider/provider.dart';
-import 'package:swipedetector/swipedetector.dart';
 import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
 import 'package:get_table_app/sites/home.dart' as home;
@@ -38,11 +37,11 @@ class HomeRoute extends StatelessWidget {
                   drawerKey: drawerKey,
                 ),
                 swipeDetector: swipeDetector,
-                swipeDetectorWidget: SwipeDetector(
-                  onSwipeLeft: () {
-                    Navigator.pushNamed(context, '/tableView');
-                    context.read<IndexMainBloc>().increment();
-                  },
+                swipeDetectorWidget: Container(// SwipeDetector(
+                  // onSwipeLeft: () {
+                  //   Navigator.pushNamed(context, '/tableView');
+                  //   context.read<IndexMainBloc>().increment();
+                  // },
                   child: home.Home(
                     drawerKey: drawerKey,
                   ),
@@ -60,11 +59,11 @@ class HomeRoute extends StatelessWidget {
                   drawerKey: drawerKey,
                   child: home.Home(),
                   swipeDetector: swipeDetector,
-                  swipeDetectorWidget: SwipeDetector(
-                    onSwipeLeft: () {
-                      Navigator.pushNamed(context, '/tableView');
-                      context.read<IndexMainBloc>().increment();
-                    },
+                  swipeDetectorWidget: Container(// SwipeDetector(
+                    // onSwipeLeft: () {
+                    //   Navigator.pushNamed(context, '/tableView');
+                    //   context.read<IndexMainBloc>().increment();
+                    // },
                     child: home.Home(),
                   )),
             );

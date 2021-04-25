@@ -5,7 +5,6 @@ import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/blocs/indexTableViewBloc.dart';
 import 'package:get_table_app/widgets/swipeDrawers.dart';
 import 'package:provider/provider.dart';
-import 'package:swipedetector/swipedetector.dart';
 import 'package:get_table_app/sites/tableview.dart' as tableView;
 
 class TableViewRoute extends StatelessWidget {
@@ -36,15 +35,15 @@ class TableViewRoute extends StatelessWidget {
                   drawerKey: drawerKey,
                 ),
                 swipeDetector: swipeDetector,
-                swipeDetectorWidget: SwipeDetector(
-                  onSwipeLeft: () {
-                    context.read<IndexMainBloc>().increment();
-                    Navigator.pushNamed(context, '/timeTable');
-                  },
-                  onSwipeRight: () {
-                    context.read<IndexMainBloc>().decrement();
-                    Navigator.pushNamed(context, '/home');
-                  },
+                swipeDetectorWidget: Container(// SwipeDetector(
+                  // onSwipeLeft: () {
+                  //   context.read<IndexMainBloc>().increment();
+                  //   Navigator.pushNamed(context, '/timeTable');
+                  // },
+                  // onSwipeRight: () {
+                  //   context.read<IndexMainBloc>().decrement();
+                  //   Navigator.pushNamed(context, '/home');
+                  // },
                   child: tableView.TableView(
                     drawerKey: drawerKey,
                   ),
@@ -62,15 +61,15 @@ class TableViewRoute extends StatelessWidget {
                 drawerKey: drawerKey,
                 child: tableView.TableView(),
                 swipeDetector: swipeDetector,
-                swipeDetectorWidget: SwipeDetector(
-                  onSwipeLeft: () {
-                    context.read<IndexMainBloc>().increment();
-                    Navigator.pushNamed(context, '/timeTable');
-                  },
-                  onSwipeRight: () {
-                    context.read<IndexMainBloc>().decrement();
-                    Navigator.pushNamed(context, '/home');
-                  },
+                swipeDetectorWidget: Container(// SwipeDetector(
+                  // onSwipeLeft: () {
+                  //   context.read<IndexMainBloc>().increment();
+                  //   Navigator.pushNamed(context, '/timeTable');
+                  // },
+                  // onSwipeRight: () {
+                  //   context.read<IndexMainBloc>().decrement();
+                  //   Navigator.pushNamed(context, '/home');
+                  // },
                   child: tableView.TableView(),
                 ),
               ),
