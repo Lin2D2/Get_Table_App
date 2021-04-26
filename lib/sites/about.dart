@@ -6,7 +6,7 @@ class AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 434,
+      height: MediaQuery.of(context).size.height - 60,
       child: Column(
         children: [
           Center(
@@ -28,7 +28,7 @@ class AboutSection extends StatelessWidget {
               //       color: Colors.grey[400], width: 2, style: BorderStyle.solid),
               //   borderRadius: BorderRadius.all(Radius.circular(20)),
               // ),
-              height: 400,
+              height: MediaQuery.of(context).size.height - 97,
               child: ListView(
                 children: [
                   AboutLicenceListTile(

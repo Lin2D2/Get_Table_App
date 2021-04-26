@@ -3,8 +3,9 @@ import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_table_app/sites/about.dart';
 import 'package:provider/provider.dart';
-
+import 'package:toggle_switch/toggle_switch.dart';
 import 'login.dart';
+import 'package:get_table_app/blocs/globalTheme.dart' as global;
 
 class Settings extends StatefulWidget {
   final GlobalKey<SwipeDrawerState> drawerKey;
@@ -107,13 +108,41 @@ class SettingsState extends State<Settings> {
                   },
                 ),
               ]),
-              SettingsSection(title: "Theme", tiles: []),
+              SettingsSection(
+                title: 'Theme',
+                tiles: [
+                  ListTile(
+                    title: Text("Theme"),
+                    leading: Icon(Icons.design_services),
+                    trailing: ToggleSwitch(
+                      initialLabelIndex: global.theme,
+                      minWidth:
+                      MediaQuery.of(context).size.width > 370 ? 86 : 50,
+                      labels: MediaQuery.of(context).size.width > 370
+                          ? ['System', 'Dark', 'Light']
+                          : ["", "", ""],
+                      icons: [
+                        Icons.devices,
+                        Icons.nightlight_round,
+                        Icons.wb_sunny
+                      ],
+                      // Icons.smartphone
+                      onToggle: (index) {
+                        setState(() {
+                          global.theme = index;
+                        });
+                        print('switched to: $index');
+                      },
+                    ),
+                  ),
+                ],
+              ),
               SettingsSection(
                 title: "About",
                 tiles: [
                   AboutSection(),
                 ],
-                height: 492,
+                height: MediaQuery.of(context).size.height - 20,
               ),
             ],
           ),
