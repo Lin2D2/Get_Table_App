@@ -267,7 +267,7 @@ Widget AboutLicenceListTile(
     padding: EdgeInsets.symmetric(horizontal: 15),
     child: ConstrainedBox(
       constraints: BoxConstraints(
-          minWidth: 300, maxWidth: 600, minHeight: 150, maxHeight: 320),
+          minWidth: 300, maxWidth: 600, minHeight: 150, maxHeight: 332),
       child: Column(
         children: [
           Text(packageName + " by " + author),
