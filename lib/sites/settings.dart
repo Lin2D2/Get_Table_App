@@ -117,8 +117,8 @@ class SettingsState extends State<Settings> {
                     trailing: ToggleSwitch(
                       initialLabelIndex: global.theme,
                       minWidth:
-                      MediaQuery.of(context).size.width > 370 ? 86 : 50,
-                      labels: MediaQuery.of(context).size.width > 370
+                      MediaQuery.of(context).size.width > 446 ? 86 : 50,
+                      labels: MediaQuery.of(context).size.width > 446
                           ? ['System', 'Dark', 'Light']
                           : ["", "", ""],
                       icons: [
@@ -162,9 +162,9 @@ class SettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height != null ? height : 44 + (50 * tiles.length).toDouble(),
+      height: height != null ? height : 58 + (50 * tiles.length).toDouble(),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: Column(
           children: <Widget>[
                 Row(
