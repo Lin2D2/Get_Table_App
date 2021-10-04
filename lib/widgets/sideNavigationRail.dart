@@ -41,7 +41,7 @@ Widget sideNavigationRail(BuildContext context,
       if (route != null) {
         drawerKey.currentState.closeDrawer();
         // TODO wait until animation is complete
-        Navigator.pushNamed(context, route);
+        Navigator.pushReplacementNamed(context, route);
       }
       if (drawerWasOpen && route == null) {
         context.read<IndexMainBloc>().set(context.read<IndexMainBloc>().previousIndex);

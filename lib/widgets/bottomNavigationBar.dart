@@ -30,7 +30,7 @@ Widget bottomNavigationBar(BuildContext context) {
     }
     if (oldIndex != index) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      Navigator.pushNamed(context, route);
+      Navigator.pushReplacementNamed(context, route);
     }
     context.read<IndexMainBloc>().set(index + 1);
   }
