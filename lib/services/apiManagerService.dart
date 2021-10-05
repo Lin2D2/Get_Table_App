@@ -16,7 +16,7 @@ class ApiBaseHelper {
     print('Api Get, api/$url');
     var responseJson;
     try {
-      final response = await http.get(Uri.dataFromString(_baseUrl + url));
+      final response = await http.get(Uri.parse(_baseUrl + url));
       responseJson = _returnResponse(response);
     } on SocketException {
       throw Exception('failed to reach Sever');
@@ -29,7 +29,7 @@ class ApiBaseHelper {
     print('Api Post, api/$url');
     var responseJson;
     try {
-      final response = await http.post(Uri.dataFromString(_baseUrl + url),
+      final response = await http.post(Uri.parse(_baseUrl + url),
           body: json.encode(body),
           headers: <String, String>{
             'Content-Type': 'application/json',

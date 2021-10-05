@@ -10,7 +10,7 @@ class IServBaseHelper {
     print('Api Get, iserv/$url');
     http.Response response;
     try {
-      response = await http.get(Uri.dataFromString(_iservUrl + url));
+      response = await http.get(Uri.parse(_iservUrl + url));
     } on SocketException {
       throw Exception('failed to reach Sever');
     }
@@ -23,7 +23,7 @@ class IServBaseHelper {
     http.Response response;
     try {
       response =
-          await http.post(Uri.dataFromString(_iservUrl + url), body: body);
+          await http.post(Uri.parse(_iservUrl + url), body: body);
     } on SocketException {
       throw Exception('failed to reach Sever');
     }
