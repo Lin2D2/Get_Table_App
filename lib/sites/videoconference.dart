@@ -1,10 +1,10 @@
-import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 
 class Videoconference extends StatefulWidget {
-  final GlobalKey<SwipeDrawerState> drawerKey;
+  final GlobalKey<SliderMenuContainerState> sliderMenuKey;
 
-  Videoconference({Key key, this.drawerKey}) : super(key: key);
+  Videoconference({Key key, this.sliderMenuKey}) : super(key: key);
 
   @override
   State createState() => new VideoconferenceState();

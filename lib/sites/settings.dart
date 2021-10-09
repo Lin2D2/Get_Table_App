@@ -1,4 +1,4 @@
-import 'package:drawer_swipe/drawer_swipe.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_table_app/sites/about.dart';
@@ -8,9 +8,9 @@ import 'login.dart';
 import 'package:get_table_app/blocs/globalTheme.dart' as global;
 
 class Settings extends StatefulWidget {
-  final GlobalKey<SwipeDrawerState> drawerKey;
+  final GlobalKey<SliderMenuContainerState> sliderMenuKey;
 
-  const Settings({Key key, this.drawerKey}) : super(key: key);
+  const Settings({Key key, this.sliderMenuKey}) : super(key: key);
 
   @override
   State createState() => SettingsState();
@@ -34,10 +34,10 @@ class SettingsState extends State<Settings> {
             toolbarHeight: 44,
             collapsedHeight: 45,
             expandedHeight: 100,
-            leading: widget.drawerKey != null
+            leading: widget.sliderMenuKey != null
                 ? InkWell(
                     onTap: () {
-                      widget.drawerKey.currentState.openOrClose();
+                      widget.sliderMenuKey.currentState.toggle();
                     },
                     child: Icon(Icons.menu))
                 : null,

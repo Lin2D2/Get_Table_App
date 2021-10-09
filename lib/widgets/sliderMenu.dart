@@ -1,22 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:get_table_app/sites/login.dart';
 import 'package:get_table_app/widgets/bottomNavigationBar.dart';
 import 'package:get_table_app/widgets/sideNavigationRail.dart';
-import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:provider/provider.dart';
 
-class SwipeDrawerBottomBar extends StatelessWidget {
-  final GlobalKey<SwipeDrawerState> drawerKey;
+class SliderMenuBottomBar extends StatelessWidget {
+  final GlobalKey<SliderMenuContainerState> sliderMenuKey;
   final Widget child;
   final bool swipeDetector;
   final Widget swipeDetectorWidget;
 
-  const SwipeDrawerBottomBar({
+  const SliderMenuBottomBar({
     Key key,
-    @required this.drawerKey,
+    @required this.sliderMenuKey,
     @required this.child,
     @required this.swipeDetector,
     @required this.swipeDetectorWidget,
@@ -25,14 +25,15 @@ class SwipeDrawerBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SwipeDrawer(
-        radius: 20,
-        key: drawerKey,
-        bodyBackgroundPeekSize: 0,
-        bodySize: MediaQuery.of(context).size.width / 5 * 2,
-        backgroundColor: Theme.of(context).backgroundColor,
-        drawer: buildDrawer(context, drawerKey),
-        child: Scaffold(
+      body: SliderMenuContainer(
+        key: sliderMenuKey,
+        sliderMenuOpenSize: 300,
+        sliderMenuCloseSize: 0,  // TODO state Problem, need to rebuild when changing from bottom to siderail
+        slideDirection: SlideDirection.TOP_TO_BOTTOM,
+        appBarColor: Theme.of(context).backgroundColor,
+        hasAppBar: false,
+        sliderMenu: buildSliderMenu(context, sliderMenuKey),
+        sliderMain: Scaffold(
           body: swipeDetector ? swipeDetectorWidget : child,
           bottomNavigationBar: bottomNavigationBar(context),
         ),
@@ -41,15 +42,15 @@ class SwipeDrawerBottomBar extends StatelessWidget {
   }
 }
 
-class SwipeDrawerSideRail extends StatelessWidget {
-  final GlobalKey<SwipeDrawerState> drawerKey;
+class SliderMenuSideRail extends StatelessWidget {
+  final GlobalKey<SliderMenuContainerState> sliderMenuKey;
   final Widget child;
   final swipeDetector;
   final Widget swipeDetectorWidget;
 
-  const SwipeDrawerSideRail({
+  const SliderMenuSideRail({
     Key key,
-    @required this.drawerKey,
+    @required this.sliderMenuKey,
     @required this.child,
     @required this.swipeDetector,
     @required this.swipeDetectorWidget,
@@ -58,17 +59,17 @@ class SwipeDrawerSideRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SwipeDrawer(
-        radius: 20,
-        key: drawerKey,
-        bodyBackgroundPeekSize: 40,
-        bodySize: MediaQuery.of(context).size.width / 5 * 3,
-        backgroundColor: Theme.of(context).backgroundColor,
-        drawer: buildDrawer(context, drawerKey),
-        child: Scaffold(
+      body: SliderMenuContainer(
+        key: sliderMenuKey,  // TODO depending on screen with, start open
+        sliderMenuOpenSize: 300,
+        sliderMenuCloseSize: 60,  // TODO Layout builder and remove sideRail, instead use this with sliderMenuCloseSize: 60
+        appBarColor: Theme.of(context).backgroundColor,
+        hasAppBar: false,
+        sliderMenu: buildSliderMenu(context, sliderMenuKey),
+        sliderMain: Scaffold(
           body: Row(
             children: [
-              sideNavigationRail(context, drawerKey: drawerKey),
+              sideNavigationRail(context, sliderMenuKey: sliderMenuKey),
               VerticalDivider(thickness: 1, width: 1),
               Expanded(
                 child: swipeDetector ? swipeDetectorWidget : child,
@@ -81,7 +82,7 @@ class SwipeDrawerSideRail extends StatelessWidget {
   }
 }
 
-Widget buildDrawer(BuildContext context, GlobalKey<SwipeDrawerState> drawerKey) {
+Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState> drawerKey) {
   return Container(
     child: SingleChildScrollView(
       child: Column(

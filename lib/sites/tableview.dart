@@ -1,4 +1,4 @@
-import 'package:drawer_swipe/drawer_swipe.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/blocs/indexTableViewBloc.dart';
 import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
 import 'package:get_table_app/widgets/absentsTableStatefulFuture.dart';
@@ -8,9 +8,9 @@ import 'package:get_table_app/types/days.dart';
 import 'package:provider/provider.dart';
 
 class TableView extends StatefulWidget {
-  final GlobalKey<SwipeDrawerState> drawerKey;
+  final GlobalKey<SliderMenuContainerState> sliderMenuKey;
 
-  TableView({Key key, this.drawerKey}) : super(key: key);
+  TableView({Key key, this.sliderMenuKey}) : super(key: key);
 
   @override
   _TableViewState createState() => new _TableViewState();
@@ -61,10 +61,10 @@ class _TableViewState extends State<TableView> {
                   ),
                   centerTitle: true,
                 ),
-                leading: widget.drawerKey != null
+                leading: widget.sliderMenuKey != null
                     ? InkWell(
                         onTap: () {
-                          widget.drawerKey.currentState.openOrClose();
+                          widget.sliderMenuKey.currentState.toggle();
                         },
                         child: Icon(Icons.menu))
                     : null,

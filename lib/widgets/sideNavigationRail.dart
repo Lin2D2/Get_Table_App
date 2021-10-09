@@ -1,19 +1,19 @@
-import 'package:drawer_swipe/drawer_swipe.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 Widget sideNavigationRail(BuildContext context,
-    {GlobalKey<SwipeDrawerState> drawerKey}) {
+    {GlobalKey<SliderMenuContainerState> sliderMenuKey}) {
   void _onItemTapped(int index) {
     int oldIndex = context.read<IndexMainBloc>().index;
     if (oldIndex != index || index == 0) {
       String route;
-      bool drawerWasOpen = drawerKey.currentState.isOpened();
+      bool drawerWasOpen = sliderMenuKey.currentState.isDrawerOpen;
       switch (index) {
         case 0:
           {
-            drawerKey.currentState.openOrClose();
+            sliderMenuKey.currentState.toggle();
             break;
           }
         case 1:
@@ -39,7 +39,7 @@ Widget sideNavigationRail(BuildContext context,
       }
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       if (route != null) {
-        drawerKey.currentState.closeDrawer();
+        sliderMenuKey.currentState.closeDrawer();
         // TODO wait until animation is complete
         Navigator.pushReplacementNamed(context, route);
       }
@@ -66,7 +66,7 @@ Widget sideNavigationRail(BuildContext context,
     selectedLabelTextStyle: TextStyle(color: Colors.amber[800], fontSize: 13),
     selectedIconTheme: IconThemeData(color: Colors.amber[800]),
     destinations: [
-      if (drawerKey != null)
+      if (sliderMenuKey != null)
         NavigationRailDestination(
           icon: Icon(Icons.menu),
           label: Text('Menu'),

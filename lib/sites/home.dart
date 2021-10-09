@@ -1,4 +1,4 @@
-import 'package:drawer_swipe/drawer_swipe.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/blocs/filterTable.dart';
 import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
@@ -15,9 +15,9 @@ import 'package:provider/provider.dart';
 import 'login.dart';
 
 class Home extends StatefulWidget {
-  final GlobalKey<SwipeDrawerState> drawerKey;
+  final GlobalKey<SliderMenuContainerState> sliderMenuKey;
 
-  Home({Key key, this.drawerKey}) : super(key: key);
+  Home({Key key, this.sliderMenuKey}) : super(key: key);
 
   @override
   State createState() => new DynamicList();
@@ -40,10 +40,10 @@ class DynamicList extends State<Home> {
             toolbarHeight: 44,
             collapsedHeight: 45,
             expandedHeight: 100,
-            leading: widget.drawerKey != null
+            leading: widget.sliderMenuKey != null
                 ? InkWell(
                     onTap: () {
-                      widget.drawerKey.currentState.openOrClose();
+                      widget.sliderMenuKey.currentState.toggle();
                     },
                     child: Icon(Icons.menu))
                 : null,

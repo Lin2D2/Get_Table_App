@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/blocs/filterTable.dart';
-import 'package:get_table_app/blocs/indexMainBloc.dart';
-import 'package:get_table_app/widgets/swipeDrawers.dart';
+import 'package:get_table_app/widgets/sliderMenu.dart';
 import 'package:provider/provider.dart';
-import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
 import 'package:get_table_app/sites/home.dart' as home;
 
 class HomeRoute extends StatelessWidget {
   final swipeDetector;
-  final GlobalKey<SwipeDrawerState> drawerKey = GlobalKey<SwipeDrawerState>();
+  final GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
 
   HomeRoute(this.swipeDetector);
 
@@ -29,10 +28,10 @@ class HomeRoute extends StatelessWidget {
                   create: (_) => FilterTable(),
                 ),
               ],
-              child: SwipeDrawerBottomBar(
-                drawerKey: drawerKey,
+              child: SliderMenuBottomBar(
+                sliderMenuKey: sliderMenuKey,
                 child: home.Home(
-                  drawerKey: drawerKey,
+                  sliderMenuKey: sliderMenuKey,
                 ),
                 swipeDetector: swipeDetector,
                 swipeDetectorWidget: Container(// SwipeDetector(
@@ -41,7 +40,7 @@ class HomeRoute extends StatelessWidget {
                   //   context.read<IndexMainBloc>().increment();
                   // },
                   child: home.Home(
-                    drawerKey: drawerKey,
+                    sliderMenuKey: sliderMenuKey,
                   ),
                 ),
               ),
@@ -53,8 +52,8 @@ class HomeRoute extends StatelessWidget {
                   create: (_) => FilterTable(),
                 ),
               ],
-              child: SwipeDrawerSideRail(
-                  drawerKey: drawerKey,
+              child: SliderMenuSideRail(
+                  sliderMenuKey: sliderMenuKey,
                   child: home.Home(),
                   swipeDetector: swipeDetector,
                   swipeDetectorWidget: Container(// SwipeDetector(

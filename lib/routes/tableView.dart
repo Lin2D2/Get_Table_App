@@ -1,15 +1,14 @@
-import 'package:drawer_swipe/drawer_swipe.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
-import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/blocs/indexTableViewBloc.dart';
-import 'package:get_table_app/widgets/swipeDrawers.dart';
+import 'package:get_table_app/widgets/sliderMenu.dart';
 import 'package:provider/provider.dart';
 import 'package:get_table_app/sites/tableview.dart' as tableView;
 
 class TableViewRoute extends StatelessWidget {
   final swipeDetector;
-  final GlobalKey<SwipeDrawerState> drawerKey = GlobalKey<SwipeDrawerState>();
+  final GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
 
   TableViewRoute(this.swipeDetector);
 
@@ -29,10 +28,10 @@ class TableViewRoute extends StatelessWidget {
                   create: (_) => IndexTableViewBloc(),
                 ),
               ],
-              child: SwipeDrawerBottomBar(
-                drawerKey: drawerKey,
+              child: SliderMenuBottomBar(
+                sliderMenuKey: sliderMenuKey,
                 child: tableView.TableView(
-                  drawerKey: drawerKey,
+                  sliderMenuKey: sliderMenuKey,
                 ),
                 swipeDetector: swipeDetector,
                 swipeDetectorWidget: Container(// SwipeDetector(
@@ -45,7 +44,7 @@ class TableViewRoute extends StatelessWidget {
                   //   Navigator.pushNamed(context, '/home');
                   // },
                   child: tableView.TableView(
-                    drawerKey: drawerKey,
+                    sliderMenuKey: sliderMenuKey,
                   ),
                 ),
               ),
@@ -57,8 +56,8 @@ class TableViewRoute extends StatelessWidget {
                   create: (_) => IndexTableViewBloc(),
                 ),
               ],
-              child: SwipeDrawerSideRail(
-                drawerKey: drawerKey,
+              child: SliderMenuSideRail(
+                sliderMenuKey: sliderMenuKey,
                 child: tableView.TableView(),
                 swipeDetector: swipeDetector,
                 swipeDetectorWidget: Container(// SwipeDetector(
