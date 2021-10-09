@@ -142,7 +142,7 @@ class SettingsState extends State<Settings> {
                 tiles: [
                   AboutSection(),
                 ],
-                height: MediaQuery.of(context).size.height - 20,
+                height: MediaQuery.of(context).size.height - 20 - 200,
               ),
             ],
           ),
@@ -162,7 +162,7 @@ class SettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height != null ? height : 58 + (50 * tiles.length).toDouble(),
+      height: height != null ? height : 65 + (50 * tiles.length).toDouble(),
       child: Padding(
         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: Column(
