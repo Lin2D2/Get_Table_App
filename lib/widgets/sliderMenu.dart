@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
+import 'package:get_table_app/services/navigatorService.dart';
 import 'package:get_table_app/sites/login.dart';
 import 'package:get_table_app/widgets/bottomNavigationBar.dart';
 import 'package:provider/provider.dart';
@@ -81,6 +82,7 @@ class SliderMenuSideRail extends StatelessWidget {
 }
 
 Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState> drawerKey) {
+  NavigatorService navigatorService = NavigatorService();
   return Container(
     child: SingleChildScrollView(
       child: Column(
@@ -121,10 +123,8 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
                         // TODO Logout
                       }
                     : () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Login()),
-                        );
+                  navigatorService.changeSitePushRoute(context,
+                    MaterialPageRoute(builder: (context) => Login()));
                       },
               ),
             ],
@@ -135,10 +135,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             title: Text('Home'),
             leading: Icon(Icons.home),
             onTap: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              drawerKey.currentState.closeDrawer();
-              Navigator.pushReplacementNamed(context, "/home");
-              context.read<IndexMainBloc>().set(1);  // TODO index changes
+              navigatorService.changeSiteReplaceId(context, 1);
             },
           ),
           Divider(),
@@ -146,10 +143,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             title: Text('TableView'),
             leading: Icon(Icons.table_chart),
             onTap: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              drawerKey.currentState.closeDrawer();
-              Navigator.pushReplacementNamed(context, "/tableView");
-              context.read<IndexMainBloc>().set(2);  // TODO index changes
+              navigatorService.changeSiteReplaceId(context, 2);
             },
           ),
           Divider(),
@@ -157,10 +151,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             title: Text('TimeTable'),
             leading: Icon(Icons.view_quilt),
             onTap: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              drawerKey.currentState.closeDrawer();
-              Navigator.pushReplacementNamed(context, "/timeTable");
-              context.read<IndexMainBloc>().set(3);  // TODO index changes
+              navigatorService.changeSiteReplaceId(context, 3);
             },
           ),
           Divider(),
@@ -168,10 +159,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             title: Text('E-Mail'),
             leading: Icon(Icons.mail),
             onTap: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              drawerKey.currentState.closeDrawer();
-              Navigator.pushReplacementNamed(context, "/email");
-              context.read<IndexMainBloc>().set(0);  // TODO index changes
+              navigatorService.changeSiteReplaceId(context, 5);
             },
           ),
           Divider(),
@@ -179,10 +167,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             title: Text('Files'),
             leading: Icon(Icons.folder),
             onTap: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              drawerKey.currentState.closeDrawer();
-              Navigator.pushReplacementNamed(context, "/files");
-              context.read<IndexMainBloc>().set(0);  // TODO index changes
+              navigatorService.changeSiteReplaceId(context, 6);
             },
           ),
           Divider(),
@@ -190,10 +175,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             title: Text('Calender'),
             leading: Icon(Icons.calendar_today),
             onTap: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              drawerKey.currentState.closeDrawer();
-              Navigator.pushReplacementNamed(context, "/calender");
-              context.read<IndexMainBloc>().set(0);  // TODO index changes
+              navigatorService.changeSiteReplaceId(context, 7);
             },
           ),
           Divider(),
@@ -201,10 +183,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             title: Text('Tasks'),
             leading: Icon(Icons.assignment),
             onTap: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              drawerKey.currentState.closeDrawer();
-              Navigator.pushReplacementNamed(context, "/tasks");
-              context.read<IndexMainBloc>().set(0);  // TODO index changes
+              navigatorService.changeSiteReplaceId(context, 8);
             },
           ),
           Divider(),
@@ -212,10 +191,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             title: Text('Videoconference'),
             leading: Icon(Icons.video_call),
             onTap: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              drawerKey.currentState.closeDrawer();
-              Navigator.pushReplacementNamed(context, "/videoconference");
-              context.read<IndexMainBloc>().set(0);  // TODO index changes
+              navigatorService.changeSiteReplaceId(context, 9);
             },
           ),
           Divider(),
@@ -224,10 +200,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             title: Text('Settings'),
             leading: Icon(Icons.build),
             onTap: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              drawerKey.currentState.closeDrawer();
-              Navigator.pushReplacementNamed(context, "/settings");
-              context.read<IndexMainBloc>().set(4);  // TODO index changes
+              navigatorService.changeSiteReplaceId(context, 4);
             },
           ),
           Divider(),

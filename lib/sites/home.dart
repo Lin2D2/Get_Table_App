@@ -3,6 +3,7 @@ import 'package:get_table_app/blocs/filterTable.dart';
 import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/blocs/absentsTableApiBloc.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
+import 'package:get_table_app/services/navigatorService.dart';
 import 'package:get_table_app/types/day.dart';
 import 'package:get_table_app/widgets/absentsTable.dart';
 import 'package:get_table_app/widgets/absentsTableStatefulFuture.dart';
@@ -16,6 +17,7 @@ import 'login.dart';
 
 class Home extends StatefulWidget {
   final GlobalKey<SliderMenuContainerState> sliderMenuKey;
+  final NavigatorService navigatorService = NavigatorService();
 
   Home({Key key, this.sliderMenuKey}) : super(key: key);
 
@@ -145,12 +147,8 @@ class DynamicList extends State<Home> {
                                             child: ElevatedButton(
                                               child: Text("Login"),
                                               onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Login()),
-                                                );
+                                                widget.navigatorService.changeSitePushRoute(context,
+                                                    MaterialPageRoute(builder: (context) => Login()));
                                               },
                                             ),
                                           )
@@ -164,11 +162,7 @@ class DynamicList extends State<Home> {
                                                   style: Theme.of(context).textTheme.button,),
                                               ),
                                               onPressed: () {
-                                                Navigator.pushNamed(
-                                                    context, "/timeTable");
-                                                context
-                                                    .read<IndexMainBloc>()
-                                                    .set(2);
+                                                widget.navigatorService.changeSiteReplaceId(context, 3);
                                               },
                                             ),
                                           ),
@@ -223,12 +217,8 @@ class DynamicList extends State<Home> {
                                               child: Text("Login",
                                                 style: Theme.of(context).textTheme.button,),
                                               onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Login()),
-                                                );
+                                                widget.navigatorService.changeSitePushRoute(context,
+                                                    MaterialPageRoute(builder: (context) => Login()));
                                               },
                                             ),
                                           )
@@ -242,11 +232,7 @@ class DynamicList extends State<Home> {
                                                   style: Theme.of(context).textTheme.button),
                                               ),
                                               onPressed: () {
-                                                Navigator.pushNamed(
-                                                    context, "/timeTable");
-                                                context
-                                                    .read<IndexMainBloc>()
-                                                    .set(2);
+                                                widget.navigatorService.changeSiteReplaceId(context, 3);
                                               },
                                             ),
                                           ),

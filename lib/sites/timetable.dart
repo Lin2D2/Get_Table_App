@@ -1,6 +1,7 @@
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:get_table_app/blocs/timeTableItemsBlock.dart';
+import 'package:get_table_app/services/navigatorService.dart';
 import 'package:get_table_app/widgets/generateTimeTable.dart';
 import 'package:get_table_app/widgets/timeTableEdit.dart';
 import 'package:get_table_app/widgets/timeTableToolRow.dart';
@@ -12,6 +13,7 @@ import 'login.dart';
 
 class TimeTable extends StatefulWidget {
   final GlobalKey<SliderMenuContainerState> sliderMenuKey;
+  final NavigatorService navigatorService = NavigatorService();
 
   TimeTable({Key key, this.sliderMenuKey}) : super(key: key);
 
@@ -110,12 +112,8 @@ class DynamicList extends State<TimeTable> {
                           onPressed: () {
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Login(),
-                              ),
-                            );
+                            widget.navigatorService.changeSitePushRoute(context,
+                                MaterialPageRoute(builder: (context) => Login()));
                           },
                         ),
                       ],
