@@ -137,7 +137,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             onTap: () {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               drawerKey.currentState.closeDrawer();
-              Navigator.pushNamed(context, "/home");
+              Navigator.pushReplacementNamed(context, "/home");
               context.read<IndexMainBloc>().set(1);  // TODO index changes
             },
           ),
@@ -148,7 +148,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             onTap: () {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               drawerKey.currentState.closeDrawer();
-              Navigator.pushNamed(context, "/tableView");
+              Navigator.pushReplacementNamed(context, "/tableView");
               context.read<IndexMainBloc>().set(2);  // TODO index changes
             },
           ),
@@ -159,7 +159,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             onTap: () {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               drawerKey.currentState.closeDrawer();
-              Navigator.pushNamed(context, "/timeTable");
+              Navigator.pushReplacementNamed(context, "/timeTable");
               context.read<IndexMainBloc>().set(3);  // TODO index changes
             },
           ),
@@ -170,7 +170,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             onTap: () {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               drawerKey.currentState.closeDrawer();
-              Navigator.pushNamed(context, "/email");
+              Navigator.pushReplacementNamed(context, "/email");
               context.read<IndexMainBloc>().set(0);  // TODO index changes
             },
           ),
@@ -181,7 +181,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             onTap: () {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               drawerKey.currentState.closeDrawer();
-              Navigator.pushNamed(context, "/files");
+              Navigator.pushReplacementNamed(context, "/files");
               context.read<IndexMainBloc>().set(0);  // TODO index changes
             },
           ),
@@ -192,7 +192,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             onTap: () {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               drawerKey.currentState.closeDrawer();
-              Navigator.pushNamed(context, "/calender");
+              Navigator.pushReplacementNamed(context, "/calender");
               context.read<IndexMainBloc>().set(0);  // TODO index changes
             },
           ),
@@ -203,7 +203,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             onTap: () {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               drawerKey.currentState.closeDrawer();
-              Navigator.pushNamed(context, "/tasks");
+              Navigator.pushReplacementNamed(context, "/tasks");
               context.read<IndexMainBloc>().set(0);  // TODO index changes
             },
           ),
@@ -214,7 +214,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             onTap: () {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               drawerKey.currentState.closeDrawer();
-              Navigator.pushNamed(context, "/videoconference");
+              Navigator.pushReplacementNamed(context, "/videoconference");
               context.read<IndexMainBloc>().set(0);  // TODO index changes
             },
           ),
@@ -226,7 +226,7 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
             onTap: () {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               drawerKey.currentState.closeDrawer();
-              Navigator.pushNamed(context, "/settings");
+              Navigator.pushReplacementNamed(context, "/settings");
               context.read<IndexMainBloc>().set(4);  // TODO index changes
             },
           ),
