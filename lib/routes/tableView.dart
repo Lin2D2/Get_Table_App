@@ -6,9 +6,10 @@ import 'package:get_table_app/widgets/sliderMenu.dart';
 import 'package:provider/provider.dart';
 import 'package:get_table_app/sites/tableview.dart' as tableView;
 
-class TableViewRoute extends StatelessWidget {
+class TableViewRoute extends StatelessWidget {  // TODO instead use StatefulWidget
   final swipeDetector;
-  final GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+  GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+  bool previousDrawCallConstraintTrue;
 
   TableViewRoute(this.swipeDetector);
 
@@ -22,6 +23,12 @@ class TableViewRoute extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
+            if (sliderMenuKey.currentState != null
+                && previousDrawCallConstraintTrue != null
+                && previousDrawCallConstraintTrue == false) {
+              sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+            }
+            previousDrawCallConstraintTrue = true;
             return MultiProvider(
               providers: [
                 ChangeNotifierProvider(
@@ -50,6 +57,12 @@ class TableViewRoute extends StatelessWidget {
               ),
             );
           } else {
+            if (sliderMenuKey.currentState != null
+                && previousDrawCallConstraintTrue != null
+                && previousDrawCallConstraintTrue == true) {
+              sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+            }
+            previousDrawCallConstraintTrue = false;
             return MultiProvider(
               providers: [
                 ChangeNotifierProvider(

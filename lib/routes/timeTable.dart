@@ -5,9 +5,10 @@ import 'package:get_table_app/widgets/sliderMenu.dart';
 import 'package:provider/provider.dart';
 import 'package:get_table_app/sites/timetable.dart' as timetable;
 
-class TimeTableRoute extends StatelessWidget {
+class TimeTableRoute extends StatelessWidget {  // TODO instead use StatefulWidget
   final swipeDetector;
-  final GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+  GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+  bool previousDrawCallConstraintTrue;
 
   TimeTableRoute(this.swipeDetector);
 
@@ -21,6 +22,12 @@ class TimeTableRoute extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
+            if (sliderMenuKey.currentState != null
+                && previousDrawCallConstraintTrue != null
+                && previousDrawCallConstraintTrue == false) {
+              sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+            }
+            previousDrawCallConstraintTrue = true;
             return SliderMenuBottomBar(
               child: timetable.TimeTable(
                 sliderMenuKey: sliderMenuKey,
@@ -42,6 +49,12 @@ class TimeTableRoute extends StatelessWidget {
               ),
             );
           } else {
+            if (sliderMenuKey.currentState != null
+                && previousDrawCallConstraintTrue != null
+                && previousDrawCallConstraintTrue == true) {
+              sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+            }
+            previousDrawCallConstraintTrue = false;
             return SliderMenuSideRail(
                 child: timetable.TimeTable(),
                 sliderMenuKey: sliderMenuKey,

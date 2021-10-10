@@ -3,8 +3,9 @@ import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/widgets/sliderMenu.dart';
 import 'package:get_table_app/sites/files.dart' as files;
 
-class FilesRoute extends StatelessWidget {
-  final GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+class FilesRoute extends StatelessWidget {  // TODO instead use StatefulWidget
+  GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+  bool previousDrawCallConstraintTrue;
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +13,12 @@ class FilesRoute extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
+            if (sliderMenuKey.currentState != null
+                && previousDrawCallConstraintTrue != null
+                && previousDrawCallConstraintTrue == false) {
+              sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+            }
+            previousDrawCallConstraintTrue = true;
             return SliderMenuBottomBar(
               sliderMenuKey: sliderMenuKey,
               child: files.Files(
@@ -21,6 +28,12 @@ class FilesRoute extends StatelessWidget {
               swipeDetectorWidget: null,
             );
           } else {
+            if (sliderMenuKey.currentState != null
+                && previousDrawCallConstraintTrue != null
+                && previousDrawCallConstraintTrue == true) {
+              sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+            }
+            previousDrawCallConstraintTrue = false;
             return SliderMenuSideRail(
               sliderMenuKey: sliderMenuKey,
               child: files.Files(

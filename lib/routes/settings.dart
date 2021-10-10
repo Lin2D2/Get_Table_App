@@ -3,9 +3,10 @@ import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get_table_app/widgets/sliderMenu.dart';
 import 'package:get_table_app/sites/settings.dart' as settings;
 
-class SettingsRoute extends StatelessWidget {
+class SettingsRoute extends StatelessWidget {  // TODO instead use StatefulWidget
   final swipeDetector;
-  final GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+  GlobalKey<SliderMenuContainerState> sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+  bool previousDrawCallConstraintTrue;
 
   SettingsRoute(this.swipeDetector);
 
@@ -15,6 +16,12 @@ class SettingsRoute extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
+            if (sliderMenuKey.currentState != null
+                && previousDrawCallConstraintTrue != null
+                && previousDrawCallConstraintTrue == false) {
+              sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+            }
+            previousDrawCallConstraintTrue = true;
             return SliderMenuBottomBar(
               sliderMenuKey: sliderMenuKey,
               child: settings.Settings(sliderMenuKey: sliderMenuKey),
@@ -28,6 +35,12 @@ class SettingsRoute extends StatelessWidget {
               ),
             );
           } else {
+            if (sliderMenuKey.currentState != null
+                && previousDrawCallConstraintTrue != null
+                && previousDrawCallConstraintTrue == true) {
+              sliderMenuKey = GlobalKey<SliderMenuContainerState>();
+            }
+            previousDrawCallConstraintTrue = false;
             return SliderMenuSideRail(
               sliderMenuKey: sliderMenuKey,
               child: settings.Settings(),
