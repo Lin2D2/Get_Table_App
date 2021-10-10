@@ -7,8 +7,6 @@ Widget bottomNavigationBar(BuildContext context) {
   NavigatorService navigatorService = NavigatorService();
   void _onItemTapped(int index) {  // TODO make this dynamic and let user rearrange items
     int oldIndex = context.read<IndexMainBloc>().index;
-    print(index);
-    print(oldIndex);
     if (oldIndex != index) {
       int id = context.read<IndexMainBloc>().userFavorites[index];
       navigatorService.changeSiteReplaceId(context, id);
