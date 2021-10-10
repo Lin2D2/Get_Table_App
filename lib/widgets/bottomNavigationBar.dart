@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 Widget bottomNavigationBar(BuildContext context) {
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index) {  // TODO make this dynamic and let user rearrange items
     int oldIndex = context.read<IndexMainBloc>().index - 1;
     String route;
     switch (index) {
@@ -34,13 +34,12 @@ Widget bottomNavigationBar(BuildContext context) {
     }
     context.read<IndexMainBloc>().set(index + 1);
   }
-
   return BottomNavigationBar(
     type: BottomNavigationBarType.fixed,
-    currentIndex: context.watch<IndexMainBloc>().index - 1,
+    currentIndex: context.watch<IndexMainBloc>().index != 0 ? context.watch<IndexMainBloc>().index - 1 : 1,
     backgroundColor: Colors.grey[900],
-    fixedColor: Colors.amber[800],
     unselectedItemColor: Colors.white,
+    selectedItemColor: context.watch<IndexMainBloc>().index == 0 ? Colors.white : Colors.amber[800],
     onTap: _onItemTapped,
     items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(

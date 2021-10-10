@@ -5,10 +5,9 @@ import 'package:get_table_app/blocs/indexMainBloc.dart';
 import 'package:get_table_app/blocs/userBloc.dart';
 import 'package:get_table_app/sites/login.dart';
 import 'package:get_table_app/widgets/bottomNavigationBar.dart';
-import 'package:get_table_app/widgets/sideNavigationRail.dart';
 import 'package:provider/provider.dart';
 
-class SliderMenuBottomBar extends StatelessWidget {
+class SliderMenuBottomBar extends StatelessWidget {  // TODO make Scrollable
   final GlobalKey<SliderMenuContainerState> sliderMenuKey;
   final Widget child;
   final bool swipeDetector;
@@ -27,8 +26,8 @@ class SliderMenuBottomBar extends StatelessWidget {
     return Scaffold(
       body: SliderMenuContainer(
         key: sliderMenuKey,
-        sliderMenuOpenSize: 300,
-        sliderMenuCloseSize: 0,  // TODO state Problem, need to rebuild when changing from bottom to siderail
+        sliderMenuOpenSize: MediaQuery.of(context).size.height - 100,
+        sliderMenuCloseSize: 0,
         slideDirection: SlideDirection.TOP_TO_BOTTOM,
         appBarColor: Theme.of(context).backgroundColor,
         hasAppBar: false,
@@ -61,15 +60,14 @@ class SliderMenuSideRail extends StatelessWidget {
     return Scaffold(
       body: SliderMenuContainer(
         key: sliderMenuKey,  // TODO depending on screen with, start open
-        sliderMenuOpenSize: 300,
-        sliderMenuCloseSize: 60,  // TODO Layout builder and remove sideRail, instead use this with sliderMenuCloseSize: 60
+        sliderMenuOpenSize: 400,
+        sliderMenuCloseSize: 55,
         appBarColor: Theme.of(context).backgroundColor,
         hasAppBar: false,
         sliderMenu: buildSliderMenu(context, sliderMenuKey),
         sliderMain: Scaffold(
           body: Row(
             children: [
-              sideNavigationRail(context, sliderMenuKey: sliderMenuKey),
               VerticalDivider(thickness: 1, width: 1),
               Expanded(
                 child: swipeDetector ? swipeDetectorWidget : child,
@@ -131,6 +129,8 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
               ),
             ],
           ),
+          // TODO make this dynamic and let user rearrange items
+          // TODO highlight selected item
           ListTile(
             title: Text('Home'),
             leading: Icon(Icons.home),
