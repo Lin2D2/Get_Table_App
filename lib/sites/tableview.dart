@@ -80,8 +80,8 @@ class _TableViewState extends State<TableView> {
                   ConstrainedBox(
                     constraints:
                         BoxConstraints.tight(Size(50, double.infinity)),
-                    child: FlatButton(
-                      child: Icon(
+                    child: IconButton(
+                      icon: Icon(
                         Icons.refresh,
                         color: Colors.black,
                       ),

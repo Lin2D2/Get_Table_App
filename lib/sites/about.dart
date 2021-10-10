@@ -31,7 +31,7 @@ class AboutSection extends StatelessWidget {
               height: MediaQuery.of(context).size.height - 117 - 200,
               child: ListView(
                 children: [
-                  AboutLicenceListTile(
+                  aboutLicenceListTile(
                       packageName: "platform",
                       author: "tvolkert, goderbauer, jonahwilliams",
                       license:
@@ -61,7 +61,7 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."""),
-                  AboutLicenceListTile(
+                  aboutLicenceListTile(
                       packageName: "get storage",
                       author: "getx.site",
                       license: """MIT License
@@ -85,7 +85,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE."""),
-                  AboutLicenceListTile(
+                  aboutLicenceListTile(
                       packageName: "shared preferences",
                       author: "flutter.dev",
                       license:
@@ -114,7 +114,7 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
 ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."""),
-                  AboutLicenceListTile(
+                  aboutLicenceListTile(
                       packageName: "http",
                       author: "dart.dev",
                       license:
@@ -144,7 +144,7 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."""),
-                  AboutLicenceListTile(
+                  aboutLicenceListTile(
                       packageName: "provider",
                       author: "dash-overflow.net",
                       license: """MIT License
@@ -168,7 +168,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE."""),
-                  AboutLicenceListTile(
+                  aboutLicenceListTile(
                       packageName: "page transition",
                       author: "zasinilhan",
                       license: """BSD 2-Clause License
@@ -196,7 +196,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."""),
-                  AboutLicenceListTile(
+                  aboutLicenceListTile(
                       packageName: "drawer swipe",
                       author: "pharous",
                       license: """MIT License
@@ -220,7 +220,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE."""),
-                  AboutLicenceListTile(
+                  aboutLicenceListTile(
                       packageName: "dotted border",
                       author: "ajilo297",
                       license: """MIT License
@@ -259,7 +259,7 @@ SOFTWARE."""),
   }
 }
 
-Widget AboutLicenceListTile(
+Widget aboutLicenceListTile(
     {@required String packageName,
     @required String author,
     @required String license}) {

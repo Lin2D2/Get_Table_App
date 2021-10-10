@@ -103,8 +103,10 @@ class DynamicList extends State<TimeTable> {
                       content:
                           const Text('You have to Login to see content here'),
                       actions: [
-                        RaisedButton(
-                          child: Text("Login"),
+                        ElevatedButton(
+                          style: Theme.of(context).elevatedButtonTheme.style,
+                          child: Text("Login",
+                            style: Theme.of(context).textTheme.button,),
                           onPressed: () {
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();

@@ -30,9 +30,6 @@ dependencies:
   provider: ^5.0.0
   page_transition: ^1.1.7+6
   flutter_slider_drawer: ^2.0.0
-
-  drawer_swipe: ^0.0.4
-
   dotted_border: ^2.0.0
   toggle_switch: ^0.1.8
 

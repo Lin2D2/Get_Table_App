@@ -47,20 +47,23 @@ class Login extends StatelessWidget {
                                 context.watch<UserBloc>().passwordController,
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             //forgot password screen
                           },
-                          textColor: Colors.grey[900],
-                          child: Text('Forgot Password'),
+                          style: Theme.of(context).textButtonTheme.style,
+                          child: Text('Forgot Password',
+                            style: Theme.of(context).textTheme.button,  // TODO dark button theme textColor: Colors.grey[900]
+                          ),
                         ),
                         Container(
                           height: 50,
                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          child: RaisedButton(
-                            textColor: Colors.white,
-                            color: Colors.grey[900],
-                            child: Text('Login'),
+                          child: ElevatedButton(
+                            style: Theme.of(context).elevatedButtonTheme.style,
+                            child: Text('Login',
+                              style: Theme.of(context).textTheme.button,
+                            ),
                             onPressed: () async {
                               Map loginMap = {
                                 "username": context
@@ -159,10 +162,10 @@ class Login extends StatelessWidget {
                         Container(
                           height: 50,
                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          child: RaisedButton(
-                            textColor: Colors.white,
-                            color: Colors.blue[900],
-                            child: Text('IServ-Login'),
+                          child: ElevatedButton(
+                            style: Theme.of(context).elevatedButtonTheme.style,  // Colors.blue[900]
+                            child: Text('IServ-Login',
+                              style: Theme.of(context).textTheme.button,),
                             onPressed: () async {
                               bool authorised =
                                   await IServRoutes.iservUserCheckAuthorised(
@@ -253,11 +256,11 @@ class Login extends StatelessWidget {
                           child: Row(
                             children: <Widget>[
                               Text('Does not have account?'),
-                              FlatButton(
-                                textColor: Colors.grey[900],
+                              TextButton(
+                                style: Theme.of(context).elevatedButtonTheme.style,
                                 child: Text(
                                   'Sign in',
-                                  style: TextStyle(fontSize: 20),
+                                  style: Theme.of(context).textTheme.button,  // TextStyle(fontSize: 20, color: Colors.grey[900]),
                                 ),
                                 onPressed: () {
                                   //signup screen

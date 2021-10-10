@@ -74,8 +74,10 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                   Container(
                     width: 99,
                     height: 36,
-                    child: RaisedButton(
-                      child: Text("back"),
+                    child: ElevatedButton(
+                      style: Theme.of(context).elevatedButtonTheme.style,
+                      child: Text("back",
+                        style: Theme.of(context).textTheme.button),
                       onPressed: () {
                         if (_teacherSelected) {
                           setState(() {
@@ -117,10 +119,11 @@ class _TimeTableEditState extends State<TimeTableEdit> {
                 Container(
                   width: 99,
                   height: 36,
-                  child: RaisedButton(
+                  child: ElevatedButton(
+                    style: Theme.of(context).elevatedButtonTheme.style,
                     child: Text(_lessonSelected && _teacherSelected
                         ? "finish"
-                        : "next"),
+                        : "next", style: Theme.of(context).textTheme.button),
                     onPressed: _lessonSelected && _teacherSelected
                         ? () {
                             context.read<UserBloc>().timetable = context

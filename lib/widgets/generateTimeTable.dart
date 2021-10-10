@@ -134,7 +134,7 @@ List<TableRow> generateTimeTable(BuildContext context,
                       : tableColor,
                   height: rowHeight,
                   child: edit
-                      ? FlatButton(
+                      ? TextButton(  // TODO style: Theme.of(context)
                           onPressed: () {
                             context
                                 .read<TimeTableItemsBlock>()
@@ -172,7 +172,7 @@ List<TableRow> generateTimeTable(BuildContext context,
                       : tableColor,
                   height: rowHeight,
                   child: edit
-                      ? FlatButton(
+                      ? TextButton(  // TODO style: Theme.of(context)
                           onPressed: () {
                             context
                                 .read<TimeTableItemsBlock>()
@@ -246,7 +246,7 @@ List<TableRow> generateTimeTable(BuildContext context,
                     : tableColor,
                 height: rowHeight,
                 child: edit
-                    ? FlatButton(
+                    ? TextButton(  // TODO style: Theme.of(context)
                         onPressed: () {
                           context.read<TimeTableItemsBlock>().selectedElement =
                               {"day": dayKey, "lesson": doubleLesson};

@@ -73,7 +73,8 @@ class _TimeTableToolRowState extends State<TimeTableToolRow> {
           Text("A Woche/B Woche"),
           Container(
             width: 90,
-            child: RaisedButton(
+            child: ElevatedButton(
+              style: Theme.of(context).elevatedButtonTheme.style,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

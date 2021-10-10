@@ -4,7 +4,6 @@ import 'dart:async';
 
 class IServBaseHelper {
   static const String _iservUrl = 'https://gymherderschule.de/iserv/';
-  static const String _iservDomain = 'gymherderschule.de';
 
   Future<http.Response> get(String url) async {
     print('Api Get, iserv/$url');
@@ -54,5 +53,6 @@ class IServRoutes {
       }
       return true;
     }
+    return false;
   }
 }

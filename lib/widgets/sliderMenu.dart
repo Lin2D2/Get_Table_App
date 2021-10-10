@@ -113,10 +113,11 @@ Widget buildSliderMenu(BuildContext context, GlobalKey<SliderMenuContainerState>
                 ),
               ),
               Spacer(),
-              RaisedButton(
+              ElevatedButton(
+                style: Theme.of(context).elevatedButtonTheme.style,
                 child: Text(context.watch<UserBloc>().userTitle != null
                     ? "Logout"
-                    : "Login"),
+                    : "Login", style: Theme.of(context).textTheme.button),
                 onPressed: context.watch<UserBloc>().userTitle != null
                     ? () {
                         // TODO Logout

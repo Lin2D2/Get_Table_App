@@ -89,9 +89,10 @@ class SettingsState extends State<Settings> {
                         : "Gast",
                   ),
                   trailing: ElevatedButton(
+                    style: Theme.of(context).elevatedButtonTheme.style,
                     child: Text(context.watch<UserBloc>().userTitle != null
                         ? "Logout"
-                        : "Login"),
+                        : "Login", style: Theme.of(context).textTheme.button),
                     onPressed: context.watch<UserBloc>().userTitle != null
                         ? () {
                             // TODO Logout
@@ -186,7 +187,7 @@ class SettingsSection extends StatelessWidget {
   }
 }
 
-Widget SettingsTile({@required String title, Widget leading, Widget trailing}) {
+Widget settingsTile({@required String title, Widget leading, Widget trailing}) {
   return Container(
     height: 50,
     child: Row(

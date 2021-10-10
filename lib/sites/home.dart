@@ -142,7 +142,7 @@ class DynamicList extends State<Home> {
                                     context.watch<UserBloc>().userTitle == null
                                         ? Container(
                                             width: 70,
-                                            child: RaisedButton(
+                                            child: ElevatedButton(
                                               child: Text("Login"),
                                               onPressed: () {
                                                 Navigator.push(
@@ -156,10 +156,12 @@ class DynamicList extends State<Home> {
                                           )
                                         : Container(
                                             width: 70,
-                                            child: RaisedButton(
+                                            child: ElevatedButton(
+                                              style: Theme.of(context).elevatedButtonTheme.style,
                                               child: Chip(
                                                 avatar: Icon(Icons.edit),
-                                                label: Text("Create"),
+                                                label: Text("Create",
+                                                  style: Theme.of(context).textTheme.button,),
                                               ),
                                               onPressed: () {
                                                 Navigator.pushNamed(
@@ -216,8 +218,10 @@ class DynamicList extends State<Home> {
                                     context.watch<UserBloc>().userTitle == null
                                         ? Container(
                                             width: 70,
-                                            child: RaisedButton(
-                                              child: Text("Login"),
+                                            child: ElevatedButton(
+                                              style: Theme.of(context).elevatedButtonTheme.style,
+                                              child: Text("Login",
+                                                style: Theme.of(context).textTheme.button,),
                                               onPressed: () {
                                                 Navigator.push(
                                                   context,
@@ -230,10 +234,12 @@ class DynamicList extends State<Home> {
                                           )
                                         : Container(
                                             width: 70,
-                                            child: RaisedButton(
+                                            child: ElevatedButton(
+                                              style: Theme.of(context).elevatedButtonTheme.style,
                                               child: Chip(
                                                 avatar: Icon(Icons.edit),
-                                                label: Text("Create"),
+                                                label: Text("Create",
+                                                  style: Theme.of(context).textTheme.button),
                                               ),
                                               onPressed: () {
                                                 Navigator.pushNamed(
